@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/pcliq_bg_stroke_cricle_gradient" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pcliq_ic_placeholder_landscape"
+                    app:riv_border_color="@color/bg_pro_pic"
+                    app:riv_corner_radius="13dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_toLeftOf="@id/iv_profile_edit"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@+id/iv_profile"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="demo"
+                        android:fontFamily="@font/pcliq_leaguespartan_medium"
+                        android:textColor="@color/text_title"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="demo@gmail.com"
+                        android:fontFamily="@font/pcliq_leaguespartan_regular"
+                        android:textColor="@color/text_desc"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_profile_edit"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/pcliq_btn_edit" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/pcliq_bg_gradient_top_curve"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/pcliq_leaguespartan_bold"
+                    android:text="Favourite Pose"
+                    android:textSize="18sp"
+                    android:textColor="@color/white" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_wall_by_cat"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+                    <TextView
+                        android:id="@+id/tv_empty_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/pcliq_leaguespartan_medium"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="@string/no_data_found"
+                        android:textColor="@color/text_title"
+                        android:visibility="gone" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="20dp"
+                        android:src="@mipmap/pcliq_arrow_up"
+                        android:visibility="invisible"
+                        app:fabSize="normal" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!--    <View-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="20dp"-->
+    <!--        android:background="@drawable/bg_gradient"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"/>-->
+
+    <TextView
+        android:id="@+id/tv_empty_wallcat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/not_log"
+        android:textColor="@color/text_title"
+        android:visibility="gone"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fr.castorflex.android.circularprogressbar.CircularProgressBar
+        android:id="@+id/pb_wallcat"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:indeterminate="true"
+        app:cpb_color="#FFee44"
+        app:cpb_colors="@array/pocket_bar_colors"
+        app:cpb_max_sweep_angle="300"
+        app:cpb_min_sweep_angle="10"
+        app:cpb_rotation_speed="1.0"
+        app:cpb_stroke_width="4dp"
+        app:cpb_sweep_speed="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

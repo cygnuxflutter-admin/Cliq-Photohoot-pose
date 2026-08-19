@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF0587</color>
+
+    <color name="primary">#FF0587</color>
+
+    <color name="bg">#000000</color>
+    <color name="bg_lite">#222222</color>
+    <color name="bg_theme">#222222</color>
+
+    <color name="detail_text_color">#A0A0A0</color>
+
+    <color name="bg_nav_selected">#222222</color>
+    <color name="bg_items">#2F2F2F</color>
+    <color name="bg_about">#222222</color>
+    <color name="bg_sub_cat">#222222</color>
+    <color name="bg_edittext_report">#252d48</color>
+
+    <color name="line">#20ffffff</color>
+    <color name="line_about">#20ffffff</color>
+
+<!--    <color name="gradient_color_1">#000000</color>-->
+<!--    <color name="gradient_color_2">#000000</color>-->
+
+    <color name="gradient_color_1">#FF964E</color>
+    <color name="gradient_color_2">#FF0488</color>
+
+    <color name="text_black">#ffffff</color>
+    <color name="text_title">#E1E1E1</color>
+    <color name="text_duration">#9F9F9F</color>
+    <color name="text_desc">#9F9F9F</color>
+
+    <color name="black_dark">#ffffff</color>
+    <color name="black40_dark">#40ffffff</color>
+    <color name="black80_dark">#80ffffff</color>
+
+    <color name="negative_button">#aaffffff</color>
+    <color name="positive_button">#F15731</color>
+
+    <color name="button_cancel">#222222</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="white80">#80ffffff</color>
+    <color name="rating">#f99120</color>
+    <color name="red">#ff0000</color>
+
+    <color name="text_light">#626262</color>
+
+    <color name="switch_thumb_disable">#ececec</color>
+    <color name="switch_track">#F7F7F7</color>
+
+    <integer-array name="pocket_bar_colors">
+        <item>@color/gplus_color_1</item>
+        <item>@color/gplus_color_2</item>
+        <item>@color/gplus_color_3</item>
+        <item>@color/gplus_color_4</item>
+    </integer-array>
+
+    <color name="gplus_color_1">#3e802f</color>
+    <color name="gplus_color_2">#f4b400</color>
+    <color name="gplus_color_3">#427fed</color>
+    <color name="gplus_color_4">#b23424</color>
+    <color name="whiteAA">#AAFFFFFF</color>
+    <color name="bg_pro_pic">#e2dcdc</color>
+</resources>

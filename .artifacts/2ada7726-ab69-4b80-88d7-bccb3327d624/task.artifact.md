@@ -1,0 +1,12 @@
+- [x] Update AGP to 8.7.3 in root `build.gradle`
+- [x] Update Gradle wrapper to 8.9 in `gradle-wrapper.properties`
+- [x] Remove deprecated `buildconfig` property from `gradle.properties`
+- [x] Enable `buildConfig` in all modules:
+    - [x] `:app`
+    - [x] `:checkbox`
+    - [x] `:library`
+    - [x] `:animators`
+    - [x] `:cropper`
+    - [x] `:likebutton`
+- [x] Synchronize Gradle project
+- [x] Verify fix by running `:app:bundleRelease`

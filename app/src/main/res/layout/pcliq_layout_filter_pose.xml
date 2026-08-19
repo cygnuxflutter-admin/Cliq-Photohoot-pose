@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_add_playlist"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg"
+    android:paddingBottom="30dp">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/filter"
+        android:textColor="@color/text_black"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/pcliq_leaguespartan_medium"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:text="@string/select_wall_type"
+        android:textColor="@color/text_desc"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+    <TextView
+        android:id="@+id/tv_filter_portrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/pcliq_bg_button_filter"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="8dp"
+        android:text="Boy Poses"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_filter_landscape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+    <TextView
+        android:id="@+id/tv_filter_landscape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:background="@drawable/pcliq_bg_button_filter"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="8dp"
+        android:text="Girl Poses"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_filter_square"
+        app:layout_constraintStart_toEndOf="@+id/tv_filter_portrait"
+        app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+    <TextView
+        android:id="@+id/tv_filter_square"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:background="@drawable/pcliq_bg_button_filter"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="8dp"
+        android:text="Couple Poses"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_filter_landscape"
+        app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/pcliq_leaguespartan_medium"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Filter poses by color"
+        android:textColor="@color/text_desc"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_filter_portrait" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_filter_colors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv3" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_filter_clear"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/pcliq_bg_button_cancel"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:text="@string/clear"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toStartOf="@+id/button_filter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_filter_colors" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_filter"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/pcliq_bg_gradient_curve"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:text="@string/filter"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/button_filter_clear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_filter_clear"
+        app:layout_constraintTop_toTopOf="@+id/button_filter_clear" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

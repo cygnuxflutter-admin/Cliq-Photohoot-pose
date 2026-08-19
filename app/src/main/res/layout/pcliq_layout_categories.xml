@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp">
+
+    <RelativeLayout
+        android:id="@+id/cl_cat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_cat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"/>
+
+        <!--        <View-->
+        <!--            android:id="@+id/view1"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="25dp"-->
+        <!--            android:background="@drawable/bg_black80"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_cat_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"
+                android:ellipsize="end"
+                android:visibility="gone"
+                android:textSize="18sp"
+                android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                android:maxLines="1"
+                android:textColor="@color/white" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_cat_total"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                android:fontFamily="@font/leaguespartan_regular"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="11sp" />-->
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/native_banner_ad_container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_marginStart="@dimen/_4sdp"-->
+<!--        android:layout_marginTop="@dimen/_4sdp"-->
+<!--        android:layout_marginEnd="@dimen/_4sdp"-->
+<!--        android:layout_marginBottom="@dimen/_4sdp"-->
+<!--        android:visibility="gone" />-->
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/ad_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="4dp">-->
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/native_banner_ad_container"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="#CDDCF0"-->
+<!--            android:gravity="center"-->
+<!--            android:visibility="visible">-->
+
+
+<!--            <ImageView-->
+<!--                android:id="@+id/titanicTextView"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:alpha="0.6"-->
+<!--                android:gravity="center"-->
+<!--                android:src="@mipmap/ic_launcher_round" />-->
+
+
+<!--        </RelativeLayout>-->
+
+<!--    </RelativeLayout>-->
+
+</com.google.android.material.card.MaterialCardView>

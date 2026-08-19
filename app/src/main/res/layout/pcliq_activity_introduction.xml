@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PCliq_Activity.PCliq_IntroductionActivity">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpg_intro_activity__intro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:fontFamily="@font/pcliq_leaguespartan_medium"
+        android:text="Skip"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/pcliq_ic_back_gradient" />
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="@dimen/_95sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="30dp"
+        android:background="@drawable/pcliq_bg_gradient_curve"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:gravity="center"
+        android:text="Next"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+
+</RelativeLayout>

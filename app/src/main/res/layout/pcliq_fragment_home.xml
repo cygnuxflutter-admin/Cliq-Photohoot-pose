@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/rl_latest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="@string/latest"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/view_all_latest"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/pcliq_view_all" />
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_wall_by_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_latest"
+                    android:padding="5dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                    android:id="@+id/pb_wallcat"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="20dp"
+                    android:indeterminate="true"
+                    app:cpb_color="#FFee44"
+                    app:cpb_colors="@array/pocket_bar_colors"
+                    app:cpb_max_sweep_angle="300"
+                    app:cpb_min_sweep_angle="10"
+                    app:cpb_rotation_speed="1.0"
+                    app:cpb_stroke_width="4dp"
+                    app:cpb_sweep_speed="1.0"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_empty_wallcat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tv_empty_wallcat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_medium"
+                    android:gravity="center"
+                    android:text="@string/loading"
+                    android:textColor="@color/text_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pb_wallcat" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_download"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="@string/download"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/view_all_download"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/pcliq_view_all" />
+
+                </RelativeLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_wall_by_cat_download"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_download"
+                    android:padding="5dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                    android:id="@+id/pb_wallcat_download"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="20dp"
+                    android:indeterminate="true"
+                    app:cpb_color="#FFee44"
+                    app:cpb_colors="@array/pocket_bar_colors"
+                    app:cpb_max_sweep_angle="300"
+                    app:cpb_min_sweep_angle="10"
+                    app:cpb_rotation_speed="1.0"
+                    app:cpb_stroke_width="4dp"
+                    app:cpb_sweep_speed="1.0"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tv_empty_wallcat_download"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_medium"
+                    android:gravity="center"
+                    android:text="@string/loading"
+                    android:textColor="@color/text_title" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_pupular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="@string/popular"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/view_all_popular"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/pcliq_view_all" />
+
+                </RelativeLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_wall_by_cat_pupular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_pupular"
+                    android:padding="5dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                    android:id="@+id/pb_wallcat_pupular"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="20dp"
+                    android:indeterminate="true"
+                    app:cpb_color="#FFee44"
+                    app:cpb_colors="@array/pocket_bar_colors"
+                    app:cpb_max_sweep_angle="300"
+                    app:cpb_min_sweep_angle="10"
+                    app:cpb_rotation_speed="1.0"
+                    app:cpb_stroke_width="4dp"
+                    app:cpb_sweep_speed="1.0"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tv_empty_wallcat_pupular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_medium"
+                    android:gravity="center"
+                    android:text="@string/loading"
+                    android:textColor="@color/text_title" />
+            </RelativeLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@mipmap/pcliq_arrow_up"
+                android:visibility="gone"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

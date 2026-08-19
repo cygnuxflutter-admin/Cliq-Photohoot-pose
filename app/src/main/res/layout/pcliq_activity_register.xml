@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/pcliq_img_register" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-30dp"
+                android:background="@drawable/pcliq_bg_gradient_top_curve"
+                android:backgroundTint="#000000"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                    android:text="@string/create_new_account"
+                    android:textColor="@color/white" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ll1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/pcliq_bg_edittext"
+                    android:backgroundTint="@color/bg_sub_cat"
+                    android:paddingStart="12dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toTopOf="@+id/ll2"
+                    app:startIconDrawable="@drawable/pcliq_ic_user"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_regis_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/pcliq_leaguespartan_regular"
+                        android:hint="@string/name"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white80"
+                        android:textSize="15sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ll2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/pcliq_bg_edittext"
+                    android:backgroundTint="@color/bg_sub_cat"
+                    android:paddingStart="12dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toTopOf="@+id/ll3"
+                    app:startIconDrawable="@drawable/pcliq_ic_email"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_regis_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/pcliq_leaguespartan_regular"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white80"
+                        android:textSize="15sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ll3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/pcliq_bg_edittext"
+                    android:backgroundTint="@color/bg_sub_cat"
+                    android:paddingStart="12dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/white"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toTopOf="@+id/ll4"
+                    app:startIconDrawable="@drawable/pcliq_ic_password"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_regis_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/pcliq_leaguespartan_regular"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white80"
+                        android:textSize="15sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ll4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/pcliq_bg_edittext"
+                    android:backgroundTint="@color/bg_sub_cat"
+                    android:paddingStart="12dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/white"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toTopOf="@+id/ll5"
+                    app:startIconDrawable="@drawable/pcliq_ic_password"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_regis_cpassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/pcliq_leaguespartan_regular"
+                        android:hint="@string/cpassword"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white80"
+                        android:textSize="15sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ll5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/pcliq_bg_edittext"
+                    android:backgroundTint="@color/bg_sub_cat"
+                    android:paddingStart="12dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toTopOf="@+id/button_register"
+                    app:startIconDrawable="@drawable/pcliq_ic_phone"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_regis_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/pcliq_leaguespartan_regular"
+                        android:hint="@string/phone"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white80"
+                        android:textSize="15sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="80dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/pcliq_bg_gradient_curve"
+                    android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                    android:text="@string/signup"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@null"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

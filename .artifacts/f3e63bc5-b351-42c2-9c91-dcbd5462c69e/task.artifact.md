@@ -1,0 +1,2 @@
+- `[x]` Update root `.gitignore`
+- `[x]` Verify changes

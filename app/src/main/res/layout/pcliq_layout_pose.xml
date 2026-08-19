@@ -1,0 +1,106 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/rootlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/iv_wallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_wall_cat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toLeftOf="@id/button_wall_fav"
+                android:ellipsize="end"
+                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                android:maxLines="1"
+                android:text="ndsknfvdgvd"
+                android:textColor="@color/text_black"
+                android:textSize="12sp" />
+
+            <com.like.LikeButton
+                android:id="@+id/button_wall_fav"
+                android:layout_width="28dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                app:anim_scale_factor="2"
+                app:circle_end_color="@color/white"
+                app:circle_start_color="@color/red"
+                app:dots_primary_color="@color/white"
+                app:dots_secondary_color="@color/red"
+                app:icon_size="16dp"
+                app:is_enabled="true"
+                app:like_drawable="@mipmap/pcliq_fav_hover"
+                app:unlike_drawable="@mipmap/pcliq_fav" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ad_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="4dp">
+
+        <RelativeLayout
+            android:id="@+id/native_banner_ad_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#CDDCF0"
+            android:gravity="center"
+            android:visibility="visible">
+
+
+            <ImageView
+                android:id="@+id/titanicTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:alpha="0.6"
+                android:gravity="center"
+                android:src="@mipmap/pcliq_ic_launcher_round" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <!--    <View-->
+    <!--        android:id="@+id/view1"-->
+    <!--        android:layout_width="28dp"-->
+    <!--        android:layout_height="28dp"-->
+    <!--        android:layout_margin="10dp"-->
+    <!--        android:background="@drawable/bg_gradient_curve"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+
+</FrameLayout>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/pcliq_img_login" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-30dp"
+            android:background="@drawable/pcliq_bg_gradient_top_curve"
+            android:backgroundTint="#000000"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                    android:text="LOGIN"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:text="Log in to your Account"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@drawable/pcliq_bg_gradient_curve" />
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/pcliq_bg_edittext"
+                android:backgroundTint="@color/bg_sub_cat"
+                android:paddingStart="12dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/pcliq_ic_email"
+                app:startIconTint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_login_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white80"
+                    android:textSize="15sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/pcliq_bg_edittext"
+                android:backgroundTint="@color/bg_sub_cat"
+                android:paddingStart="12dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/white"
+                app:hintEnabled="false"
+                app:startIconDrawable="@drawable/pcliq_ic_password"
+                app:startIconTint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white80"
+                    android:textSize="15sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="5dp"
+                    android:paddingBottom="5dp">
+
+                    <cn.refactor.library.SmoothCheckBox
+                        android:id="@+id/cb_rememberme"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:color_checked="@color/gradient_color_2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:fontFamily="@font/pcliq_leaguespartan_regular"
+                        android:text="@string/remember_me"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_forgotpass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="22dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:padding="5dp"
+                    android:text="@string/forgot_pass"
+                    android:textColor="#7F7F7F"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/pcliq_bg_gradient_curve"
+                android:fontFamily="@font/pcliq_leaguespartan_medium"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                app:backgroundTint="@null" />
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:padding="10dp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp">
+
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0.8dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_toLeftOf="@id/tv_other_login"
+                    android:background="#7F7F7F" />
+
+                <TextView
+                    android:id="@+id/tv_other_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:text="   Or Login With   "
+                    android:textColor="#7F7F7F"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_toRightOf="@id/tv_other_login"
+                    android:background="#7F7F7F" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/btn_login_fb"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginRight="15dp"
+                    android:visibility="gone"
+                    android:src="@drawable/pcliq_btn_facebook" />
+
+                <ImageView
+                    android:id="@+id/btn_login_google"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/pcliq_btn_google" />
+<!--                android:layout_marginLeft="15dp"-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:text="Don’t have account ? "
+                    android:textColor="#7F7F7F"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:text="Sign up"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/button_skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                android:text="SKIP"
+                android:textColor="#7F7F7F"
+                android:textSize="18sp" />
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:id="@+id/button_skip"-->
+            <!--                android:layout_width="60dp"-->
+            <!--                android:layout_height="30dp"-->
+            <!--                android:layout_marginTop="40dp"-->
+            <!--                android:layout_marginEnd="15dp"-->
+            <!--                android:background="@drawable/bg_gradient_round"-->
+            <!--                android:fontFamily="@font/leaguespartan_medium"-->
+            <!--                android:padding="0dp"-->
+            <!--                android:text="@string/skip"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                android:textSize="10sp"-->
+            <!--                app:backgroundTint="@null" />-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

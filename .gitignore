@@ -1,34 +1,48 @@
+# Built artifacts
+/build
+/*/build
+*.apk
+*.aar
+*.jar
+*.bundle
+
 # Gradle files
 .gradle/
-build/
+gradle-wrapper.jar
+!gradle-wrapper.properties
 
 # Local configuration file (sdk path, etc)
 local.properties
 
 # Log/OS Files
 *.log
+.DS_Store
+Thumbs.db
 
 # Android Studio generated files and folders
 captures/
 .externalNativeBuild/
 .cxx/
-*.aab
-*.apk
 output-metadata.json
 
 # IntelliJ
 *.iml
 .idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+!/.idea/codeStyles/
+!/.idea/copyright/
+!/.idea/inspectionProfiles/
+!/.idea/iconloader.xml
 
 # Keystore files
 *.jks
 *.keystore
+/cliq keystore/
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
 # Android Profiling
 *.hprof
+
+# Secrets
+secrets.properties

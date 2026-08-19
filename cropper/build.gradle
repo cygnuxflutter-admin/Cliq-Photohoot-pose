@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.theartofdev.edmodo.cropper'
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 21
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        buildConfig true
+    }
+    lint {
+        abortOnError false
+    }
+}
+
+dependencies {
+    api 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.exifinterface:exifinterface:1.3.7'
+}
+
+

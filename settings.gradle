@@ -1,0 +1,22 @@
+//pluginManagement {
+//    repositories {
+//        google()
+//        mavenCentral()
+//        gradlePluginPortal()
+//    }
+//}
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//}
+//rootProject.name = "Photo Poses"
+include ':app'
+include ':checkbox'
+include ':library'
+include ':animators'
+//include ':touchview'
+include ':cropper'
+include ':likebutton'

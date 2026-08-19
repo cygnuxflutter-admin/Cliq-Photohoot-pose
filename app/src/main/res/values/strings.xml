@@ -1,0 +1,150 @@
+<resources>
+    <string name="app_name">Photo Pose</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--    <string name="facebook_app_id">216841361321321</string>-->
+    <string name="fb_login_protocol_scheme">fb216841361321321</string>
+
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+
+
+    <string name="privacy_policy_url"></string>
+
+    <string name="play_more_apps"></string>
+
+    <!-- true if want to use RTL else false -->
+    <string name="isRTL">false</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="latest">Latest</string>
+    <string name="categories">Categories</string>
+    <string name="live_wallpapers">Live Poses</string>
+    <string name="favourite">Favourite</string>
+    <string name="rateapp">Rate App</string>
+    <string name="shareapp">Share App</string>
+    <string name="moreapp">More App</string>
+    <string name="menu_about">About</string>
+    <string name="loading">Loading..</string>
+    <string name="no_data_found">No Data Found</string>
+    <string name="wallpapers">Poses</string>
+    <string name="download">Download</string>
+    <string name="rate">Rate</string>
+    <string name="share">Share</string>
+    <string name="views">Views</string>
+    <string name="ratings">Ratings</string>
+    <string name="tags">Tags</string>
+    <string name="details">Details</string>
+    <string name="downloading_wallpaper">Downloading Pose..</string>
+    <string name="please_wait">Please Wait..</string>
+    <string name="wallpaper_saved">Pose Saved</string>
+    <string name="wallpaper_already_saved">Pose Already Saved</string>
+    <string name="set_wallpaper">Set As</string>
+    <string name="wallpaper_set">Wallpaper Set</string>
+    <string name="thanks_for_rating">Thanks for Rating</string>
+    <string name="submit">Submit</string>
+    <string name="internet_not_connected">Please connect to internet</string>
+    <string name="downloads">Downloads</string>
+    <string name="live_wall_saved">Live Pose saved</string>
+    <string name="live_wall_already_saved">Live Pose already saved</string>
+    <string name="your_ad_consent">Your Ad Consent</string>
+    <string name="show_personalized_ad">Show Personalized Ads</string>
+    <string name="enable_push_noti">Enable Push Notification</string>
+    <string name="version">Version</string>
+    <string name="company">Company</string>
+    <string name="email">Email</string>
+    <string name="website">Website</string>
+    <string name="contact">Contact</string>
+    <string name="about">About</string>
+    <string name="search">Search</string>
+    <string name="downloading_live_wall">Downloading Live Pose</string>
+    <string name="enter_rating">Please enter rating</string>
+    <string name="get_more_wall">Get more amazing Poses, download now</string>
+    <string name="get_more_live_wall">Get more amazing Live Poses, download now</string>
+    <string name="rate_this_wall">Rate this Pose</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
+    <string name="square">Square</string>
+    <string name="filter">Filter</string>
+    <string name="select_wall_type">Select Pose Type</string>
+    <string name="ok">OK</string>
+    <string name="rated">Rated</string>
+    <string name="popular">Popular</string>
+    <string name="exit">Exit</string>
+    <string name="sure_exit">Are you sure you want to exit app?</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="cache_cleared">Cache Cleared</string>
+    <string name="clearing_cache">Clearing Cache..</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="lock_screen">Lock Screen</string>
+    <string name="home_lock_screen">Home Screen and Lock Screen</string>
+    <string name="err_set_wall">Error when setting Pose</string>
+
+    <string name="remember_me">Remember Me</string>
+    <string name="registering">Registering..</string>
+    <string name="forgot_password_message">Enter your valid email address below and we will send you email with instructions on how to change your password</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_pass">Forgot Your Password?</string>
+    <string name="signup">Sign Up</string>
+    <string name="email_empty">Email cannot be empty</string>
+    <string name="cannot_empty">Field cannot be empty</string>
+    <string name="login_success">Login Successful</string>
+    <string name="pass_end_space">Please do not add space at end</string>
+    <string name="name">Name</string>
+    <string name="cpassword">Confirm Password</string>
+    <string name="enter_phone">Enter Phone</string>
+    <string name="phone">Phone</string>
+    <string name="enter_name">Please Enter Name</string>
+    <string name="enter_email">Please Enter Email</string>
+    <string name="enter_password">Please Enter Password</string>
+    <string name="enter_cpassword">Please Enter Confirm Password</string>
+    <string name="pass_nomatch">Confirm Password not matched</string>
+    <string name="not_log">Not Logged In</string>
+    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="update">Update</string>
+    <string name="logout">Logout</string>
+    <string name="logout_success">Logout Successful</string>
+    <string name="image">Image</string>
+    <string name="error_password_sort">This password is too short</string>
+    <string name="error_invalid_email">Invalid Email</string>
+    <string name="send">Send</string>
+    <string name="error_unauth_access">Unauthorized Access</string>
+    <string name="server_error">Server Error</string>
+    <string name="error_connect_net_tryagain">Please connect to internet and try again</string>
+    <string name="try_again">Try Again</string>
+    <string name="recently_viewed">Recently Viewed</string>
+    <string name="report_wall_">Report Pose:-</string>
+    <string name="enter_report">Enter your report message</string>
+    <string name="error_login_goole">Error while login with google</string>
+    <string name="theme">Theme</string>
+    <string name="system_default">System Default</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="select_image">Select Image</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="maybe_later">May be Later</string>
+    <string name="clear">Clear</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="report">Report</string>
+    <string name="featured">Featured</string>
+    <string name="sub_categories">Sub Categories</string>
+    <string name="most_rated">Most Rated</string>
+    <string name="most_downloaded">Most Downloaded</string>
+
+    <string name="camera_permission_confirmation">This app demonstrates the usage of CameraView. In order to do that, it needs permission to access camera.</string>
+    <string name="camera_permission_not_granted">Camera app cannot do anything without camera permission.</string>
+    <string name="picture_taken">Picture taken</string>
+    <string name="flash_auto">Flash auto</string>
+    <string name="flash_off">Flash off</string>
+    <string name="flash_on">Flash on</string>
+
+    <string name="something_went_wrong">Something went wrong!!</string>
+    <string name="internet_error">Make sure you are connected to internet!!</string>
+
+</resources>
