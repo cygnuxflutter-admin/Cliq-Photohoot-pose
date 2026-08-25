@@ -3,48 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/bg_warm"
     android:orientation="vertical">
-
-<!--    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <RelativeLayout
-            android:id="@+id/rl_search"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/search_bg">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:iconifiedByDefault="false"
-                android:searchIcon="@mipmap/search"
-                android:queryHint="Search"
-                android:clickable="true"
-                android:layout_height="50dp" >
-
-            </androidx.appcompat.widget.SearchView>
-
-&lt;!&ndash;            <androidx.appcompat.widget.SearchView&ndash;&gt;
-&lt;!&ndash;                android:id="@+id/searchView"&ndash;&gt;
-&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;
-&lt;!&ndash;                android:iconifiedByDefault="false"&ndash;&gt;
-&lt;!&ndash;                android:searchIcon="@mipmap/search"&ndash;&gt;
-&lt;!&ndash;                android:queryHint="Search"&ndash;&gt;
-&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;
-&lt;!&ndash;                android:clickable="true" />&ndash;&gt;
-
-
-
-
-        </RelativeLayout>
-
-
-    </RelativeLayout>-->
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -54,24 +14,19 @@
             android:id="@+id/rv_wall_by_cat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:clipToPadding="false"
+            android:paddingStart="8dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="90dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <fr.castorflex.android.circularprogressbar.CircularProgressBar
+        <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
             android:id="@+id/pb_wallcat"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="20dp"
-            android:indeterminate="true"
-            app:cpb_color="#FFee44"
-            app:cpb_colors="@array/pocket_bar_colors"
-            app:cpb_max_sweep_angle="300"
-            app:cpb_min_sweep_angle="10"
-            app:cpb_rotation_speed="1.0"
-            app:cpb_stroke_width="4dp"
-            app:cpb_sweep_speed="1.0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_empty_wallcat"
@@ -80,19 +35,22 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/pcliq_leaguespartan_medium"
             android:gravity="center"
-            android:text="@string/loading"
-            android:textColor="@color/text_title" />
+            android:text="@string/no_data_found"
+            android:textColor="@color/text_sub_brown"
+            android:visibility="gone" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
             android:src="@mipmap/pcliq_arrow_up"
             android:visibility="invisible"
-            app:fabSize="normal" />
+            app:backgroundTint="@color/gold_primary"
+            app:fabSize="normal"
+            app:tint="#FFFFFF" />
 
     </RelativeLayout>
 </LinearLayout>

@@ -3,145 +3,312 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/bg_warm"
     android:orientation="vertical">
 
-    <ScrollView
+    <!-- Top Header Bar: Modern Luxury Header (Moved to Dashboard Top Navigation) -->
+    <LinearLayout
+        android:id="@+id/rl_top_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="14dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_brand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:contentDescription="Cliq"
+                    android:src="@drawable/pcliq_ic_aperture_gold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="serif"
+                    android:letterSpacing="0.02"
+                    android:text="Cliq"
+                    android:textColor="@color/text_espresso"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/pcliq_bg_badge_gold"
+                    android:fontFamily="@font/pcliq_leaguespartan_bold"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="STUDIO"
+                    android:textColor="@color/gold_primary"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                android:text="Curated Photoshoot Inspiration"
+                android:textColor="@color/text_sub_brown"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <!-- Circular Settings Button -->
+        <FrameLayout
+            android:id="@+id/iv_home_settings"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/pcliq_bg_circle_button"
+            android:clickable="true"
+            android:elevation="3dp"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/action_settings"
+                android:src="@drawable/pcliq_ic_settings_circle" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:paddingBottom="0dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <!-- 1. Studio Pro Quick Actions (4 Interactive Shortcuts) -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:id="@+id/rl_latest"
-                    android:layout_width="match_parent"
+                <!-- 1. Live Camera Pose -->
+                <LinearLayout
+                    android:id="@+id/ll_action_camera"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp">
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/pcliq_bg_quick_action_card"
+                    android:clickable="true"
+                    android:elevation="1dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/pcliq_ic_nav_camera"
+                        app:tint="@color/gold_primary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_marginTop="6dp"
                         android:fontFamily="@font/pcliq_leaguespartan_bold"
-                        android:text="@string/latest"
-                        android:textColor="@color/text_black"
-                        android:textSize="17sp" />
+                        android:text="Live Guide"
+                        android:textColor="@color/text_espresso"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <!-- 2. Surprise Me (Random Pose) -->
+                <LinearLayout
+                    android:id="@+id/ll_action_surprise"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:background="@drawable/pcliq_bg_quick_action_card"
+                    android:clickable="true"
+                    android:elevation="1dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
 
                     <ImageView
-                        android:id="@+id/view_all_latest"
-                        android:layout_width="70dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/pcliq_ic_shuffle_gold"
+                        app:tint="@color/gold_primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/pcliq_view_all" />
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="Surprise Me"
+                        android:textColor="@color/text_espresso"
+                        android:textSize="12sp" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_wall_by_cat"
-                    android:layout_width="match_parent"
+                <!-- 3. Top Rated / Popular -->
+                <LinearLayout
+                    android:id="@+id/ll_action_popular"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/rl_latest"
-                    android:padding="5dp"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:background="@drawable/pcliq_bg_quick_action_card"
+                    android:clickable="true"
+                    android:elevation="1dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
 
-                <fr.castorflex.android.circularprogressbar.CircularProgressBar
-                    android:id="@+id/pb_wallcat"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="20dp"
-                    android:indeterminate="true"
-                    app:cpb_color="#FFee44"
-                    app:cpb_colors="@array/pocket_bar_colors"
-                    app:cpb_max_sweep_angle="300"
-                    app:cpb_min_sweep_angle="10"
-                    app:cpb_rotation_speed="1.0"
-                    app:cpb_stroke_width="4dp"
-                    app:cpb_sweep_speed="1.0"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_empty_wallcat"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/pcliq_ic_fire_gold"
+                        app:tint="@color/gold_primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="Top Rated"
+                        android:textColor="@color/text_espresso"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <!-- 4. Photoshoot Tips -->
+                <LinearLayout
+                    android:id="@+id/ll_action_tips"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/pcliq_bg_quick_action_card"
+                    android:clickable="true"
+                    android:elevation="1dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/pcliq_ic_meta_bulb"
+                        app:tint="@color/gold_primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="Shoot Tips"
+                        android:textColor="@color/text_espresso"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- 2. Featured Spotlight Section -->
+            <RelativeLayout
+                android:id="@+id/rl_download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="16dp">
 
                 <TextView
-                    android:id="@+id/tv_empty_wallcat"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/pcliq_leaguespartan_medium"
-                    android:gravity="center"
-                    android:text="@string/loading"
-                    android:textColor="@color/text_title"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pb_wallcat" />
+                    android:layout_centerVertical="true"
+                    android:fontFamily="serif"
+                    android:text="Featured Spotlight"
+                    android:textColor="@color/text_espresso"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/view_all_download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                    android:text="View All"
+                    android:textColor="@color/gold_secondary"
+                    android:textSize="13sp" />
 
             </RelativeLayout>
 
+            <!-- Horizontal Recycler for User's Featured Poses -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
-
-                <RelativeLayout
-                    android:id="@+id/rl_download"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/pcliq_leaguespartan_bold"
-                        android:text="@string/download"
-                        android:textColor="@color/text_black"
-                        android:textSize="17sp" />
-
-                    <ImageView
-                        android:id="@+id/view_all_download"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/pcliq_view_all" />
-
-                </RelativeLayout>
-
+                android:layout_height="225dp"
+                android:layout_marginTop="8dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_wall_by_cat_download"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rl_download"
-                    android:padding="5dp"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp" />
 
-                <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
                     android:id="@+id/pb_wallcat_download"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="20dp"
-                    android:indeterminate="true"
-                    app:cpb_color="#FFee44"
-                    app:cpb_colors="@array/pocket_bar_colors"
-                    app:cpb_max_sweep_angle="300"
-                    app:cpb_min_sweep_angle="10"
-                    app:cpb_rotation_speed="1.0"
-                    app:cpb_stroke_width="4dp"
-                    app:cpb_sweep_speed="1.0"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                    android:layout_centerInParent="true" />
 
                 <TextView
                     android:id="@+id/tv_empty_wallcat_download"
@@ -151,88 +318,231 @@
                     android:fontFamily="@font/pcliq_leaguespartan_medium"
                     android:gravity="center"
                     android:text="@string/loading"
-                    android:textColor="@color/text_title" />
+                    android:textColor="@color/text_sub_brown"
+                    android:visibility="gone" />
+
             </RelativeLayout>
 
-            <RelativeLayout
+            <!-- 3. Pro Photography Tip Banner Card -->
+            <LinearLayout
+                android:id="@+id/ll_daily_tip_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/pcliq_bg_tip_card"
+                android:clickable="true"
+                android:elevation="2dp"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:padding="14dp">
 
-                <RelativeLayout
-                    android:id="@+id/rl_pupular"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:background="@drawable/pcliq_bg_badge_gold"
                         android:fontFamily="@font/pcliq_leaguespartan_bold"
-                        android:text="@string/popular"
-                        android:textColor="@color/text_black"
-                        android:textSize="17sp" />
+                        android:paddingStart="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="2dp"
+                        android:text="✨ PRO SHOOT TIP"
+                        android:textColor="@color/gold_primary"
+                        android:textSize="10sp" />
 
-                    <ImageView
-                        android:id="@+id/view_all_popular"
-                        android:layout_width="70dp"
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/pcliq_view_all" />
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/pcliq_leaguespartan_medium"
+                        android:text="Tap to see all tips →"
+                        android:textColor="@color/gold_secondary"
+                        android:textSize="11.5sp" />
 
-                </RelativeLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_wall_by_cat_pupular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rl_pupular"
-                    android:padding="5dp"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <fr.castorflex.android.circularprogressbar.CircularProgressBar
-                    android:id="@+id/pb_wallcat_pupular"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="20dp"
-                    android:indeterminate="true"
-                    app:cpb_color="#FFee44"
-                    app:cpb_colors="@array/pocket_bar_colors"
-                    app:cpb_max_sweep_angle="300"
-                    app:cpb_min_sweep_angle="10"
-                    app:cpb_rotation_speed="1.0"
-                    app:cpb_stroke_width="4dp"
-                    app:cpb_sweep_speed="1.0"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_empty_wallcat_pupular"
+                    android:id="@+id/tv_tip_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/pcliq_leaguespartan_medium"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="Golden Hour Glow: Shoot 1 hour before sunset for soft, cinematic skin tones and warm flattering light."
+                    android:textColor="@color/text_espresso"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <!-- 4. Search Bar -->
+            <LinearLayout
+                android:id="@+id/ll_search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/pcliq_bg_search_pill"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/search"
+                    android:src="@drawable/pcliq_ic_search_gold" />
+
+                <EditText
+                    android:id="@+id/et_home_search"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:hint="Search poses — standing, park, bike..."
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/text_espresso"
+                    android:textColorHint="@color/text_sub_brown"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_clear_search"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="Clear"
+                    android:padding="2dp"
+                    android:src="@drawable/pcliq_ic_close"
+                    android:visibility="gone"
+                    app:tint="@color/text_sub_brown" />
+
+            </LinearLayout>
+
+            <!-- 5. Category Filter Chips (Horizontal) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_home_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+
+            <!-- 6. Filtered / Trending Section Header -->
+            <RelativeLayout
+                android:id="@+id/rl_latest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp">
+
+                <TextView
+                    android:id="@+id/tv_trending_section_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="serif"
+                    android:text="Trending Poses"
+                    android:textColor="@color/text_espresso"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/view_all_latest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                    android:text="View All"
+                    android:textColor="@color/gold_secondary"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <!-- Recycler View for Poses -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_wall_by_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="100dp" />
+
+                <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+                    android:id="@+id/pb_wallcat"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_empty_wallcat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/pcliq_leaguespartan_medium"
                     android:gravity="center"
                     android:text="@string/loading"
-                    android:textColor="@color/text_title" />
+                    android:textColor="@color/text_sub_brown"
+                    android:visibility="gone" />
+
             </RelativeLayout>
+
+            <!-- Hidden placeholders for backwards compatibility -->
+            <View
+                android:id="@+id/view_all_popular"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_wall_by_cat_pupular"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+
+            <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+                android:id="@+id/pb_wallcat_pupular"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_empty_wallcat_pupular"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:src="@mipmap/pcliq_arrow_up"
-                android:visibility="gone"
-                app:fabSize="normal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:visibility="gone" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

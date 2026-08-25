@@ -145,6 +145,7 @@ public class PCliq_FragmentPosePopular extends Fragment {
                 MenuItem item = menu.findItem(R.id.menu_search);
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
                 SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+                Pmethods.styleSearchView(searchView);
                 searchView.setOnQueryTextListener(queryTextListener);
             }
 

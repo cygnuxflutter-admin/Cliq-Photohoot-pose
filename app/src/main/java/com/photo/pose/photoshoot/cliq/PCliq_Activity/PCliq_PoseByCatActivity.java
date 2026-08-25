@@ -72,6 +72,10 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(androidx.core.content.ContextCompat.getColor(this, R.color.bg_warm));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
         setContentView(R.layout.pcliq_activity_pose_by_cat);
 
         apiInterface = PCliq_APIClient.getClient().create(PCliq_APIInterface.class);
@@ -105,11 +109,28 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
         catID = getIntent().getStringExtra("cid");
         catName = getIntent().getStringExtra("cname");
         from = getIntent().getStringExtra("from");
-        
-        Toolbar toolbar = findViewById(R.id.toolbar_wall_by_cat);
-        toolbar.setTitle(catName);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView tvHeading = findViewById(R.id.tv_cat_heading);
+        TextView tvSubtitle = findViewById(R.id.tv_cat_subtitle);
+        View ivBack = findViewById(R.id.iv_cat_back);
+        View ivSearch = findViewById(R.id.iv_cat_search);
+        View fabCamera = findViewById(R.id.fab_cat_camera);
+
+        if (catName != null && !catName.isEmpty()) {
+            tvHeading.setText(catName.toLowerCase().contains("pose") ? catName : catName + " Poses");
+        } else {
+            tvHeading.setText("Couple Poses");
+        }
+
+        if (ivBack != null) {
+            ivBack.setOnClickListener(v -> onBackPressed());
+        }
+        if (ivSearch != null) {
+            ivSearch.setOnClickListener(v -> startActivity(new Intent(PCliq_PoseByCatActivity.this, PCliq_SearchPoseActivity.class)));
+        }
+        if (fabCamera != null) {
+            fabCamera.setOnClickListener(v -> startActivity(new Intent(PCliq_PoseByCatActivity.this, PCliq_NewCameraActivity.class)));
+        }
 
         dbHelper = new PCliq_DBHelper(PCliq_PoseByCatActivity.this);
         methods = new PCliq_Methods(PCliq_PoseByCatActivity.this, interAdListener);
@@ -176,6 +197,7 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.menu_search);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        methods.styleSearchView(searchView);
         searchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
@@ -261,6 +283,10 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call<PCliq_ItemPoseList> call, @NonNull Response<PCliq_ItemPoseList> response) {
                     if (response.body() != null && response.body().getArrayListWallpaper() != null) {
+                        TextView tvSubtitle = findViewById(R.id.tv_cat_subtitle);
+                        if (tvSubtitle != null) {
+                            tvSubtitle.setText(response.body().getTotalRecords() + " poses");
+                        }
                         if (response.body().getArrayListWallpaper().size() == 0) {
                             isOver = true;
                             setEmpty();

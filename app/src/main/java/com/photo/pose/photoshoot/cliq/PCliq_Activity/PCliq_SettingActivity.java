@@ -63,7 +63,7 @@ public class PCliq_SettingActivity extends AppCompatActivity {
     Boolean isNoti = true;
     View view_moreapp;
     ImageView iv_theme;
-    ProgressDialog progressDialog;
+    com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog progressDialog;
     TextView tv_moreapp, tv_rateapp, tv_cachesize, tv_shareapp, tv_about, tv_theme;
     String them_mode = "";
 
@@ -82,10 +82,16 @@ public class PCliq_SettingActivity extends AppCompatActivity {
 
         toolbar = this.findViewById(R.id.toolbar_setting);
         toolbar.setTitle(getString(R.string.action_settings));
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.text_espresso));
         this.setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (toolbar.getNavigationIcon() != null) {
+                toolbar.getNavigationIcon().setTint(ContextCompat.getColor(this, R.color.gold_primary));
+            }
+        }
 
-        progressDialog = new ProgressDialog(PCliq_SettingActivity.this);
+        progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(PCliq_SettingActivity.this);
         progressDialog.setMessage(getString(R.string.clearing_cache));
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
@@ -118,9 +124,41 @@ public class PCliq_SettingActivity extends AppCompatActivity {
         ll_clearcache = findViewById(R.id.ll_cache);
         view_moreapp = findViewById(R.id.view_moreapp);
 
-        if(getString(R.string.play_more_apps).equals("")) {
-            view_moreapp.setVisibility(View.GONE);
-            tv_moreapp.setVisibility(View.GONE);
+        View rl_moreapp = findViewById(R.id.rl_moreapp);
+        if (getString(R.string.play_more_apps).isEmpty()) {
+            if (view_moreapp != null) view_moreapp.setVisibility(View.GONE);
+            if (rl_moreapp != null) rl_moreapp.setVisibility(View.GONE);
+            if (tv_moreapp != null) tv_moreapp.setVisibility(View.GONE);
+        }
+
+        // Set warm gold tint on switches
+        ColorStateList thumbStates = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+                },
+                new int[]{
+                        ContextCompat.getColor(this, R.color.gold_primary),
+                        ContextCompat.getColor(this, R.color.text_light_brown)
+                }
+        );
+        ColorStateList trackStates = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+                },
+                new int[]{
+                        0x60C19543,
+                        0x30A8988D
+                }
+        );
+        if (switch_noti != null) {
+            switch_noti.setThumbTintList(thumbStates);
+            switch_noti.setTrackTintList(trackStates);
+        }
+        if (switch_consent != null) {
+            switch_consent.setThumbTintList(thumbStates);
+            switch_consent.setTrackTintList(trackStates);
         }
 
         if (methods.isDarkMode()) {
@@ -366,25 +404,16 @@ public class PCliq_SettingActivity extends AppCompatActivity {
     }
 
     private void changeThemeColor() {
-
-        int[][] states = new int[][]{
-                new int[]{-android.R.attr.state_checked},
-                new int[]{android.R.attr.state_checked},
-        };
-
-        int[] thumbColors = new int[]{
-                ContextCompat.getColor(PCliq_SettingActivity.this, R.color.switch_thumb_disable),
-                ContextCompat.getColor(PCliq_SettingActivity.this, R.color.primary),
-        };
-
-        int[] trackColors = new int[]{
-                ContextCompat.getColor(PCliq_SettingActivity.this, R.color.switch_track),
-                ContextCompat.getColor(PCliq_SettingActivity.this, R.color.switch_track),
-        };
-        DrawableCompat.setTintList(DrawableCompat.wrap(switch_noti.getThumbDrawable()), new ColorStateList(states, thumbColors));
-        DrawableCompat.setTintList(DrawableCompat.wrap(switch_noti.getTrackDrawable()), new ColorStateList(states, trackColors));
-        DrawableCompat.setTintList(DrawableCompat.wrap(switch_consent.getThumbDrawable()), new ColorStateList(states, thumbColors));
-        DrawableCompat.setTintList(DrawableCompat.wrap(switch_consent.getTrackDrawable()), new ColorStateList(states, trackColors));
+        ColorStateList thumbStates = ContextCompat.getColorStateList(this, R.color.pcliq_switch_thumb_selector);
+        ColorStateList trackStates = ContextCompat.getColorStateList(this, R.color.pcliq_switch_track_selector);
+        if (switch_noti != null) {
+            switch_noti.setThumbTintList(thumbStates);
+            switch_noti.setTrackTintList(trackStates);
+        }
+        if (switch_consent != null) {
+            switch_consent.setThumbTintList(thumbStates);
+            switch_consent.setTrackTintList(trackStates);
+        }
     }
 
     private void initializeCache() {

@@ -3,103 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="3dp">
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/bg_card_warm"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="3dp"
+    app:strokeColor="#154A3B32"
+    app:strokeWidth="1dp">
 
     <RelativeLayout
         android:id="@+id/cl_cat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/iv_cat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
 
-        <!--        <View-->
-        <!--            android:id="@+id/view1"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="25dp"-->
-        <!--            android:background="@drawable/bg_black80"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
-
-
+        <!-- Floating "EXPLORE →" Luxury Pill on Top-Right -->
         <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:layout_height="wrap_content">
+            android:layout_height="26dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/pcliq_bg_badge_gold"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
 
             <TextView
-                android:id="@+id/tv_cat_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="4dp"
-                android:ellipsize="end"
-                android:visibility="gone"
-                android:textSize="18sp"
-                android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                android:maxLines="1"
-                android:textColor="@color/white" />
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_cat_total"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginEnd="8dp"-->
-<!--                android:fontFamily="@font/leaguespartan_regular"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="11sp" />-->
+                android:fontFamily="@font/pcliq_leaguespartan_bold"
+                android:text="EXPLORE →"
+                android:textColor="@color/gold_primary"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
     </RelativeLayout>
-
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/native_banner_ad_container"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="300dp"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        android:layout_marginStart="@dimen/_4sdp"-->
-<!--        android:layout_marginTop="@dimen/_4sdp"-->
-<!--        android:layout_marginEnd="@dimen/_4sdp"-->
-<!--        android:layout_marginBottom="@dimen/_4sdp"-->
-<!--        android:visibility="gone" />-->
-
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/ad_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:gravity="center"-->
-<!--        android:padding="4dp">-->
-
-<!--        <RelativeLayout-->
-<!--            android:id="@+id/native_banner_ad_container"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="#CDDCF0"-->
-<!--            android:gravity="center"-->
-<!--            android:visibility="visible">-->
-
-
-<!--            <ImageView-->
-<!--                android:id="@+id/titanicTextView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:alpha="0.6"-->
-<!--                android:gravity="center"-->
-<!--                android:src="@mipmap/ic_launcher_round" />-->
-
-
-<!--        </RelativeLayout>-->
-
-<!--    </RelativeLayout>-->
 
 </com.google.android.material.card.MaterialCardView>

@@ -29,12 +29,26 @@ public class PCliq_PopularPoseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcliq_activity_popular_pose);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(androidx.core.content.ContextCompat.getColor(this, R.color.bg_warm));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         cate_name = getIntent().getStringExtra("cate_name");
+        if (cate_name == null) {
+            cate_name = "Popular";
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar_wall_by_cat);
         toolbar.setTitle(cate_name);
+        toolbar.setTitleTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_espresso));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (toolbar.getNavigationIcon() != null) {
+                toolbar.getNavigationIcon().setTint(androidx.core.content.ContextCompat.getColor(this, R.color.gold_primary));
+            }
+        }
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
         if (PCliq_NetworkUtils.isNetworkAvailable(this)) {

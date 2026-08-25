@@ -38,12 +38,14 @@ import com.like.LikeButton;
 import com.like.OnLikeListener;
 //import com.ortiz.touchview.TouchImageView;
 import com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_LoadAds;
+import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterSimilarPoses;
 import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterTags;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_APIClient;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_APIInterface;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_ItemSuccessList;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_ItemPoseList;
 import com.photo.pose.photoshoot.cliq.PCliq_interfaces.PCliq_InterAdListener;
+import com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPose;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_DBHelper;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Methods;
@@ -51,8 +53,15 @@ import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_NetworkUtils;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_RecyclerItemClickListener;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_SharedPref;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import android.graphics.drawable.Drawable;
+import androidx.annotation.Nullable;
 import com.photo.pose.photoshoot.cliq.R;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -69,6 +78,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import androidx.appcompat.widget.SwitchCompat;
+import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterTags;
+
 public class PCliq_PoseDetailsActivity extends AppCompatActivity {
 
     PCliq_DBHelper PC_dbHelper;
@@ -77,28 +89,28 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
     PCliq_SharedPref PC_sharedPref;
     ImagePagerAdapter PC_pagerAdapter;
     LikeButton PC_likeButton;
-    ImageView PC_btn_download;
+    View PC_btn_download;
     int position;
 
     Dialog PC_dialog_rate;
     RelativeLayout PC_coordinatorLayout;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
     final int MY_PERMISSIONS_REQUEST_MANAGE_EXTERNAL_STORAGE = 101;
-    ProgressDialog PC_progressDialog;
+    com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog PC_progressDialog;
     BottomSheetDialog PC_dialog_report;
     int height = 0, page = 2;
     String PC_wallType = "", PC_color_ids = "", PC_cid = "1", PC_list_type = "";
     Boolean isOver = false;
     ArrayList<String> PC_arrayListTags;
-    ImageView PC_iv_camera;
+    View PC_iv_camera;
     String PC_imgUrl;
     ImageView PC_iv_pose;
 
-    ImageView PC_iv_more;
-    ImageView PC_iv_back;
+    View PC_iv_more;
+    View PC_iv_back;
     TextView PC_tv_pose_name;
     String PC_pass_pose;
-    public static Boolean isposesketch;
+    public static Boolean isposesketch = false;
     String PC_iv_pose_sketch;
     String PC_iv_pose_orignal;
 
@@ -107,15 +119,12 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcliq_activity_pose_details);
 
+        PC_methods = new PCliq_Methods(this);
+        PC_methods.setStatusColor(getWindow());
+        PC_methods.forceRTLIfSupported(getWindow());
+
         PC_dbHelper = new PCliq_DBHelper(this);
         PC_sharedPref = new PCliq_SharedPref(this);
-        PC_methods = new PCliq_Methods(this, new PCliq_InterAdListener() {
-            @Override
-            public void onClick(int position, String type) {
-                PC_methods.saveImage(PCliq_Constant.arrayList.get(position).getImage(), type, PC_coordinatorLayout, "wallpaper");
-            }
-        });
-        PC_methods.forceRTLIfSupported(getWindow());
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
         if (PCliq_NetworkUtils.isNetworkAvailable(this)) {
@@ -127,7 +136,7 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         }
 
 
-        PC_progressDialog = new ProgressDialog(PCliq_PoseDetailsActivity.this);
+        PC_progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(PCliq_PoseDetailsActivity.this);
         PC_progressDialog.setMessage(getString(R.string.loading));
 
         position = getIntent().getIntExtra("pos", 0);
@@ -149,6 +158,15 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         PC_tv_pose_name = findViewById(R.id.tv_pose_name);
         PC_iv_more = findViewById(R.id.iv_more);
         PC_iv_back = findViewById(R.id.iv_back);
+
+        View rlTopActions = findViewById(R.id.rl_top_actions);
+        if (rlTopActions != null) {
+            androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rlTopActions, (v, insets) -> {
+                androidx.core.graphics.Insets statusBarInsets = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars());
+                v.setPadding(v.getPaddingLeft(), statusBarInsets.top + 16, v.getPaddingRight(), v.getPaddingBottom());
+                return insets;
+            });
+        }
         RatingBar ratingBar = findViewById(R.id.rating_wall_details);
         TextView tv_views = findViewById(R.id.tv_wall_details_views);
         TextView tv_downloads = findViewById(R.id.tv_wall_details_downloads);
@@ -159,22 +177,162 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         PC_imgUrl = PCliq_Constant.arrayList.get(position).getImage();
         PC_tv_pose_name.setText(PCliq_Constant.arrayList.get(position).getTitle());
 
-
         PC_iv_pose_orignal = PCliq_Constant.arrayList.get(position).getImage();
         PC_iv_pose_sketch = PCliq_Constant.arrayList.get(position).getImage() + "_sketch.png";
 
+        PC_pass_pose = PC_iv_pose_orignal;
 
-        URLReachabilityChecker checker = new URLReachabilityChecker();
-        checker.execute(PC_iv_pose_sketch); // Rep
+        // Setup Sketch Guide Toggle (Default OFF so real photo is displayed first)
+        SwitchCompat switchSketchGuide = findViewById(R.id.switch_sketch_guide);
+        TextView tvSketchGuideStatus = findViewById(R.id.tv_sketch_guide_status);
+        View rlHeroContainer = findViewById(R.id.rl_hero_photo_container);
 
+        if (switchSketchGuide != null) {
+            switchSketchGuide.setThumbTintList(androidx.core.content.ContextCompat.getColorStateList(this, R.color.pcliq_switch_thumb_selector));
+            switchSketchGuide.setTrackTintList(androidx.core.content.ContextCompat.getColorStateList(this, R.color.pcliq_switch_track_selector));
+            switchSketchGuide.setChecked(false);
+            if (tvSketchGuideStatus != null) {
+                tvSketchGuideStatus.setText("OFF");
+                tvSketchGuideStatus.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_sub_brown));
+            }
+            switchSketchGuide.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                isposesketch = isChecked;
+                if (tvSketchGuideStatus != null) {
+                    tvSketchGuideStatus.setText(isChecked ? "ON" : "OFF");
+                    tvSketchGuideStatus.setTextColor(androidx.core.content.ContextCompat.getColor(PCliq_PoseDetailsActivity.this, isChecked ? R.color.gold_primary : R.color.text_sub_brown));
+                }
+                if (isChecked && PC_iv_pose_sketch != null) {
+                    PC_pass_pose = PC_iv_pose_sketch;
+                    if (rlHeroContainer != null) {
+                        rlHeroContainer.setBackgroundColor(0xFF1E1A18);
+                    }
+                    if (PC_iv_pose != null) {
+                        PC_iv_pose.setBackgroundColor(0xFF1E1A18);
+                        PC_iv_pose.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        PC_iv_pose.setPadding(24, 72, 24, 48);
+                    }
+                    Glide.with(PCliq_PoseDetailsActivity.this)
+                            .load(PC_iv_pose_sketch)
+                            .placeholder(R.drawable.pcliq_ic_placeholder_portrait)
+                            .error(Glide.with(PCliq_PoseDetailsActivity.this).load(PC_iv_pose_orignal))
+                            .into(PC_iv_pose);
+                } else {
+                    PC_pass_pose = PC_iv_pose_orignal;
+                    if (rlHeroContainer != null) {
+                        rlHeroContainer.setBackgroundColor(0x00000000);
+                    }
+                    if (PC_iv_pose != null) {
+                        PC_iv_pose.setBackgroundColor(0x00000000);
+                        PC_iv_pose.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        PC_iv_pose.setPadding(0, 0, 0, 0);
+                    }
+                    Glide.with(PCliq_PoseDetailsActivity.this)
+                            .load(PC_iv_pose_orignal)
+                            .placeholder(R.drawable.pcliq_ic_placeholder_portrait)
+                            .into(PC_iv_pose);
+                }
+            });
+        }
+
+        // Load Default Photo (Original photoshoot image)
+        if (rlHeroContainer != null) {
+            rlHeroContainer.setBackgroundColor(0x00000000);
+        }
+        if (PC_iv_pose != null) {
+            PC_iv_pose.setBackgroundColor(0x00000000);
+            PC_iv_pose.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            PC_iv_pose.setPadding(0, 0, 0, 0);
+        }
         Glide.with(this)
-                .load(PC_imgUrl)
+                .load(PC_iv_pose_orignal)
                 .placeholder(R.drawable.pcliq_ic_placeholder_portrait)
                 .into(PC_iv_pose);
 
-        ratingBar.setRating(Float.parseFloat(PCliq_Constant.arrayList.get(position).getAverageRate()));
-        tv_views.setText(PCliq_Constant.arrayList.get(position).getTotalViews());
-        tv_downloads.setText(PCliq_Constant.arrayList.get(position).getTotalDownloads());
+        URLReachabilityChecker checker = new URLReachabilityChecker();
+        checker.execute(PC_iv_pose_sketch);
+
+        // Populate Metadata & Description with Smart Analysis
+        TextView tvDifficulty = findViewById(R.id.tv_meta_difficulty);
+        TextView tvTime = findViewById(R.id.tv_meta_time);
+        TextView tvProps = findViewById(R.id.tv_meta_props);
+        TextView tvDescription = findViewById(R.id.tv_pose_description);
+        RecyclerView rvTags = findViewById(R.id.rv_tags);
+        RecyclerView rvSimilarPoses = findViewById(R.id.rv_similar_poses);
+
+        String currentTitle = "";
+        String currentTags = "";
+        String currentServerTips = "";
+        if (position < PCliq_Constant.arrayList.size() && PCliq_Constant.arrayList.get(position) != null) {
+            currentTitle = PCliq_Constant.arrayList.get(position).getTitle();
+            currentTags = PCliq_Constant.arrayList.get(position).getTags();
+            currentServerTips = PCliq_Constant.arrayList.get(position).getPosetips();
+        }
+
+        if (tvDifficulty != null) {
+            tvDifficulty.setText(getSmartDifficulty(position, currentTitle, currentTags));
+        }
+        if (tvTime != null) {
+            tvTime.setText(getSmartLighting(position, currentTitle, currentTags));
+        }
+        if (tvProps != null) {
+            tvProps.setText(getSmartAngle(position, currentTitle, currentTags));
+        }
+        if (tvDescription != null) {
+            tvDescription.setText(getSmartPoseDirection(currentTitle, currentTags, currentServerTips));
+        }
+
+        if (rvTags != null && currentTags != null && !currentTags.trim().isEmpty()) {
+            rvTags.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            ArrayList<String> tagList = new ArrayList<>(Arrays.asList(currentTags.split(",")));
+            PCliq_AdapterTags tagsAdapter = new PCliq_AdapterTags(tagList);
+            rvTags.setAdapter(tagsAdapter);
+        }
+
+        // Setup Similar Poses Carousel
+        if (rvSimilarPoses != null && PCliq_Constant.arrayList != null && PCliq_Constant.arrayList.size() > 1) {
+            rvSimilarPoses.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            ArrayList<PCliq_ItemPose> similarList = new ArrayList<>();
+            for (int i = 0; i < PCliq_Constant.arrayList.size(); i++) {
+                if (i != position && PCliq_Constant.arrayList.get(i) != null) {
+                    similarList.add(PCliq_Constant.arrayList.get(i));
+                }
+            }
+            if (!similarList.isEmpty()) {
+                PCliq_AdapterSimilarPoses similarAdapter = new PCliq_AdapterSimilarPoses(this, similarList, (item, pos) -> {
+                    int targetIndex = PCliq_Constant.arrayList.indexOf(item);
+                    if (targetIndex >= 0) {
+                        Intent intent = new Intent(PCliq_PoseDetailsActivity.this, PCliq_PoseDetailsActivity.class);
+                        intent.putExtra("pos", targetIndex);
+                        intent.putExtra("list_type", PC_list_type);
+                        intent.putExtra("page", page);
+                        intent.putExtra("wallType", PC_wallType);
+                        intent.putExtra("color_ids", PC_color_ids);
+                        if (PC_cid != null) intent.putExtra("cid", PC_cid);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                rvSimilarPoses.setAdapter(similarAdapter);
+            } else {
+                View container = findViewById(R.id.ll_similar_poses_container);
+                if (container != null) container.setVisibility(View.GONE);
+            }
+        } else {
+            View container = findViewById(R.id.ll_similar_poses_container);
+            if (container != null) container.setVisibility(View.GONE);
+        }
+
+        if (ratingBar != null && PCliq_Constant.arrayList.get(position).getAverageRate() != null) {
+            try {
+                ratingBar.setRating(Float.parseFloat(PCliq_Constant.arrayList.get(position).getAverageRate()));
+            } catch (Exception ignored) {}
+        }
+        if (tv_views != null) {
+            tv_views.setText(PCliq_Constant.arrayList.get(position).getTotalViews());
+        }
+        if (tv_downloads != null) {
+            tv_downloads.setText(PCliq_Constant.arrayList.get(position).getTotalDownloads());
+        }
 
         PC_iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,10 +344,8 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 PopupMenu popup = new PopupMenu(PCliq_PoseDetailsActivity.this, PC_iv_more);
-                //Inflating the Popup using xml file
                 popup.getMenuInflater().inflate(R.menu.pcliq_menu_pose_details, popup.getMenu());
 
-                //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         int itemId = item.getItemId();
@@ -214,7 +370,7 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
                     }
                 });
 
-                popup.show();//showing popup menu
+                popup.show();
             }
         });
 
@@ -227,8 +383,8 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PCliq_PoseDetailsActivity.this, PCliq_NewCameraActivity.class);
-                intent.putExtra("image", PC_pass_pose);
-                intent.putExtra("isposesketch", isposesketch);
+                intent.putExtra("image", PC_pass_pose != null ? PC_pass_pose : PC_iv_pose_orignal);
+                intent.putExtra("isposesketch", isposesketch != null ? isposesketch : false);
                 startActivity(intent);
             }
         });
@@ -298,12 +454,17 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean isReachable) {
-            if (isReachable) {
-                isposesketch = true;
-                PC_pass_pose = PC_iv_pose_sketch;
-            } else {
+            View llSketchToggle = findViewById(R.id.ll_sketch_toggle);
+            if (!isReachable) {
+                if (llSketchToggle != null) {
+                    llSketchToggle.setVisibility(View.GONE);
+                }
                 isposesketch = false;
                 PC_pass_pose = PC_iv_pose_orignal;
+            } else {
+                if (llSketchToggle != null) {
+                    llSketchToggle.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -338,20 +499,24 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
 
             final CircularProgressBar progressBar = imageLayout.findViewById(R.id.pb_wall_details);
 
-            Picasso.get()
+            Glide.with(PCliq_PoseDetailsActivity.this)
                     .load(PCliq_Constant.arrayList.get(position).getImage())
                     .placeholder(R.drawable.pcliq_placeholder_pose)
-                    .into(iv_wallpaper, new com.squareup.picasso.Callback() {
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .listener(new RequestListener<Drawable>() {
                         @Override
-                        public void onSuccess() {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             progressBar.setVisibility(View.GONE);
+                            return false;
                         }
 
                         @Override
-                        public void onError(Exception e) {
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             progressBar.setVisibility(View.GONE);
+                            return false;
                         }
-                    });
+                    })
+                    .into(iv_wallpaper);
 
             container.addView(imageLayout, 0);
 
@@ -498,8 +663,8 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
     }
 
     private void loadRatingApi(final String rate) {
-        final ProgressDialog progressDialog;
-        progressDialog = new ProgressDialog(PCliq_PoseDetailsActivity.this);
+        final com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog progressDialog;
+        progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(PCliq_PoseDetailsActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.loading));
 
         Call<PCliq_ItemSuccessList> call = PCliq_APIClient.getClient().create(PCliq_APIInterface.class).getDoRateWallpaper(PC_methods.getAPIRequest(PCliq_Constant.URL_RATE_WALLPAPER, 0, "", "", "", "", PCliq_Constant.arrayList.get(position).getId(), rate, "", "", "", "", PC_sharedPref.getUserId(), "Wallpaper"));
@@ -708,5 +873,60 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
     public void onStop() {
         GlobalBus.getBus().unregister(this);
         super.onStop();
+    }
+
+    private String getSmartPoseDirection(String title, String tags, String serverTips) {
+        if (serverTips != null && !serverTips.trim().isEmpty() && !serverTips.equalsIgnoreCase("null") && !serverTips.toLowerCase().contains("stand close, foreheads touching")) {
+            return serverTips;
+        }
+        String combined = ((title != null ? title : "") + " " + (tags != null ? tags : "")).toLowerCase();
+        if (combined.contains("sit") || combined.contains("sitting") || combined.contains("chair") || combined.contains("bench") || combined.contains("trunk")) {
+            return "Sit naturally with an elongated spine. Rest one arm comfortably on the thigh or support, and create natural triangular space with knees and ankles for an effortless look.";
+        } else if (combined.contains("stand") || combined.contains("standing") || combined.contains("walk") || combined.contains("street")) {
+            return "Shift your weight to the back leg to create an organic silhouette. Keep hands casually engaged in a pocket, jacket collar, or waist, and look slightly off-camera.";
+        } else if (combined.contains("couple") || combined.contains("love") || combined.contains("wedding") || combined.contains("bride") || combined.contains("groom")) {
+            return "Maintain a close, natural connection. Gently hold hands or waist, tilt heads toward each other, and look just off-camera for candid warmth.";
+        } else if (combined.contains("portrait") || combined.contains("close") || combined.contains("face") || combined.contains("eyes")) {
+            return "Tilt your chin slightly down and 15° to the side to define the jawline. Relax facial muscles and let soft, natural light catch the eyes.";
+        } else if (combined.contains("car") || combined.contains("bike") || combined.contains("urban") || combined.contains("attitude")) {
+            return "Lean comfortably against the vehicle or wall. Keep a relaxed, confident gaze with shoulders dropped and fingers loose.";
+        } else {
+            return "Relax shoulders, create subtle angles with your elbows and knees, and avoid facing the camera straight on for the best depth.";
+        }
+    }
+
+    private String getSmartDifficulty(int pos, String title, String tags) {
+        String combined = ((title != null ? title : "") + " " + (tags != null ? tags : "")).toLowerCase();
+        if (combined.contains("action") || combined.contains("jump") || combined.contains("dance") || combined.contains("creative")) {
+            return "Creative";
+        } else if (combined.contains("sit") || combined.contains("stand") || combined.contains("portrait") || combined.contains("easy")) {
+            return "Easy";
+        } else {
+            return pos % 2 == 0 ? "Easy" : "Moderate";
+        }
+    }
+
+    private String getSmartLighting(int pos, String title, String tags) {
+        String combined = ((title != null ? title : "") + " " + (tags != null ? tags : "")).toLowerCase();
+        if (combined.contains("sunset") || combined.contains("golden") || combined.contains("evening") || combined.contains("outdoor")) {
+            return "Golden Hr";
+        } else if (combined.contains("studio") || combined.contains("neon") || combined.contains("indoor") || combined.contains("flash")) {
+            return "Studio Soft";
+        } else {
+            return pos % 3 == 0 ? "Golden Hr" : (pos % 3 == 1 ? "Natural" : "Soft Light");
+        }
+    }
+
+    private String getSmartAngle(int pos, String title, String tags) {
+        String combined = ((title != null ? title : "") + " " + (tags != null ? tags : "")).toLowerCase();
+        if (combined.contains("sit") || combined.contains("sitting") || combined.contains("ground") || combined.contains("trunk")) {
+            return "Low Angle";
+        } else if (combined.contains("portrait") || combined.contains("close") || combined.contains("headshot")) {
+            return "Eye Level";
+        } else if (combined.contains("full") || combined.contains("fashion") || combined.contains("street")) {
+            return "Waist Level";
+        } else {
+            return pos % 2 == 0 ? "Eye Level" : "Low Angle";
+        }
     }
 }

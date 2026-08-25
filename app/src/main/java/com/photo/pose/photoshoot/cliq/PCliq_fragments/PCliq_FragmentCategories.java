@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterCategories;
@@ -50,7 +52,7 @@ public class PCliq_FragmentCategories extends Fragment {
     private PCliq_AdapterCategories adapterCategories;
     private ArrayList<PCliq_ItemCat> arrayList;
     private CircularProgressBar progressBar;
-    private TextView textView_empty;
+    private TextView textView_empty, tvCollectionCount;
     private SearchView searchView;
     private PCliq_SharedPref sharedPref;
     PCliq_APIInterface apiInterface;
@@ -69,6 +71,7 @@ public class PCliq_FragmentCategories extends Fragment {
                 PCliq_FragmentSubCategories frag = new PCliq_FragmentSubCategories();
                 Bundle bundle = new Bundle();
                 bundle.putString("cid", arrayList.get(position).getId());
+                bundle.putString("cname", arrayList.get(position).getName());
                 bundle.putString("from", "");
                 frag.setArguments(bundle);
                 FragmentTransaction ft = getParentFragmentManager().beginTransaction();
@@ -89,8 +92,8 @@ public class PCliq_FragmentCategories extends Fragment {
 
         progressBar = rootView.findViewById(R.id.pb_cat);
         textView_empty = rootView.findViewById(R.id.tv_empty_cat);
+        tvCollectionCount = rootView.findViewById(R.id.tv_collection_count);
         recyclerView = rootView.findViewById(R.id.rv_cat);
-//        GridLayoutManager grid = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         recyclerView.addOnItemTouchListener(new PCliq_RecyclerItemClickListener(getActivity(), new PCliq_RecyclerItemClickListener.OnItemClickListener() {
@@ -100,8 +103,93 @@ public class PCliq_FragmentCategories extends Fragment {
             }
         }));
 
+        View topHeader = rootView.findViewById(R.id.ll_cat_top_header);
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootView, (v, insets) -> {
+            int statusBarHeight = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars()).top;
+            if (topHeader != null) {
+                topHeader.setPadding(topHeader.getPaddingLeft(), statusBarHeight + (int) (12 * getResources().getDisplayMetrics().density), topHeader.getPaddingRight(), topHeader.getPaddingBottom());
+            }
+            return insets;
+        });
+
+        // Setup Mood & Style Filter Chips
+        RecyclerView rvCatChips = rootView.findViewById(R.id.rv_cat_chips);
+        if (rvCatChips != null) {
+            rvCatChips.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            ArrayList<PCliq_ItemCat> moodChips = new ArrayList<>();
+            moodChips.add(new PCliq_ItemCat("0", "All", ""));
+            moodChips.add(new PCliq_ItemCat("1", "Bride", ""));
+            moodChips.add(new PCliq_ItemCat("2", "Couple", ""));
+            moodChips.add(new PCliq_ItemCat("3", "Boy", ""));
+            moodChips.add(new PCliq_ItemCat("4", "Girl", ""));
+            moodChips.add(new PCliq_ItemCat("5", "Father", ""));
+            moodChips.add(new PCliq_ItemCat("6", "Mother", ""));
+
+            com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterHomeChips adapterMoodChips = new com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterHomeChips(getContext(), moodChips, (item, position) -> {
+                if (adapterCategories != null) {
+                    if (position == 0 || item.getId().equals("0")) {
+                        adapterCategories.getFilter().filter("");
+                    } else {
+                        adapterCategories.getFilter().filter(item.getName());
+                    }
+                }
+            });
+            rvCatChips.setAdapter(adapterMoodChips);
+        }
+
+        // Setup Surprise Category Button
+        View btnSurprise = rootView.findViewById(R.id.btn_surprise_category);
+        if (btnSurprise != null) {
+            btnSurprise.setOnClickListener(v -> {
+                if (arrayList != null && !arrayList.isEmpty()) {
+                    int randomPos = (int) (Math.random() * arrayList.size());
+                    PCliq_ItemCat randomCat = arrayList.get(randomPos);
+
+                    PCliq_FragmentSubCategories frag = new PCliq_FragmentSubCategories();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("cid", randomCat.getId());
+                    bundle.putString("cname", randomCat.getName());
+                    bundle.putString("from", "");
+                    frag.setArguments(bundle);
+                    FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                    ft.hide(getParentFragmentManager().findFragmentByTag(getString(R.string.categories)));
+                    ft.add(R.id.frame_layout, frag, randomCat.getName());
+                    ft.addToBackStack(randomCat.getName());
+                    ft.commitAllowingStateLoss();
+                    if (getActivity() instanceof PCliq_MainActivity && ((PCliq_MainActivity) getActivity()).getSupportActionBar() != null) {
+                        ((PCliq_MainActivity) getActivity()).getSupportActionBar().setTitle(randomCat.getName());
+                    }
+                }
+            });
+        }
+
+        android.widget.EditText etCatSearch = rootView.findViewById(R.id.et_cat_search);
+        ImageView ivClearCatSearch = rootView.findViewById(R.id.iv_clear_cat_search);
+        if (etCatSearch != null) {
+            etCatSearch.addTextChangedListener(new android.text.TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (ivClearCatSearch != null) {
+                        ivClearCatSearch.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                    }
+                    if (adapterCategories != null) {
+                        adapterCategories.getFilter().filter(s);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(android.text.Editable s) {}
+            });
+        }
+        if (ivClearCatSearch != null && etCatSearch != null) {
+            ivClearCatSearch.setOnClickListener(v -> etCatSearch.setText(""));
+        }
+
         getCategories();
- 
+
         return rootView;
     }
 
@@ -117,6 +205,7 @@ public class PCliq_FragmentCategories extends Fragment {
                 MenuItem item = menu.findItem(R.id.menu_search);
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
                 searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+                methods.styleSearchView(searchView);
                 searchView.setOnQueryTextListener(queryTextListener);
             }
 
@@ -195,6 +284,9 @@ public class PCliq_FragmentCategories extends Fragment {
         adapterAnim.setDuration(500);
         adapterAnim.setInterpolator(new OvershootInterpolator(.9f));
         recyclerView.setAdapter(adapterAnim);
+        if (tvCollectionCount != null && arrayList != null) {
+            tvCollectionCount.setText("✨ " + arrayList.size() + " CURATED COLLECTIONS");
+        }
         setEmpty();
     }
 

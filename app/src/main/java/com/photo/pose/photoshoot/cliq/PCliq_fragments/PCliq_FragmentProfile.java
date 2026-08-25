@@ -171,34 +171,44 @@ public class PCliq_FragmentProfile extends Fragment {
                     super.onScrolled(recyclerView, dx, dy);
                     int[] firstVisibleItem = grid.findFirstVisibleItemPositions(null);
 
-                    if (firstVisibleItem[0] > 6) {
-                        fab.show();
-                    } else {
-                        fab.hide();
+                    if (fab != null) {
+                        if (firstVisibleItem[0] > 6) {
+                            fab.show();
+                        } else {
+                            fab.hide();
+                        }
                     }
                 }
             });
 
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    recyclerView.smoothScrollToPosition(0);
-                }
-            });
+            if (fab != null) {
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (recyclerView != null) {
+                            recyclerView.smoothScrollToPosition(0);
+                        }
+                    }
+                });
+            }
 
-            iv_profile_edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), PCliq_ProfileEditActivity.class);
-                    startActivity(intent);
-                }
-            });
+            if (iv_profile_edit != null) {
+                iv_profile_edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), PCliq_ProfileEditActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
 
         } else {
-            progressBar.setVisibility(View.GONE);
-            nestedScrollView.setVisibility(View.GONE);
-            tv_empty.setText(getString(R.string.not_log));
-            tv_empty.setVisibility(View.VISIBLE);
+            if (progressBar != null) progressBar.setVisibility(View.GONE);
+            if (nestedScrollView != null) nestedScrollView.setVisibility(View.GONE);
+            if (tv_empty != null) {
+                tv_empty.setText(getString(R.string.not_log));
+                tv_empty.setVisibility(View.VISIBLE);
+            }
         }
 
         return rootView;

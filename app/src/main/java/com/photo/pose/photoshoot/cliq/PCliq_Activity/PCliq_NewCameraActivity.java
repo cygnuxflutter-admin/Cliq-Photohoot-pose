@@ -31,8 +31,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterCameraPoseStrip;
+import com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPose;
+import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant;
+import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_DBHelper;
 import com.photo.pose.photoshoot.cliq.R;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_MultiTouchListener;
 import com.google.android.cameraview.AspectRatio;
@@ -43,6 +50,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
@@ -83,6 +91,10 @@ public class PCliq_NewCameraActivity extends AppCompatActivity implements
     ImageView imageView, switch_camera, aspect_ratio;
     boolean isposesketch;
     SeekBar seekBar;
+    private View llSeekbarContainer;
+    private ArrayList<PCliq_ItemPose> cameraPoseList = new ArrayList<>();
+    private PCliq_AdapterCameraPoseStrip adapterCameraPoseStrip;
+    private RecyclerView rvCameraPoseStrip;
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -111,82 +123,151 @@ public class PCliq_NewCameraActivity extends AppCompatActivity implements
         Log.e(TAG, "Height width : " + previewHeight + " 2 " + previewWidth);
 
 
-        FloatingActionButton fab = findViewById(R.id.take_picture);
-        if (fab != null) {
-            fab.setOnClickListener(mOnClickListener);
-        }
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
+        View btnTakePicture = findViewById(R.id.take_picture);
+        if (btnTakePicture != null) {
+            btnTakePicture.setOnClickListener(mOnClickListener);
         }
 
-
-        String image = getIntent().getStringExtra("image");
-        isposesketch = getIntent().getExtras().getBoolean("isposesketch");
-
-        imageView = findViewById(R.id.iv_sketch);
-
-        try {
-            Glide.with(this)
-                    .load(image)
-                    .placeholder(R.drawable.pcliq_ic_placeholder_portrait)
-                    .into(imageView);
-
-        } catch (Exception e) {
-            Log.e(TAG, "onCreate: Exception"+ e.getMessage() );
+        View ivCameraBack = findViewById(R.id.iv_camera_back);
+        if (ivCameraBack != null) {
+            ivCameraBack.setOnClickListener(v -> onBackPressed());
         }
-        imageView.setOnTouchListener(new PCliq_MultiTouchListener());
 
-
-        aspect_ratio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                if (mCameraView != null
-                        && fragmentManager.findFragmentByTag(FRAGMENT_DIALOG) == null) {
-                    final Set<AspectRatio> ratios = mCameraView.getSupportedAspectRatios();
-                    final AspectRatio currentRatio = mCameraView.getAspectRatio();
-                    PCliq_AspectRatioFragment.newInstance(ratios, currentRatio)
-                            .show(fragmentManager, FRAGMENT_DIALOG);
-                }
-            }
-        });
-        switch_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        View flCameraFlash = findViewById(R.id.fl_camera_flash);
+        ImageView ivCameraFlash = findViewById(R.id.iv_camera_flash);
+        if (flCameraFlash != null && ivCameraFlash != null) {
+            flCameraFlash.setOnClickListener(v -> {
                 if (mCameraView != null) {
-                    int facing = mCameraView.getFacing();
-                    mCameraView.setFacing(facing == CameraView.FACING_FRONT ?
-                            CameraView.FACING_BACK : CameraView.FACING_FRONT);
-                }
-            }
-        });
-
-        if (!isposesketch) {
-            seekBar = (SeekBar) findViewById(R.id.seekBar);
-            seekBar.setVisibility(View.VISIBLE);
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress,
-                                              boolean fromUser) {
-                    imageView.setAlpha(progress);
-//                Toast.makeText(getApplicationContext(),"seekbar progress: "+progress, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-//                Toast.makeText(getApplicationContext(),"seekbar touch started!", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-//                Toast.makeText(getApplicationContext(),"seekbar touch stopped!", Toast.LENGTH_SHORT).show();
+                    mCurrentFlash = (mCurrentFlash + 1) % FLASH_OPTIONS.length;
+                    ivCameraFlash.setImageResource(FLASH_ICONS[mCurrentFlash]);
+                    mCameraView.setFlash(FLASH_OPTIONS[mCurrentFlash]);
                 }
             });
         }
 
+        View rlCameraTopBar = findViewById(R.id.rl_camera_top_bar);
+        if (rlCameraTopBar != null) {
+            androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rlCameraTopBar, (v, insets) -> {
+                androidx.core.graphics.Insets statusBarInsets = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars());
+                v.setPadding(v.getPaddingLeft(), statusBarInsets.top + 16, v.getPaddingRight(), v.getPaddingBottom());
+                return insets;
+            });
+        }
+
+        View btmContainer = findViewById(R.id.btm_container);
+        if (btmContainer != null) {
+            androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(btmContainer, (v, insets) -> {
+                androidx.core.graphics.Insets navBarInsets = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.navigationBars());
+                v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), navBarInsets.bottom + 20);
+                return insets;
+            });
+        }
+
+        // Setup Shoot Tips button in top bar
+        View btnCameraTips = findViewById(R.id.btn_camera_tips);
+        if (btnCameraTips != null) {
+            btnCameraTips.setOnClickListener(v -> openCameraTipsDialog());
+        }
+
+        String image = getIntent().getStringExtra("image");
+        if (getIntent().getExtras() != null) {
+            isposesketch = getIntent().getExtras().getBoolean("isposesketch", false);
+        }
+
+        imageView = findViewById(R.id.iv_sketch);
+        llSeekbarContainer = findViewById(R.id.ll_seekbar_container);
+        seekBar = findViewById(R.id.seekBar);
+
+        if (seekBar != null) {
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (imageView != null) {
+                        imageView.setImageAlpha(progress);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {}
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {}
+            });
+        }
+
+        // Setup Pose Selector Strip
+        rvCameraPoseStrip = findViewById(R.id.rv_camera_pose_strip);
+        if (rvCameraPoseStrip != null) {
+            rvCameraPoseStrip.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            cameraPoseList = new ArrayList<>();
+            if (PCliq_Constant.arrayList != null && !PCliq_Constant.arrayList.isEmpty()) {
+                cameraPoseList.addAll(PCliq_Constant.arrayList);
+            } else {
+                try {
+                    PCliq_DBHelper dbHelper = new PCliq_DBHelper(this);
+                    ArrayList<PCliq_ItemPose> dbPoses = dbHelper.getWallpapers("id", "");
+                    if (dbPoses != null && !dbPoses.isEmpty()) {
+                        cameraPoseList.addAll(dbPoses);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (!cameraPoseList.isEmpty()) {
+                int initialSelected = 0;
+                if (image != null && !image.trim().isEmpty()) {
+                    for (int i = 0; i < cameraPoseList.size(); i++) {
+                        if (cameraPoseList.get(i).getImage() != null &&
+                                (cameraPoseList.get(i).getImage().equals(image) ||
+                                (cameraPoseList.get(i).getImage() + "_sketch.png").equals(image))) {
+                            initialSelected = i;
+                            break;
+                        }
+                    }
+                } else {
+                    image = cameraPoseList.get(0).getImage();
+                }
+
+                adapterCameraPoseStrip = new PCliq_AdapterCameraPoseStrip(this, cameraPoseList, (item, position) -> {
+                    loadPoseOverlay(item.getImage(), false);
+                });
+                adapterCameraPoseStrip.setSelectedPosition(initialSelected);
+                rvCameraPoseStrip.setAdapter(adapterCameraPoseStrip);
+                rvCameraPoseStrip.scrollToPosition(initialSelected);
+            } else {
+                rvCameraPoseStrip.setVisibility(View.GONE);
+            }
+        }
+
+        if (image != null && !image.trim().isEmpty()) {
+            loadPoseOverlay(image, isposesketch);
+        } else {
+            if (imageView != null) {
+                imageView.setVisibility(View.GONE);
+            }
+            if (llSeekbarContainer != null) {
+                llSeekbarContainer.setVisibility(View.GONE);
+            }
+        }
+
+        aspect_ratio.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (mCameraView != null && fragmentManager.findFragmentByTag(FRAGMENT_DIALOG) == null) {
+                final Set<AspectRatio> ratios = mCameraView.getSupportedAspectRatios();
+                final AspectRatio currentRatio = mCameraView.getAspectRatio();
+                PCliq_AspectRatioFragment.newInstance(ratios, currentRatio)
+                        .show(fragmentManager, FRAGMENT_DIALOG);
+            }
+        });
+
+        switch_camera.setOnClickListener(view -> {
+            if (mCameraView != null) {
+                int facing = mCameraView.getFacing();
+                mCameraView.setFacing(facing == CameraView.FACING_FRONT ?
+                        CameraView.FACING_BACK : CameraView.FACING_FRONT);
+            }
+        });
     }
 
     @Override
@@ -255,7 +336,10 @@ public class PCliq_NewCameraActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.switch_flash) {
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (itemId == R.id.switch_flash) {
             if (mCameraView != null) {
                 mCurrentFlash = (mCurrentFlash + 1) % FLASH_OPTIONS.length;
                 item.setTitle(FLASH_TITLES[mCurrentFlash]);
@@ -446,6 +530,55 @@ public class PCliq_NewCameraActivity extends AppCompatActivity implements
                     .create();
         }
 
+    }
+
+    private void loadPoseOverlay(String imageUrl, boolean isSketch) {
+        if (imageUrl == null || imageUrl.trim().isEmpty() || imageView == null) return;
+        this.isposesketch = isSketch;
+        imageView.setVisibility(View.VISIBLE);
+        try {
+            Glide.with(this)
+                    .load(imageUrl)
+                    .into(imageView);
+        } catch (Exception e) {
+            Log.e(TAG, "loadPoseOverlay: " + e.getMessage());
+        }
+        imageView.setOnTouchListener(new PCliq_MultiTouchListener());
+
+        if (!isposesketch) {
+            if (llSeekbarContainer != null) {
+                llSeekbarContainer.setVisibility(View.VISIBLE);
+            }
+            if (seekBar != null) {
+                seekBar.setVisibility(View.VISIBLE);
+                imageView.setImageAlpha(seekBar.getProgress());
+            }
+        } else {
+            if (llSeekbarContainer != null) {
+                llSeekbarContainer.setVisibility(View.GONE);
+            }
+            imageView.setImageAlpha(255);
+        }
+    }
+
+    private void openCameraTipsDialog() {
+        View view = getLayoutInflater().inflate(R.layout.pcliq_layout_photo_tips, null);
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        if (dialog.getWindow() != null && dialog.getWindow().findViewById(R.id.design_bottom_sheet) != null) {
+            dialog.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
+        }
+        dialog.show();
+
+        View ivClose = view.findViewById(R.id.iv_close_tips);
+        if (ivClose != null) {
+            ivClose.setOnClickListener(v -> dialog.dismiss());
+        }
+
+        View btnCamera = view.findViewById(R.id.btn_open_camera_from_tips);
+        if (btnCamera != null) {
+            btnCamera.setOnClickListener(v -> dialog.dismiss());
+        }
     }
 
 }

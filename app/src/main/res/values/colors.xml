@@ -1,42 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#da4453</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- Brand Primary & Accent (#C19543) -->
+    <color name="colorPrimary">#C19543</color>
+    <color name="colorPrimaryDark">#FAF6F0</color>
+    <color name="colorAccent">#C19543</color>
 
-    <color name="primary">#da4453</color>
+    <color name="primary">#C19543</color>
 
-    <color name="bg">#F7F7F7</color>
-    <color name="bg_lite">#222222</color>
+    <!-- Backgrounds -->
+    <color name="bg">#FAF6F0</color>
+    <color name="bg_warm">#FAF6F0</color>
+    <color name="bg_card_warm">#FFFFFF</color>
+    <color name="bg_sheet_blush">#F8ECE7</color>
+    <color name="bg_search_pill">#F5ECE5</color>
+    <color name="bg_golden_hour">#F9ECE6</color>
+    <color name="bg_lite">#FAF6F0</color>
     <color name="bg_welcome">#191e31</color>
-    <color name="bg_theme">#F4F4F4</color>
+    <color name="bg_theme">#FAF6F0</color>
 
-    <color name="detail_text_color">#A0A0A0</color>
+    <!-- Gold Brand Tones -->
+    <color name="gold_primary">#C19543</color>
+    <color name="gold_secondary">#B88A38</color>
+    <color name="gold_dark">#8C6527</color>
+    <color name="gold_light">#E6CA85</color>
+    <color name="gold_badge">#C19543</color>
 
-    <color name="bg_nav_selected">#20000000</color>
+    <!-- Text Colors -->
+    <color name="text_espresso">#2B1D15</color>
+    <color name="text_dark_brown">#36251B</color>
+    <color name="text_sub_brown">#7D6B5E</color>
+    <color name="text_light_brown">#A8988D</color>
+    <color name="text_black">#2B1D15</color>
+    <color name="text_title">#2B1D15</color>
+    <color name="text_duration">#404040</color>
+    <color name="text_desc">#7D6B5E</color>
+    <color name="text_light">#7D6B5E</color>
+    <color name="detail_text_color">#7D6B5E</color>
+
+    <!-- Chips & Buttons -->
+    <color name="chip_selected_bg">#C19543</color>
+    <color name="chip_selected_text">#FFFFFF</color>
+    <color name="chip_unselected_bg">#FDFBF8</color>
+    <color name="chip_unselected_border">#DED4CA</color>
+    <color name="chip_unselected_text">#36251B</color>
+
+    <color name="btn_gold_start">#D4A755</color>
+    <color name="btn_gold_end">#C19543</color>
+
+    <!-- Navigation -->
+    <color name="nav_bottom_bg">#FAF7F2</color>
+    <color name="nav_selected_gold">#C19543</color>
+    <color name="nav_unselected_muted">#9E8C80</color>
+    <color name="bg_nav_selected">#20C19543</color>
+
     <color name="bg_items">#FFFFFF</color>
     <color name="bg_about">#FFFFFF</color>
-    <color name="bg_sub_cat">#222222</color>
-    <color name="bg_edittext_report">#DBDBDB</color>
+    <color name="bg_sub_cat">#F5ECE5</color>
+    <color name="bg_edittext_report">#F5ECE5</color>
 
-    <color name="line">#20000000</color>
-    <color name="line_about">#d9dadb</color>
+    <color name="line">#1A2B1D15</color>
+    <color name="line_about">#E5DDD5</color>
 
-    <color name="gradient_color_1">#FF964E</color>
-    <color name="gradient_color_2">#FF0488</color>
-
-    <color name="text_black">#000000</color>
-    <color name="text_title">#323232</color>
-    <color name="text_duration">#404040</color>
-    <color name="text_desc">#878787</color>
+    <color name="gradient_color_1">#D4A755</color>
+    <color name="gradient_color_2">#C19543</color>
 
     <color name="black_dark">#000000</color>
     <color name="black40_dark">#40000000</color>
     <color name="black80_dark">#80000000</color>
 
-    <color name="negative_button">#00f</color>
-    <color name="positive_button">#f00</color>
-
+    <color name="negative_button">#7D6B5E</color>
+    <color name="positive_button">#C19543</color>
     <color name="button_cancel">#40000000</color>
 
     <color name="white">#ffffff</color>
@@ -44,12 +77,15 @@
     <color name="transparent">#00000000</color>
     <color name="white80">#80ffffff</color>
     <color name="rating">#f99120</color>
-    <color name="red">#ff0000</color>
-
-    <color name="text_light">#626262</color>
+    <color name="red">#da4453</color>
 
     <color name="switch_thumb_disable">#B2B2B2</color>
-    <color name="switch_track">#e2dcdc</color>
+    <color name="switch_track">#E5DDD5</color>
+
+    <color name="gplus_color_1">#C19543</color>
+    <color name="gplus_color_2">#D4A755</color>
+    <color name="gplus_color_3">#E6CA85</color>
+    <color name="gplus_color_4">#A3772C</color>
 
     <integer-array name="pocket_bar_colors">
         <item>@color/gplus_color_1</item>
@@ -58,10 +94,6 @@
         <item>@color/gplus_color_4</item>
     </integer-array>
 
-    <color name="gplus_color_1">#3e802f</color>
-    <color name="gplus_color_2">#f4b400</color>
-    <color name="gplus_color_3">#427fed</color>
-    <color name="gplus_color_4">#b23424</color>
     <color name="whiteAA">#AAFFFFFF</color>
-    <color name="bg_pro_pic">#e2dcdc</color>
+    <color name="bg_pro_pic">#E5DDD5</color>
 </resources>

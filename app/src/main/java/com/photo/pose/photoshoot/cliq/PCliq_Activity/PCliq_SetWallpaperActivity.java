@@ -27,7 +27,7 @@ public class PCliq_SetWallpaperActivity extends AppCompatActivity {
     CropImageView imageView;
     FloatingActionButton button;
     Bitmap bmImg;
-    ProgressDialog progressDialog;
+    com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog progressDialog;
     BottomSheetDialog dialog_desc;
 
     @Override
@@ -39,7 +39,7 @@ public class PCliq_SetWallpaperActivity extends AppCompatActivity {
         methods.setStatusColor(getWindow());
         methods.forceRTLIfSupported(getWindow());
 
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(this);
         progressDialog.setMessage(getString(R.string.loading));
 
         ImageView imageView_back = findViewById(R.id.iv_back_crop);

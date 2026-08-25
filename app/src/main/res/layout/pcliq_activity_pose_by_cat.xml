@@ -1,76 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg">
+    android:background="@color/bg_warm">
 
     <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:background="@color/bg_warm"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Top Header Bar: Back + Title/Subtitle + Search -->
+    <RelativeLayout
+        android:id="@+id/rl_cat_header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar">
+
+        <!-- Circular Back Button -->
+        <FrameLayout
+            android:id="@+id/iv_cat_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/pcliq_bg_circle_button"
+            android:clickable="true"
+            android:elevation="2dp"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:contentDescription="Back"
+                android:src="@drawable/pcliq_ic_back_clean"
+                app:tint="@color/text_espresso" />
+
+        </FrameLayout>
+
+        <!-- Center Title & Subtitle -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_toStartOf="@+id/iv_cat_search"
+            android:layout_toEndOf="@+id/iv_cat_back"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_cat_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="serif"
+                android:maxLines="1"
+                android:text="Couple Poses"
+                android:textColor="@color/text_espresso"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_cat_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                android:maxLines="1"
+                android:text="Curated Photoshoot Inspiration"
+                android:textColor="@color/gold_secondary"
+                android:textSize="11.5sp" />
+
+        </LinearLayout>
+
+        <!-- Circular Search Button -->
+        <FrameLayout
+            android:id="@+id/iv_cat_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/pcliq_bg_circle_button"
+            android:clickable="true"
+            android:elevation="2dp"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/search"
+                android:src="@drawable/pcliq_ic_search_gold" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <!-- Hidden Toolbar for backwards compatibility -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_wall_by_cat"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/bg"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"/>
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/rl_cat_header" />
 
+    <!-- Subcategories / Filter Chips (Horizontal) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_sub_cat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:background="@color/bg_lite"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_wall_by_cat"
-        android:visibility="gone" />
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/rl_cat_header" />
 
+    <!-- Poses Grid -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
+        android:clipToPadding="false"
+        android:paddingStart="8dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_sub_cat"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/rv_sub_cat" />
 
     <TextView
         android:id="@+id/tv_empty_cat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/pcliq_leaguespartan_medium"
         android:gravity="center"
         android:padding="20dp"
         android:text="@string/no_data_found"
-        android:textColor="@color/text_title"
-        android:fontFamily="@font/pcliq_leaguespartan_medium"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/text_sub_brown"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <fr.castorflex.android.circularprogressbar.CircularProgressBar
+    <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
         android:id="@+id/pb_cat"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:indeterminate="true"
-        app:cpb_color="#FFee44"
-        app:cpb_colors="@array/pocket_bar_colors"
-        app:cpb_max_sweep_angle="300"
-        app:cpb_min_sweep_angle="10"
-        app:cpb_rotation_speed="1.0"
-        app:cpb_stroke_width="4dp"
-        app:cpb_sweep_speed="1.0"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Floating Camera Button -->
+    <FrameLayout
+        android:id="@+id/fab_cat_camera"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/pcliq_bg_camera_fab"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:contentDescription="Camera"
+            android:src="@drawable/pcliq_ic_action_camera"
+            app:tint="#FFFFFF" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

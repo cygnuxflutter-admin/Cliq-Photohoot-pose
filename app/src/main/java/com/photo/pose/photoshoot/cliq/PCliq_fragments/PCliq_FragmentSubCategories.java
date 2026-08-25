@@ -108,7 +108,41 @@ public class PCliq_FragmentSubCategories extends Fragment {
             }
         };
 
-        catID = getArguments().getString("cid");
+        String catName = "";
+        if (getArguments() != null) {
+            catID = getArguments().getString("cid", "");
+            catName = getArguments().getString("cname", "");
+        }
+        if (catName.isEmpty()) {
+            catName = getTag() != null ? getTag() : "Poses";
+        }
+
+        View headerView = rootView.findViewById(R.id.rl_sub_cat_header);
+        View backBtn = rootView.findViewById(R.id.iv_cat_back);
+        View searchBtn = rootView.findViewById(R.id.iv_cat_search);
+        TextView tvHeading = rootView.findViewById(R.id.tv_cat_heading);
+        TextView tvSubtitle = rootView.findViewById(R.id.tv_cat_subtitle);
+
+        if (tvHeading != null && !catName.isEmpty()) {
+            tvHeading.setText(catName.toLowerCase().contains("pose") ? catName : catName + " Poses");
+        }
+
+        if (backBtn != null) {
+            backBtn.setOnClickListener(v -> {
+                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                    getParentFragmentManager().popBackStack();
+                } else if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            });
+        }
+
+        if (searchBtn != null) {
+            searchBtn.setOnClickListener(v -> {
+                Intent searchIntent = new Intent(getActivity(), PCliq_SearchPoseActivity.class);
+                startActivity(searchIntent);
+            });
+        }
 
         dbHelper = new PCliq_DBHelper(getActivity());
         methods = new PCliq_Methods(getActivity(), interAdListener);

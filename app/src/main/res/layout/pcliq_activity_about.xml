@@ -1,337 +1,435 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
-    android:gravity="center_vertical">
+    android:background="@color/bg_warm"
+    android:orientation="vertical">
 
     <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg" />
+        android:background="@color/bg_warm" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_about"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_below="@+id/statusBar"
-        android:background="@color/bg"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:background="@color/bg_warm"
+        android:elevation="0dp"
+        app:elevation="0dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/about"
+        app:titleTextColor="@color/text_espresso" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/rl_ad"
-        android:layout_below="@+id/toolbar_about"
-        android:layout_margin="10dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <!-- 1. App Hero Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#25C19543"
+                app:strokeWidth="1.2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/pcliq_bg_roundcorner"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="20dp">
 
-                    <ImageView
-                        android:id="@+id/imageView_about_logo"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center" />
+                    <!-- App Logo Container -->
+                    <FrameLayout
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
+                        android:background="@drawable/pcliq_bg_splash_logo_card"
+                        android:elevation="2dp"
+                        android:padding="10dp">
 
-                    <TextView
-                        android:id="@+id/textView_about_appname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                        android:textColor="@color/text_black"
-                        android:textSize="20sp" />
+                        <ImageView
+                            android:id="@+id/imageView_about_logo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/pcliq_app_logo" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/pcliq_bg_roundcorner"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:background="@mipmap/pcliq_version" />
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/pcliq_line_horizontal_grey" />
+                    </FrameLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:gravity="start"
+                        android:layout_marginStart="16dp"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/textView_about_appname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                            android:text="@string/version"
-                            android:textColor="@color/text_black"
-                            android:textSize="16sp" />
+                            android:fontFamily="serif"
+                            android:text="CLIQ Studio"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="21sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView_about_appversion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/pcliq_leaguespartan_medium"
-                            android:textColor="@color/text_duration"
-                            android:textSize="14sp" />
+                            android:layout_marginTop="6dp"
+                            android:background="@drawable/pcliq_bg_chip_selected"
+                            android:fontFamily="@font/pcliq_leaguespartan_bold"
+                            android:letterSpacing="0.06"
+                            android:paddingStart="10dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="3dp"
+                            android:text="VERSION 1.0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
-                android:id="@+id/ll_company"
+            <!-- 2. Company & Contact Info Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/pcliq_bg_roundcorner"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/pcliq_company" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:background="@drawable/pcliq_line_horizontal_grey" />
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#25C19543"
+                app:strokeWidth="1.2dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:gravity="start"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                        android:text="@string/company"
-                        android:textColor="@color/text_black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/textView_about_company"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_medium"
-                        android:textColor="@color/text_duration"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/pcliq_bg_roundcorner"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/pcliq_email" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:background="@drawable/pcliq_line_horizontal_grey" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:gravity="start"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                        android:text="@string/email"
-                        android:textColor="@color/text_black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/textView_about_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_medium"
-                        android:textColor="@color/text_duration"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_website"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/pcliq_bg_roundcorner"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/pcliq_website" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:background="@drawable/pcliq_line_horizontal_grey" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:gravity="start"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                        android:text="@string/website"
-                        android:textColor="@color/text_black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/textView_about_site"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_medium"
-                        android:textColor="@color/text_duration"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_contact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/pcliq_bg_roundcorner"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/pcliq_contact" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:background="@drawable/pcliq_line_horizontal_grey" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:gravity="start"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                        android:text="@string/contact"
-                        android:textColor="@color/text_black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/textView_about_contact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pcliq_leaguespartan_regular"
-                        android:textColor="@color/text_duration"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/pcliq_bg_roundcorner"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/pcliq_leaguespartan_semibold"
-                    android:padding="10dp"
-                    android:text="@string/about"
-                    android:textColor="@color/text_black"
-                    android:textSize="20sp" />
-
-                <WebView
-                    android:id="@+id/webView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp">
 
-            </LinearLayout>
+                    <!-- Company / Author -->
+                    <LinearLayout
+                        android:id="@+id/ll_company"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/pcliq_bg_circle_button">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@mipmap/pcliq_company"
+                                app:tint="@color/gold_primary" />
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                                android:text="@string/company"
+                                android:textColor="@color/text_espresso"
+                                android:textSize="14.5sp" />
+
+                            <TextView
+                                android:id="@+id/textView_about_company"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                                android:textColor="@color/text_sub_brown"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider_company"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="68dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#124A3B32" />
+
+                    <!-- Email Support -->
+                    <LinearLayout
+                        android:id="@+id/ll_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/pcliq_bg_circle_button">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@mipmap/pcliq_email"
+                                app:tint="@color/gold_primary" />
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                                android:text="@string/email"
+                                android:textColor="@color/text_espresso"
+                                android:textSize="14.5sp" />
+
+                            <TextView
+                                android:id="@+id/textView_about_email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                                android:textColor="@color/gold_secondary"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_light_brown" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="68dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#124A3B32" />
+
+                    <!-- Official Website -->
+                    <LinearLayout
+                        android:id="@+id/ll_website"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp">
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/pcliq_bg_circle_button">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@mipmap/pcliq_website"
+                                app:tint="@color/gold_primary" />
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                                android:text="@string/website"
+                                android:textColor="@color/text_espresso"
+                                android:textSize="14.5sp" />
+
+                            <TextView
+                                android:id="@+id/textView_about_site"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                                android:textColor="@color/gold_secondary"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_light_brown" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider_website"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="68dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#124A3B32" />
+
+                    <!-- Contact / Helpline -->
+                    <LinearLayout
+                        android:id="@+id/ll_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="12dp"
+                        android:visibility="gone">
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/pcliq_bg_circle_button">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@mipmap/pcliq_contact"
+                                app:tint="@color/gold_primary" />
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                                android:text="@string/contact"
+                                android:textColor="@color/text_espresso"
+                                android:textSize="14.5sp" />
+
+                            <TextView
+                                android:id="@+id/textView_about_contact"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                                android:textColor="@color/text_sub_brown"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 3. About CLIQ Story Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#25C19543"
+                app:strokeWidth="1.2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:fontFamily="serif"
+                        android:text="@string/about"
+                        android:textColor="@color/text_espresso"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+
+                    <WebView
+                        android:id="@+id/webView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:overScrollMode="never" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -342,9 +440,9 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/black"
         android:layout_gravity="center"
+        android:background="@color/bg_warm"
         android:gravity="center"
         android:visibility="visible" />
 
-</RelativeLayout>
+</LinearLayout>

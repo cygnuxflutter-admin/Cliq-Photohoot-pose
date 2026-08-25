@@ -4,71 +4,60 @@
     android:id="@+id/cl_add_playlist"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg"
-    android:padding="20dp">
+    android:background="@drawable/pcliq_bg_gradient_top_curve"
+    android:paddingStart="24dp"
+    android:paddingTop="24dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="32dp">
 
     <TextView
         android:id="@+id/tv1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pcliq_leaguespartan_semibold"
-        android:paddingTop="10dp"
+        android:fontFamily="serif"
         android:text="@string/report_wall_"
-        android:textColor="@color/text_black"
-        android:textSize="18sp"
+        android:textColor="@color/text_espresso"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <com.makeramen.roundedimageview.RoundedImageView-->
-    <!--        android:id="@+id/tv2"-->
-    <!--        android:layout_width="60dp"-->
-    <!--        android:layout_height="2dp"-->
-    <!--        android:layout_marginTop="5dp"-->
-    <!--        android:layout_marginBottom="10dp"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        app:riv_corner_radius="2dp"-->
-    <!--        android:background="@drawable/bg_gradient_round"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/tv1"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/tv1"/>-->
 
     <EditText
         android:id="@+id/et_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/pcliq_bg_edittext_report"
-        android:backgroundTint="@color/bg_sub_cat"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/pcliq_bg_edittext"
         android:fontFamily="@font/pcliq_leaguespartan_regular"
         android:gravity="top"
-        android:hint="@string/email"
+        android:hint="@string/report_wall_"
         android:inputType="textMultiLine"
         android:maxLines="5"
-        android:minLines="5"
-        android:padding="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/text_desc"
-        android:textSize="15sp"
+        android:minLines="4"
+        android:padding="16dp"
+        android:textColor="@color/text_espresso"
+        android:textColorHint="@color/text_light_brown"
+        android:textSize="14.5sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_report_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/pcliq_bg_gradient_curve"
-        android:fontFamily="@font/pcliq_leaguespartan_semibold"
+        android:fontFamily="@font/pcliq_leaguespartan_bold"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
         android:text="@string/submit"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="17sp"
+        android:textSize="15sp"
         app:backgroundTint="@null"
+        app:cornerRadius="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_report" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

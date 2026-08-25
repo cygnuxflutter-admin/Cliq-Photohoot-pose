@@ -31,7 +31,7 @@ public class PCliq_InterstitialAdManager {
     private OnAdLoadInterface onAdLoadInterface;
     private boolean isFailed = false;
 
-    private ProgressDialog progressDialog;
+    private com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog progressDialog;
 
     public PCliq_InterstitialAdManager(Context context) {
         this.context = context;
@@ -176,7 +176,7 @@ public class PCliq_InterstitialAdManager {
             return;
         }
 
-        progressDialog = new ProgressDialog(activity);
+        progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(activity);
         progressDialog.setMessage("Ad Showing...");
         progressDialog.setCancelable(false);
         progressDialog.show();

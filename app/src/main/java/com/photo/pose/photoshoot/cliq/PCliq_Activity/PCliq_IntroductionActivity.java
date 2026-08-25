@@ -46,40 +46,72 @@ public class PCliq_IntroductionActivity extends AppCompatActivity implements Vie
         this.mLayoutList = iArr;
         this.vpgIntroActivityIntro.setAdapter(new PCliq_MyViewPagerAdapter(this, iArr));
         this.vpgIntroActivityIntro.setOffscreenPageLimit(3);
+        initDots();
+        updateDots(0);
+
         this.vpgIntroActivityIntro.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int i) {
             }
 
             public void onPageSelected(int i) {
-            }
-
-            public void onPageScrolled(int i, float f, int i2) {
+                updateDots(i);
                 if (i == 0) {
+                    PCliq_IntroductionActivity.this.PC_tvNext.setText("Next");
                     PCliq_IntroductionActivity.this.PC_tvNext.setVisibility(View.VISIBLE);
                     PCliq_IntroductionActivity.this.PC_tv_skip.setVisibility(View.VISIBLE);
                     PCliq_IntroductionActivity.this.PC_iv_back.setVisibility(View.GONE);
-                } else if (i == 1) {
-                    PCliq_IntroductionActivity.this.PC_tvNext.setVisibility(View.VISIBLE);
-                    PCliq_IntroductionActivity.this.PC_tv_skip.setVisibility(View.VISIBLE);
-                    PCliq_IntroductionActivity.this.PC_iv_back.setVisibility(View.VISIBLE);
-                } else if (i == 2) {
-                    PCliq_IntroductionActivity.this.PC_tvNext.setVisibility(View.VISIBLE);
-                    PCliq_IntroductionActivity.this.PC_tv_skip.setVisibility(View.VISIBLE);
-                    PCliq_IntroductionActivity.this.PC_iv_back.setVisibility(View.VISIBLE);
-                } else if (i == 3) {
-                    PCliq_IntroductionActivity.this.PC_tvNext.setVisibility(View.VISIBLE);
-                    PCliq_IntroductionActivity.this.PC_tv_skip.setVisibility(View.VISIBLE);
-                    PCliq_IntroductionActivity.this.PC_iv_back.setVisibility(View.VISIBLE);
                 } else if (i == 4) {
+                    PCliq_IntroductionActivity.this.PC_tvNext.setText("Get Started");
                     PCliq_IntroductionActivity.this.PC_tvNext.setVisibility(View.VISIBLE);
                     PCliq_IntroductionActivity.this.PC_tv_skip.setVisibility(View.GONE);
                     PCliq_IntroductionActivity.this.PC_iv_back.setVisibility(View.VISIBLE);
+                } else {
+                    PCliq_IntroductionActivity.this.PC_tvNext.setText("Next");
+                    PCliq_IntroductionActivity.this.PC_tvNext.setVisibility(View.VISIBLE);
+                    PCliq_IntroductionActivity.this.PC_tv_skip.setVisibility(View.VISIBLE);
+                    PCliq_IntroductionActivity.this.PC_iv_back.setVisibility(View.VISIBLE);
                 }
+            }
+
+            public void onPageScrolled(int i, float f, int i2) {
             }
         });
         this.PC_tvNext.setOnClickListener(this);
         this.PC_iv_back.setOnClickListener(this);
         this.PC_tv_skip.setOnClickListener(this);
+    }
+
+    private View[] dots;
+
+    private void initDots() {
+        dots = new View[5];
+        dots[0] = findViewById(R.id.dot_0);
+        dots[1] = findViewById(R.id.dot_1);
+        dots[2] = findViewById(R.id.dot_2);
+        dots[3] = findViewById(R.id.dot_3);
+        dots[4] = findViewById(R.id.dot_4);
+    }
+
+    private void updateDots(int position) {
+        if (dots == null) return;
+        int activeWidth = (int) android.util.TypedValue.applyDimension(android.util.TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics());
+        int inactiveWidth = (int) android.util.TypedValue.applyDimension(android.util.TypedValue.COMPLEX_UNIT_DIP, 7, getResources().getDisplayMetrics());
+        int height = (int) android.util.TypedValue.applyDimension(android.util.TypedValue.COMPLEX_UNIT_DIP, 7, getResources().getDisplayMetrics());
+
+        for (int i = 0; i < dots.length; i++) {
+            if (dots[i] != null) {
+                if (i == position) {
+                    dots[i].setBackgroundResource(R.drawable.pcliq_dot_active);
+                    dots[i].getLayoutParams().width = activeWidth;
+                    dots[i].getLayoutParams().height = height;
+                } else {
+                    dots[i].setBackgroundResource(R.drawable.pcliq_dot_inactive);
+                    dots[i].getLayoutParams().width = inactiveWidth;
+                    dots[i].getLayoutParams().height = height;
+                }
+                dots[i].requestLayout();
+            }
+        }
     }
 
     /* access modifiers changed from: protected */

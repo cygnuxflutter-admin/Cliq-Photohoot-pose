@@ -3,110 +3,150 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg">
+    android:background="@color/bg_warm">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsv_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="12dp">
 
-            <RelativeLayout
+            <!-- Luxury Profile Header Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#25C19543"
+                app:strokeWidth="1.2dp">
 
-                <View
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/pcliq_bg_stroke_cricle_gradient" />
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/iv_profile"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/pcliq_ic_placeholder_landscape"
-                    app:riv_border_color="@color/bg_pro_pic"
-                    app:riv_corner_radius="13dp" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_toLeftOf="@id/iv_profile_edit"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@+id/iv_profile"
-                    android:orientation="vertical">
+                    android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/tv_profile_name"
-                        android:layout_width="wrap_content"
+                    <!-- User Avatar -->
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/iv_profile"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/pcliq_ic_placeholder_square"
+                        app:riv_border_color="@color/gold_primary"
+                        app:riv_border_width="1.5dp"
+                        app:riv_corner_radius="18dp" />
+
+                    <!-- User Info (Name & Email) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="demo"
-                        android:fontFamily="@font/pcliq_leaguespartan_medium"
-                        android:textColor="@color/text_title"
-                        android:textSize="16sp" />
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@+id/iv_profile_edit"
+                        android:layout_toEndOf="@+id/iv_profile"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_profile_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="demo@gmail.com"
-                        android:fontFamily="@font/pcliq_leaguespartan_regular"
-                        android:textColor="@color/text_desc"
-                        android:textSize="12sp" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_profile_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:fontFamily="serif"
+                            android:maxLines="1"
+                            android:text="User Name"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/iv_profile_edit"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/pcliq_btn_edit" />
+                        <TextView
+                            android:id="@+id/tv_profile_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/pcliq_leaguespartan_regular"
+                            android:maxLines="1"
+                            android:text="user@gmail.com"
+                            android:textColor="@color/gold_secondary"
+                            android:textSize="13sp" />
 
-            </RelativeLayout>
+                    </LinearLayout>
 
+                    <!-- Circular Edit Button -->
+                    <ImageView
+                        android:id="@+id/iv_profile_edit"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/pcliq_bg_circle_button"
+                        android:clickable="true"
+                        android:contentDescription="Edit Profile"
+                        android:elevation="2dp"
+                        android:focusable="true"
+                        android:padding="11dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pcliq_ic_edit_pencil" />
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Favourite Poses Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
                 android:background="@drawable/pcliq_bg_gradient_top_curve"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="8dp">
 
-                <TextView
-                    android:id="@+id/tv1"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/pcliq_leaguespartan_bold"
-                    android:text="Favourite Pose"
-                    android:textSize="18sp"
-                    android:textColor="@color/white" />
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="serif"
+                        android:text="Favourite Poses"
+                        android:textColor="@color/text_espresso"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="10dp">
+                    android:layout_marginTop="8dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_wall_by_cat"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="5dp"
+                        android:clipToPadding="false"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="90dp"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
                     <TextView
@@ -118,19 +158,21 @@
                         android:gravity="center"
                         android:padding="20dp"
                         android:text="@string/no_data_found"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_sub_brown"
                         android:visibility="gone" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/fab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_margin="20dp"
                         android:src="@mipmap/pcliq_arrow_up"
                         android:visibility="invisible"
-                        app:fabSize="normal" />
+                        app:backgroundTint="@color/gold_primary"
+                        app:fabSize="normal"
+                        app:tint="#FFFFFF" />
 
                 </RelativeLayout>
 
@@ -140,38 +182,25 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!--    <View-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="20dp"-->
-    <!--        android:background="@drawable/bg_gradient"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"/>-->
-
     <TextView
         android:id="@+id/tv_empty_wallcat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/pcliq_leaguespartan_semibold"
         android:gravity="center"
         android:padding="20dp"
         android:text="@string/not_log"
-        android:textColor="@color/text_title"
+        android:textColor="@color/text_espresso"
         android:visibility="gone"
-        android:fontFamily="@font/pcliq_leaguespartan_semibold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fr.castorflex.android.circularprogressbar.CircularProgressBar
+    <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
         android:id="@+id/pb_wallcat"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="20dp"
-        android:indeterminate="true"
-        app:cpb_color="#FFee44"
-        app:cpb_colors="@array/pocket_bar_colors"
-        app:cpb_max_sweep_angle="300"
-        app:cpb_min_sweep_angle="10"
-        app:cpb_rotation_speed="1.0"
-        app:cpb_stroke_width="4dp"
-        app:cpb_sweep_speed="1.0"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

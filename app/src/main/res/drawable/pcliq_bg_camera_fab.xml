@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer White Ring to cleanly separate from Bottom Nav Bar -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/bg_warm" />
+            <size android:width="60dp" android:height="60dp" />
+        </shape>
+    </item>
+    <!-- Inner Gold Shutter Button -->
+    <item
+        android:bottom="4dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="4dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="135"
+                android:endColor="#A37A2D"
+                android:startColor="#D4A755" />
+            <stroke android:width="1dp" android:color="#FFFFFF" />
+        </shape>
+    </item>
+</layer-list>
