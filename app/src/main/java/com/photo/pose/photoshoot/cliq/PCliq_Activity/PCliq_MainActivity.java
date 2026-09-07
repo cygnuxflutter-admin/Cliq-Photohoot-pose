@@ -326,21 +326,9 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
         } else if (PC_fm.getBackStackEntryCount() != 0) {
             String title = PC_fm.getFragments().get(PC_fm.getBackStackEntryCount() - 1).getTag();
             if (title.equals(getString(R.string.dashboard)) || title.equals(getString(R.string.home))) {
-
-                int vp_pos = PCliq_FragmentDashboard.bottomNavigationMenu.getSelectedItemId();
-                if (vp_pos == R.id.nav_bottom_latest) {
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.home));
-                } else if (vp_pos == R.id.nav_bottom_cat) {
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.categories));
-                /*} else if (vp_pos == R.id.nav_bottom_live_wallpapers) {
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.live_wallpapers));
-                */
-                } else if (vp_pos == R.id.nav_bottom_popular) {
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.popular));
-                } else if (vp_pos == R.id.nav_bottom_profile) {
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.profile));
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(getString(R.string.home));
                 }
-
                 PC_navigationView.setCheckedItem(R.id.nav_home);
             }
             super.onBackPressed();

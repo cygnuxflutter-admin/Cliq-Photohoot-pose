@@ -179,6 +179,7 @@ public class PCliq_FragmentPoseLatest extends Fragment {
                 MenuItem item = menu.findItem(R.id.menu_search);
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
                 SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+                methods.styleSearchView(searchView);
                 searchView.setOnQueryTextListener(queryTextListener);
             }
 

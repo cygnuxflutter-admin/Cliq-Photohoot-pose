@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_warm">
 
     <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg"/>
+        android:background="@color/bg_warm" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
@@ -17,73 +18,62 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_ad_search"
         android:layout_below="@+id/statusBar"
-        tools:context="com.photo.pose.photoshoot.cliq.WallpaperActivity">
+        android:background="@color/bg_warm">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:background="@color/bg_warm"
+            android:elevation="0dp"
+            app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_wall_by_cat"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_weight="1"
+                android:background="@color/bg_warm"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@string/wallpapers">
-
-            </androidx.appcompat.widget.Toolbar>
+                app:title="@string/wallpapers"
+                app:titleTextColor="@color/text_espresso" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg"
+            android:background="@color/bg_warm"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_wall_by_cat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="7dp"
-                android:layout_below="@+id/layout_colors"
+                android:clipToPadding="false"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="16dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rv_category_activity"-->
-<!--                app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_height="wrap_content" />-->
 
             <TextView
                 android:id="@+id/tv_empty_wallcat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:fontFamily="@font/pcliq_leaguespartan_medium"
                 android:gravity="center"
                 android:padding="20dp"
                 android:text="@string/no_data_found"
-                android:textColor="@color/text_title"
-                android:fontFamily="@font/pcliq_leaguespartan_medium"
-                android:visibility="gone"/>
+                android:textColor="@color/text_sub_brown"
+                android:visibility="gone" />
 
-            <ProgressBar
+            <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
                 android:id="@+id/pb_wallcat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_centerInParent="true" />
 
         </RelativeLayout>
@@ -94,19 +84,21 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/pcliq_arrow_up"
-        app:fabSize="normal"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="20dp"
         android:layout_above="@+id/ll_ad_search"
-        android:visibility="invisible"/>
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:src="@mipmap/pcliq_arrow_up"
+        android:visibility="invisible"
+        app:backgroundTint="@color/gold_primary"
+        app:fabSize="normal"
+        app:tint="#FFFFFF" />
 
     <LinearLayout
         android:id="@+id/ll_ad_search"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_warm"
+        android:orientation="vertical" />
 
 </RelativeLayout>

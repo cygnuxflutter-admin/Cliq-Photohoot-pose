@@ -43,6 +43,7 @@ import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_APIClient;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_APIInterface;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_ItemUserList;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant;
+import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Methods;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_SharedPref;
 
@@ -69,7 +70,7 @@ public class PCliq_LoginActivity extends AppCompatActivity {
     TextView button_skip, tv_sign_up;
     TextView textView_forgotpass;
     PCliq_Methods methods;
-    ProgressDialog progressDialog;
+    PCliq_CustomProgressDialog progressDialog;
     LinearLayout ll_checkbox;
     SmoothCheckBox cb_rememberme;
     private ImageView btn_login_google, btn_login_fb;
@@ -97,9 +98,23 @@ public class PCliq_LoginActivity extends AppCompatActivity {
         methods.forceRTLIfSupported(getWindow());
         methods.setStatusColor(getWindow());
 
-        progressDialog = new ProgressDialog(PCliq_LoginActivity.this);
+        progressDialog = new PCliq_CustomProgressDialog(PCliq_LoginActivity.this);
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
+
+        View topBar = findViewById(R.id.rl_login_top_bar);
+        View rootLayout = findViewById(R.id.ll_login_root);
+        if (rootLayout != null) {
+            androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (v, insets) -> {
+                int statusBarHeight = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.statusBars()).top;
+                int navBarHeight = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.navigationBars()).bottom;
+                if (topBar != null) {
+                    topBar.setPadding(topBar.getPaddingLeft(), statusBarHeight + (int) (8 * getResources().getDisplayMetrics().density), topBar.getPaddingRight(), topBar.getPaddingBottom());
+                }
+                v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), navBarHeight + (int) (16 * getResources().getDisplayMetrics().density));
+                return insets;
+            });
+        }
 
         btn_login_google = findViewById(R.id.btn_login_google);
         btn_login_fb = findViewById(R.id.btn_login_fb);
@@ -156,7 +171,7 @@ public class PCliq_LoginActivity extends AppCompatActivity {
             }
         });
 
-        btn_login_google.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener googleClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (methods.isNetworkAvailable()) {
@@ -173,7 +188,15 @@ public class PCliq_LoginActivity extends AppCompatActivity {
                     Toast.makeText(PCliq_LoginActivity.this, getString(R.string.internet_not_connected), Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        };
+
+        if (btn_login_google != null) {
+            btn_login_google.setOnClickListener(googleClickListener);
+        }
+        View cv_login_google = findViewById(R.id.cv_login_google);
+        if (cv_login_google != null) {
+            cv_login_google.setOnClickListener(googleClickListener);
+        }
 
         tv_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override

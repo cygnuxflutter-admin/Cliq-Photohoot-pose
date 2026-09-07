@@ -89,6 +89,6 @@ public class PCliq_AdapterPoseWelcome extends RecyclerView.Adapter<PCliq_Adapter
 
     @Override
     public int getItemViewType(int position) {
-        return position;
+        return 1;
     }
 }

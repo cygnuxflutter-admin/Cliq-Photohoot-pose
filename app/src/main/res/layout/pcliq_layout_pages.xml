@@ -6,23 +6,38 @@
 
     <TextView
         android:id="@+id/tv_pages"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
         android:gravity="center_vertical"
-        android:paddingStart="17dp"
-        android:paddingEnd="17dp"
-        android:textColor="@color/text_black"
-        android:textSize="16sp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/text_espresso"
+        android:textSize="15sp"
         android:fontFamily="@font/pcliq_leaguespartan_medium"
         android:background="?attr/selectableItemBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_page_chevron"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_page_chevron"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="Next"
+        android:src="@drawable/pcliq_ic_chevron_right"
+        app:tint="@color/text_sub_brown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_pages"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_pages"/>
 
     <View
         android:id="@+id/view_pages"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/line_about"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#154A3B32"
         app:layout_constraintTop_toBottomOf="@+id/tv_pages"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

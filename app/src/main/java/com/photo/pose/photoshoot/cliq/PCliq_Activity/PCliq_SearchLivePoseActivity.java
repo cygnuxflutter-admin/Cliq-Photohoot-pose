@@ -96,8 +96,14 @@ public class PCliq_SearchLivePoseActivity extends AppCompatActivity {
 
         toolbar = this.findViewById(R.id.toolbar_wall_by_cat);
         toolbar.setTitle(getString(R.string.search));
+        toolbar.setTitleTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.text_espresso));
         this.setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (toolbar.getNavigationIcon() != null) {
+                toolbar.getNavigationIcon().setTint(androidx.core.content.ContextCompat.getColor(this, R.color.text_espresso));
+            }
+        }
 
         arrayList = new ArrayList<>();
 
@@ -166,6 +172,10 @@ public class PCliq_SearchLivePoseActivity extends AppCompatActivity {
         menu.findItem(R.id.menu_filter).setVisible(false);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        methods.styleSearchView(searchView);
+        if (toolbar.getNavigationIcon() != null) {
+            toolbar.getNavigationIcon().setTint(androidx.core.content.ContextCompat.getColor(this, R.color.text_espresso));
+        }
         searchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }

@@ -312,9 +312,9 @@ public class PCliq_AdapterLivePose extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (arrayList.get(position) == null) {
-            return 1000 + position;
+            return 1000;
         } else {
-            return position;
+            return 1;
         }
     }
 

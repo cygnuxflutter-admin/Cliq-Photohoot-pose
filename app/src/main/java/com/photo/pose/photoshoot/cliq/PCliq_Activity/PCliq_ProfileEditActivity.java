@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -46,7 +47,7 @@ public class PCliq_ProfileEditActivity extends AppCompatActivity {
     ImageView PC_iv_profile;
     EditText PC_editText_name, PC_editText_email, PC_editText_phone, PC_editText_pass, PC_editText_cpass;
     String PC_imagePath = "";
-    ProgressDialog PC_progressDialog;
+    com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog PC_progressDialog;
     int PICK_IMAGE_REQUEST = 1;
 
     @Override
@@ -59,13 +60,18 @@ public class PCliq_ProfileEditActivity extends AppCompatActivity {
         PC_methods.forceRTLIfSupported(getWindow());
         PC_methods.setStatusColor(getWindow());
 
-        PC_progressDialog = new ProgressDialog(this);
+        PC_progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(this);
         PC_progressDialog.setMessage(getResources().getString(R.string.loading));
         PC_progressDialog.setCancelable(false);
 
         PC_toolbar = findViewById(R.id.toolbar_proedit);
         setSupportActionBar(PC_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (PC_toolbar.getNavigationIcon() != null) {
+                PC_toolbar.getNavigationIcon().setTint(ContextCompat.getColor(this, R.color.text_espresso));
+            }
+        }
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
         if (PCliq_NetworkUtils.isNetworkAvailable(this)) {

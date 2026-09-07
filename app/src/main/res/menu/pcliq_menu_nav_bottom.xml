@@ -3,27 +3,22 @@
 
     <item
         android:id="@+id/nav_bottom_latest"
-        android:icon="@drawable/pcliq_ic_bottom_home"
+        android:icon="@drawable/pcliq_ic_nav_home"
         android:title="@string/home" />
 
     <item
         android:id="@+id/nav_bottom_cat"
-        android:icon="@drawable/pcliq_ic_bottom_category"
-        android:title="@string/categories" />
-
-<!--    <item-->
-<!--        android:id="@+id/nav_bottom_live_wallpapers"-->
-<!--        android:icon="@drawable/ic_bottom_live_wallpaper"-->
-<!--        android:title="@string/live_wallpapers" />-->
+        android:icon="@drawable/pcliq_ic_nav_poses"
+        android:title="Poses" />
 
     <item
         android:id="@+id/nav_bottom_popular"
-        android:icon="@drawable/pcliq_ic_bottom_popular"
-        android:title="@string/popular" />
+        android:icon="@drawable/pcliq_ic_nav_favorites"
+        android:title="@string/favourite" />
 
     <item
         android:id="@+id/nav_bottom_profile"
-        android:icon="@drawable/pcliq_ic_bottom_profile"
+        android:icon="@drawable/pcliq_ic_nav_profile"
         android:title="@string/profile" />
 
 </menu>

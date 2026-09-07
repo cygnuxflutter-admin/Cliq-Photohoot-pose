@@ -4,13 +4,13 @@
 
     <item android:id="@+id/menu_search_frag"
         android:title="@string/search"
-        android:icon="@mipmap/pcliq_search"
+        android:icon="@drawable/pcliq_ic_search_gold"
         app:showAsAction="always"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item android:id="@+id/menu_filter_frag"
         android:title="@string/filter"
-        android:icon="@mipmap/pcliq_filter"
+        android:icon="@drawable/pcliq_ic_filter_gold"
         app:showAsAction="always"  />
 
 </menu>

@@ -3,6 +3,7 @@ package com.photo.pose.photoshoot.cliq.PCliq_Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ public class PCliq_RegisterActivity extends AppCompatActivity {
     PCliq_Methods PC_methods;
     EditText PC_editText_name, PC_editText_email, PC_editText_pass, PC_editText_cpass, PC_editText_phone;
     Button PC_button_register;
-    ProgressDialog PC_progressDialog;
+    com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog PC_progressDialog;
     PCliq_SharedPref PC_sharedPref;
 
     @Override
@@ -40,9 +41,18 @@ public class PCliq_RegisterActivity extends AppCompatActivity {
         PC_methods.setStatusColor(getWindow());
         PC_methods.forceRTLIfSupported(getWindow());
 
-        PC_progressDialog = new ProgressDialog(this);
+        PC_progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(this);
         PC_progressDialog.setMessage(getResources().getString(R.string.registering));
         PC_progressDialog.setCancelable(false);
+
+        View rootLayout = findViewById(R.id.ll_register_root);
+        if (rootLayout != null) {
+            androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (v, insets) -> {
+                int navBarHeight = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.navigationBars()).bottom;
+                v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), navBarHeight + (int) (16 * getResources().getDisplayMetrics().density));
+                return insets;
+            });
+        }
 
         PC_button_register = findViewById(R.id.button_register);
         PC_editText_name = findViewById(R.id.et_regis_name);

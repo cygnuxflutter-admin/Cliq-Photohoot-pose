@@ -1,49 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0F0D0B"
     tools:context=".PCliq_Activity.PCliq_IntroductionActivity">
 
+    <!-- Intro Slides ViewPager -->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vpg_intro_activity__intro"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/tv_skip"
-        android:layout_width="wrap_content"
+    <!-- Top Action Bar (Back + Skip) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
-        android:fontFamily="@font/pcliq_leaguespartan_medium"
-        android:text="Skip"
-        android:textSize="17sp" />
+        android:paddingStart="20dp"
+        android:paddingTop="36dp"
+        android:paddingEnd="24dp">
 
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/pcliq_ic_back_gradient" />
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/pcliq_bg_circle_button"
+            android:backgroundTint="#33FFFFFF"
+            android:contentDescription="Back"
+            android:padding="8dp"
+            android:src="@drawable/pcliq_ic_back_clean"
+            android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tv_next"
-        android:layout_width="@dimen/_95sdp"
-        android:layout_height="@dimen/_32sdp"
-        android:layout_alignParentRight="true"
+        <TextView
+            android:id="@+id/tv_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/pcliq_leaguespartan_semibold"
+            android:padding="8dp"
+            android:text="Skip"
+            android:textColor="@color/gold_primary"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <!-- Bottom Controls (Indicator Dots + Next Button) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="30dp"
-        android:background="@drawable/pcliq_bg_gradient_curve"
-        android:fontFamily="@font/pcliq_leaguespartan_semibold"
-        android:gravity="center"
-        android:text="Next"
-        android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="36dp">
 
+        <!-- Indicator Dots -->
+        <LinearLayout
+            android:id="@+id/ll_dots_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/dot_0"
+                android:layout_width="22dp"
+                android:layout_height="7dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/pcliq_dot_active" />
+
+            <View
+                android:id="@+id/dot_1"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/pcliq_dot_inactive" />
+
+            <View
+                android:id="@+id/dot_2"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/pcliq_dot_inactive" />
+
+            <View
+                android:id="@+id/dot_3"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/pcliq_dot_inactive" />
+
+            <View
+                android:id="@+id/dot_4"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:background="@drawable/pcliq_dot_inactive" />
+
+        </LinearLayout>
+
+        <!-- Next / Get Started Button -->
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="120dp"
+            android:layout_height="44dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/pcliq_bg_button_gold"
+            android:elevation="4dp"
+            android:fontFamily="@font/pcliq_leaguespartan_semibold"
+            android:gravity="center"
+            android:text="Next"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

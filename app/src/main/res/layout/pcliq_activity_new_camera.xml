@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,103 +8,250 @@
     android:background="@color/black"
     tools:context=".PCliq_Activity.PCliq_NewCameraActivity">
 
+    <!-- 1. Live Camera View -->
     <com.google.android.cameraview.CameraView
         android:id="@+id/camera"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_centerInParent="true"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:background="@android:color/black" />
 
+    <!-- 2. Overlay Pose / Sketch (Resizable & Movable via MultiTouch) -->
     <ImageView
         android:id="@+id/iv_sketch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginHorizontal="50dp"
-        android:adjustViewBounds="true" />
+        android:layout_marginHorizontal="30dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="Pose Overlay"
+        android:visibility="gone" />
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
-
-
+    <!-- 3. Top Action Bar (Back & Flash) -->
     <RelativeLayout
+        android:id="@+id/rl_camera_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btm"
-        android:background="@color/bg_sub_cat">
+        android:layout_alignParentTop="true"
+        android:paddingStart="16dp"
+        android:paddingTop="36dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <!-- Back Button (Glass Circle) -->
+        <FrameLayout
+            android:id="@+id/iv_camera_back"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/pcliq_bg_camera_action_circle"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:contentDescription="Back"
+                android:src="@drawable/pcliq_ic_arrow_back"
+                app:tint="#FFFFFF" />
+
+        </FrameLayout>
+
+        <!-- Pro Tips Button (Glass Pill in Top Center) -->
+        <LinearLayout
+            android:id="@+id/btn_camera_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
             android:layout_centerInParent="true"
-            android:max="200"
-            android:padding="15dp"
-            android:min="40"
-            android:visibility="gone"
-            android:progress="100" />
+            android:background="@drawable/pcliq_bg_camera_action_circle"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="14dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/pcliq_ic_meta_bulb"
+                app:tint="@color/gold_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/pcliq_leaguespartan_bold"
+                android:text="Shoot Tips 💡"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Flash Toggle Button (Glass Circle) -->
+        <FrameLayout
+            android:id="@+id/fl_camera_flash"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/pcliq_bg_camera_action_circle"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/iv_camera_flash"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:contentDescription="Flash"
+                android:src="@drawable/pcliq_ic_flash_auto"
+                app:tint="#FFFFFF" />
+
+        </FrameLayout>
 
     </RelativeLayout>
 
+    <!-- 4. Bottom Control Deck (Slider + Pose Strip + Shutter Controls) -->
     <LinearLayout
-        android:id="@+id/btm"
+        android:id="@+id/btm_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/bg_sub_cat"
-        android:gravity="center">
+        android:background="#B3000000"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="36dp">
 
+        <!-- Horizontal Pose Strip (Browse & switch poses live) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_camera_pose_strip"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
 
-        <RelativeLayout
+        <!-- Opacity Slider Row (Visible when color pose overlay is active) -->
+        <LinearLayout
+            android:id="@+id/ll_seekbar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
             <ImageView
-                android:id="@+id/aspect_ratio"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/pcliq_ic_aspect_ratio" />
-        </RelativeLayout>
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:alpha="0.7"
+                android:contentDescription="Opacity"
+                android:src="@drawable/pcliq_ic_action_camera"
+                app:tint="@color/gold_primary" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/take_picture"
-                android:layout_width="wrap_content"
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                app:fabSize="mini"
-                app:srcCompat="@drawable/pcliq_ic_camera"
-                app:useCompatPadding="true" />
-        </RelativeLayout>
+                android:layout_weight="1"
+                android:max="200"
+                android:min="30"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:progress="120"
+                android:progressBackgroundTint="#50FFFFFF"
+                android:progressTint="@color/gold_primary"
+                android:thumbTint="@color/gold_primary"
+                android:visibility="gone" />
 
-        <RelativeLayout
+        </LinearLayout>
+
+        <!-- Shutter & Controls Row -->
+        <LinearLayout
+            android:id="@+id/btm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp">
 
-            <ImageView
-                android:id="@+id/switch_camera"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/pcliq_ic_switch_camera" />
-        </RelativeLayout>
+            <!-- Aspect Ratio Button -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/aspect_ratio"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/pcliq_bg_camera_action_circle"
+                    android:clickable="true"
+                    android:contentDescription="Aspect Ratio"
+                    android:focusable="true"
+                    android:padding="10dp"
+                    android:src="@drawable/pcliq_ic_aspect_ratio"
+                    app:tint="#FFFFFF" />
+
+            </FrameLayout>
+
+            <!-- Main Gold Shutter Capture Button -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/take_picture"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/pcliq_bg_camera_shutter"
+                    android:clickable="true"
+                    android:contentDescription="Take Picture"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Camera"
+                        android:src="@drawable/pcliq_ic_action_camera"
+                        app:tint="#FFFFFF" />
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <!-- Flip Camera Button -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/switch_camera"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/pcliq_bg_camera_action_circle"
+                    android:clickable="true"
+                    android:contentDescription="Switch Camera"
+                    android:focusable="true"
+                    android:padding="10dp"
+                    android:src="@drawable/pcliq_ic_switch_camera"
+                    app:tint="#FFFFFF" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
-
 
 </RelativeLayout>

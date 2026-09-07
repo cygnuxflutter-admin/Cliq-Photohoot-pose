@@ -119,6 +119,78 @@ public class PCliq_SplashActivity extends AppCompatActivity {
         float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PCliq_Constant.GRID_PADDING, r.getDisplayMetrics());
         PCliq_Constant.columnWidth = (int) ((methods.getScreenWidth() - ((PCliq_Constant.NUM_OF_COLUMNS + 1) * padding)) / PCliq_Constant.NUM_OF_COLUMNS);
         PCliq_Constant.columnHeight = (int) (PCliq_Constant.columnWidth * 1.44);
+
+        startSplashEntranceAnimations();
+    }
+
+    private void startSplashEntranceAnimations() {
+        View vfTL = findViewById(R.id.iv_vf_tl);
+        View vfTR = findViewById(R.id.iv_vf_tr);
+        View vfBL = findViewById(R.id.iv_vf_bl);
+        View vfBR = findViewById(R.id.iv_vf_br);
+        View topBadge = findViewById(R.id.ll_splash_top_badge);
+        View logoCard = findViewById(R.id.fl_splash_logo);
+        View titleRow = findViewById(R.id.ll_splash_title_row);
+        View subtitle = findViewById(R.id.tv_splash_subtitle);
+        View archiveBadge = findViewById(R.id.tv_splash_archive_badge);
+        View bottomSection = findViewById(R.id.ll_splash_bottom);
+
+        // Viewfinder HUD brackets animation
+        View[] brackets = new View[]{vfTL, vfTR, vfBL, vfBR};
+        for (View b : brackets) {
+            if (b != null) {
+                b.setAlpha(0f);
+                b.setScaleX(1.4f);
+                b.setScaleY(1.4f);
+                b.animate().alpha(0.8f).scaleX(1f).scaleY(1f).setDuration(800).setStartDelay(150).start();
+            }
+        }
+
+        // Top Status Badge
+        if (topBadge != null) {
+            topBadge.setAlpha(0f);
+            topBadge.setTranslationY(-30f);
+            topBadge.animate().alpha(1f).translationY(0f).setDuration(600).setStartDelay(200).start();
+        }
+
+        // Central Glowing Logo Card
+        if (logoCard != null) {
+            logoCard.setAlpha(0f);
+            logoCard.setScaleX(0.5f);
+            logoCard.setScaleY(0.5f);
+            logoCard.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(800)
+                    .setInterpolator(new android.view.animation.OvershootInterpolator(1.3f))
+                    .start();
+        }
+
+        // Title and Subtitle Row
+        if (titleRow != null) {
+            titleRow.setAlpha(0f);
+            titleRow.setTranslationY(40f);
+            titleRow.animate().alpha(1f).translationY(0f).setDuration(700).setStartDelay(250).start();
+        }
+
+        if (subtitle != null) {
+            subtitle.setAlpha(0f);
+            subtitle.setTranslationY(20f);
+            subtitle.animate().alpha(1f).translationY(0f).setDuration(700).setStartDelay(400).start();
+        }
+
+        if (archiveBadge != null) {
+            archiveBadge.setAlpha(0f);
+            archiveBadge.setTranslationY(20f);
+            archiveBadge.animate().alpha(1f).translationY(0f).setDuration(700).setStartDelay(500).start();
+        }
+
+        // Bottom Loader and Camera HUD specs
+        if (bottomSection != null) {
+            bottomSection.setAlpha(0f);
+            bottomSection.animate().alpha(1f).setDuration(800).setStartDelay(600).start();
+        }
     }
 
     private void loadLogin(final String loginType, final String authID) {
@@ -318,9 +390,13 @@ public class PCliq_SplashActivity extends AppCompatActivity {
     }
 
     private void hideStatusBar() {
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(androidx.core.content.ContextCompat.getColor(this, R.color.bg_warm));
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(androidx.core.content.ContextCompat.getColor(this, R.color.bg_warm));
+        }
     }
 
 
@@ -357,22 +433,22 @@ public class PCliq_SplashActivity extends AppCompatActivity {
 
 //                      ----------------------------------------------- Test ADS -----------------------------------------------
 
-//                        taskPreferenceClass.setDataType("GoogleNativeAd", "ca-app-pub-3940256099942544/2247696110");
-//                        taskPreferenceClass.setDataType("GoogleAppopenAd", "ca-app-pub-3940256099942544/3419835294");
-//                        taskPreferenceClass.setDataType("GoogleBannerAd", "ca-app-pub-3940256099942544/6300978111");
-//                        taskPreferenceClass.setDataType("GoogleInterstitialAd", "ca-app-pub-3940256099942544/1033173712");
-//                        taskPreferenceClass.setDataType("GoogleRewardedAd", "ca-app-pub-3940256099942544/5224354917");
-//                        taskPreferenceClass.setDataType("GoogleInterstialRewardAd", "ca-app-pub-3940256099942544/5354046379");
-//
-//                        taskPreferenceClass.setDataType("FbNativeAd", "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID");
-//                        taskPreferenceClass.setDataType("FbInterstitialAd", "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID");
-//                        taskPreferenceClass.setDataType("FbBannerAd", "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID");
-//
-//                        taskPreferenceClass.setDataType("AdxBannerAdunitID", "ca-app-pub-3940256099942544/6300978111");
-//                        taskPreferenceClass.setDataType("AdxInterstitalAdunitID", "ca-app-pub-3940256099942544/1033173712");
-//                        taskPreferenceClass.setDataType("AdxRewardVideoUnitID", "ca-app-pub-3940256099942544/5224354917");
-//                        taskPreferenceClass.setDataType("AdxNativeUnitID", "ca-app-pub-3940256099942544/2247696110");
-//                        taskPreferenceClass.setDataType("AdxAppOpenID", "ca-app-pub-3940256099942544/3419835294");
+                        taskPreferenceClass.setDataType("GoogleNativeAd", "ca-app-pub-3940256099942544/2247696110");
+                        taskPreferenceClass.setDataType("GoogleAppopenAd", "ca-app-pub-3940256099942544/3419835294");
+                        taskPreferenceClass.setDataType("GoogleBannerAd", "ca-app-pub-3940256099942544/6300978111");
+                        taskPreferenceClass.setDataType("GoogleInterstitialAd", "ca-app-pub-3940256099942544/1033173712");
+                        taskPreferenceClass.setDataType("GoogleRewardedAd", "ca-app-pub-3940256099942544/5224354917");
+                        taskPreferenceClass.setDataType("GoogleInterstialRewardAd", "ca-app-pub-3940256099942544/5354046379");
+
+                        taskPreferenceClass.setDataType("FbNativeAd", "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID");
+                        taskPreferenceClass.setDataType("FbInterstitialAd", "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID");
+                        taskPreferenceClass.setDataType("FbBannerAd", "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID");
+
+                        taskPreferenceClass.setDataType("AdxBannerAdunitID", "ca-app-pub-3940256099942544/6300978111");
+                        taskPreferenceClass.setDataType("AdxInterstitalAdunitID", "ca-app-pub-3940256099942544/1033173712");
+                        taskPreferenceClass.setDataType("AdxRewardVideoUnitID", "ca-app-pub-3940256099942544/5224354917");
+                        taskPreferenceClass.setDataType("AdxNativeUnitID", "ca-app-pub-3940256099942544/2247696110");
+                        taskPreferenceClass.setDataType("AdxAppOpenID", "ca-app-pub-3940256099942544/3419835294");
 
 //                    --------------------------------------------------------------------------------------------------------
                         taskPreferenceClass.setInt("BannerAdStatus", Integer.parseInt(snapshot.child("BannerAdStatus").getValue().toString()));

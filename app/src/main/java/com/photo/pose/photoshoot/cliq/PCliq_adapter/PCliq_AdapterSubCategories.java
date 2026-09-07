@@ -28,14 +28,12 @@ public class PCliq_AdapterSubCategories extends RecyclerView.Adapter {
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout cl_sub_cat;
-        RoundedImageView iv_sub_cat;
+        View cl_sub_cat;
         TextView tv_sub_cat;
 
         private MyViewHolder(View view) {
             super(view);
             cl_sub_cat = view.findViewById(R.id.cl_sub_cat);
-            iv_sub_cat = view.findViewById(R.id.iv_sub_cat);
             tv_sub_cat = view.findViewById(R.id.tv_sub_cat_title);
         }
     }
@@ -58,16 +56,13 @@ public class PCliq_AdapterSubCategories extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
 
         ((MyViewHolder) holder).tv_sub_cat.setText(arrayList.get(position).getName());
-        Picasso.get()
-                .load(arrayList.get(position).getImage())
-                .resize(methods.getImageThumbWidth(context.getString(R.string.sub_categories)), methods.getImageThumbHeight(context.getString(R.string.sub_categories)))
-                .placeholder(R.drawable.pcliq_placeholder_cat)
-                .into(((MyViewHolder) holder).iv_sub_cat);
 
-        if(selectedPos != holder.getAbsoluteAdapterPosition()) {
-            ((MyViewHolder) holder).cl_sub_cat.setBackgroundResource(R.drawable.pcliq_bg_sub_cat_round);
+        if (selectedPos != holder.getAbsoluteAdapterPosition()) {
+            ((MyViewHolder) holder).cl_sub_cat.setBackgroundResource(R.drawable.pcliq_bg_chip_unselected);
+            ((MyViewHolder) holder).tv_sub_cat.setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.chip_unselected_text));
         } else {
-            ((MyViewHolder) holder).cl_sub_cat.setBackgroundResource(R.drawable.pcliq_sub_cat_select_bg);
+            ((MyViewHolder) holder).cl_sub_cat.setBackgroundResource(R.drawable.pcliq_bg_chip_selected);
+            ((MyViewHolder) holder).tv_sub_cat.setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.chip_selected_text));
         }
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,18 +33,12 @@ public class PCliq_AdapterCategories extends RecyclerView.Adapter {
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout cl_cat;
-        RoundedImageView imageView;
-        TextView textView_cat, tv_cat_total;
-//        RelativeLayout native_banner_ad_container;
-//        private final RelativeLayout ad_layout;
+        ImageView imageView;
+
         private MyViewHolder(View view) {
             super(view);
             cl_cat = view.findViewById(R.id.cl_cat);
             imageView = view.findViewById(R.id.iv_cat);
-            textView_cat = view.findViewById(R.id.tv_cat_title);
-//            ad_layout = itemView.findViewById(R.id.ad_layout);
-//            native_banner_ad_container = view.findViewById(R.id.native_banner_ad_container);
-//            tv_cat_total = view.findViewById(R.id.tv_cat_total);
         }
     }
 
@@ -54,42 +49,28 @@ public class PCliq_AdapterCategories extends RecyclerView.Adapter {
         methods = new PCliq_Methods(context);
         width = methods.getColumnWidth(2, 8);
         height = (int) (width / 1.5);
-//        this.nativeAdUtil = new PCliq_NativeAdUtil(context);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         View contentView = inflater.inflate(R.layout.pcliq_layout_categories, parent, false);
         return new MyViewHolder(contentView);
-
-
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-
-
-//        if (arrayList.get(position) != null) {
+        PCliq_ItemCat item = arrayList.get(position);
+        if (item != null) {
             ((MyViewHolder) holder).cl_cat.setVisibility(View.VISIBLE);
-//            ((MyViewHolder) holder).ad_layout.setVisibility(View.GONE);
-//            ((MyViewHolder) holder).textView_cat.setText(arrayList.get(position).getName());
-//        ((MyViewHolder) holder).tv_cat_total.setText(arrayList.get(position).getTotalWallpaper());
-            Picasso.get()
-                    .load(arrayList.get(position).getImage())
-//                .resize(methods.getImageThumbWidth(context.getString(R.string.categories)), methods.getImageThumbHeight(context.getString(R.string.categories)))
-//                .centerCrop()
-//                    .placeholder(R.drawable.pcliq_placeholder_cat)
-                    .into(((MyViewHolder) holder).imageView);
-//        } else {
-//            ((MyViewHolder) holder).cl_cat.setVisibility(View.GONE);
-//            ((MyViewHolder) holder).ad_layout.setVisibility(View.VISIBLE);
-//            nativeAdUtil.fillAdmobNativeAd(((MyViewHolder) holder).native_banner_ad_container);
-//        }
-
+            if (item.getImage() != null && !item.getImage().isEmpty()) {
+                Picasso.get()
+                        .load(item.getImage().replace(" ", "%20"))
+                        .into(((MyViewHolder) holder).imageView);
+            }
+        }
     }
 
 

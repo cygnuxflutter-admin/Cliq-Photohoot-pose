@@ -1,7 +1,8 @@
 package com.photo.pose.photoshoot.cliq.PCliq_Activity;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,7 +17,6 @@ import com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_LoadAds;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_NetworkUtils;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass;
 import com.photo.pose.photoshoot.cliq.R;
-import com.squareup.picasso.Picasso;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_APIClient;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_APIInterface;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_ItemAppDetailsList;
@@ -28,6 +28,7 @@ import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_SharedPref;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +42,7 @@ public class PCliq_AboutActivity extends AppCompatActivity {
     LinearLayout PC_ll_email, PC_ll_website, PC_ll_company, PC_ll_contact;
     String PC_website, PC_email, PC_desc, PC_applogo, PC_appname, PC_appversion, PC_appauthor, PC_appcontact;
     PCliq_DBHelper PC_dbHelper;
-    ProgressDialog PC_pbar;
+    com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog PC_pbar;
     PCliq_Methods PC_methods;
 
     @Override
@@ -49,15 +50,21 @@ public class PCliq_AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcliq_activity_about);
 
-        PC_dbHelper = new PCliq_DBHelper(this);
         PC_methods = new PCliq_Methods(this);
         PC_methods.setStatusColor(getWindow());
         PC_methods.forceRTLIfSupported(getWindow());
 
-        PC_toolbar = this.findViewById(R.id.toolbar_about);
-        PC_toolbar.setTitle(getString(R.string.menu_about));
-        this.setSupportActionBar(PC_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        PC_dbHelper = new PCliq_DBHelper(this);
+
+        PC_toolbar = findViewById(R.id.toolbar_about);
+        PC_toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.text_espresso));
+        setSupportActionBar(PC_toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (PC_toolbar.getNavigationIcon() != null) {
+                PC_toolbar.getNavigationIcon().setTint(ContextCompat.getColor(this, R.color.text_espresso));
+            }
+        }
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
         if (PCliq_NetworkUtils.isNetworkAvailable(this)) {
@@ -68,7 +75,7 @@ public class PCliq_AboutActivity extends AppCompatActivity {
             }
         }
 
-        PC_pbar = new ProgressDialog(this);
+        PC_pbar = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(this);
         PC_pbar.setMessage(getResources().getString(R.string.loading));
         PC_pbar.setCancelable(false);
 
@@ -88,7 +95,6 @@ public class PCliq_AboutActivity extends AppCompatActivity {
 
         getAppDetails();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -116,7 +122,6 @@ public class PCliq_AboutActivity extends AppCompatActivity {
                         PCliq_Constant.appUpdateURL = response.body().getArrayListAbout().get(0).getAppUpdateLink();
                         PCliq_Constant.appUpdateCancel = response.body().getArrayListAbout().get(0).isAppUpdateCancel();
 
-//                        Constant.appUpdateCancel = c.getBoolean("google_play_link");
                         PCliq_Constant.urlYoutube = response.body().getArrayListAbout().get(0).getYoutubeLink();
                         PCliq_Constant.urlInstagram = response.body().getArrayListAbout().get(0).getInstagramLink();
                         PCliq_Constant.urlTwitter = response.body().getArrayListAbout().get(0).getTwitterLink();
@@ -194,6 +199,7 @@ public class PCliq_AboutActivity extends AppCompatActivity {
     }
 
     public void setVariables() {
+        if (PCliq_Constant.itemAbout == null) return;
 
         PC_appname = PCliq_Constant.itemAbout.getAppName();
         PC_applogo = PCliq_Constant.itemAbout.getAppLogo();
@@ -204,59 +210,86 @@ public class PCliq_AboutActivity extends AppCompatActivity {
         PC_email = PCliq_Constant.itemAbout.getEmail();
         PC_website = PCliq_Constant.itemAbout.getWebsite();
 
-        PC_textView_appname.setText(PC_appname);
-        if (!PC_email.trim().isEmpty()) {
-            PC_ll_email.setVisibility(View.VISIBLE);
-            PC_textView_email.setText(PC_email);
-        }
+        PC_textView_appname.setText(PC_appname != null && !PC_appname.trim().isEmpty() ? PC_appname : "CLIQ Studio");
 
-        if (!PC_website.trim().isEmpty()) {
-            PC_ll_website.setVisibility(View.VISIBLE);
-            PC_textView_website.setText(PC_website);
-        }
+        View dividerCompany = findViewById(R.id.divider_company);
+        View dividerEmail = findViewById(R.id.divider_email);
+        View dividerWebsite = findViewById(R.id.divider_website);
 
-        if (!PC_appauthor.trim().isEmpty()) {
+        if (PC_appauthor != null && !PC_appauthor.trim().isEmpty()) {
             PC_ll_company.setVisibility(View.VISIBLE);
+            if (dividerCompany != null) dividerCompany.setVisibility(View.VISIBLE);
             PC_textView_company.setText(PC_appauthor);
+        } else {
+            PC_ll_company.setVisibility(View.GONE);
+            if (dividerCompany != null) dividerCompany.setVisibility(View.GONE);
         }
 
-        if (!PC_appcontact.trim().isEmpty()) {
+        if (PC_email != null && !PC_email.trim().isEmpty()) {
+            PC_ll_email.setVisibility(View.VISIBLE);
+            if (dividerEmail != null) dividerEmail.setVisibility(View.VISIBLE);
+            PC_textView_email.setText(PC_email);
+            PC_ll_email.setOnClickListener(v -> {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:" + PC_email));
+                    startActivity(intent);
+                } catch (Exception ignored) {}
+            });
+        } else {
+            PC_ll_email.setVisibility(View.GONE);
+            if (dividerEmail != null) dividerEmail.setVisibility(View.GONE);
+        }
+
+        if (PC_website != null && !PC_website.trim().isEmpty()) {
+            PC_ll_website.setVisibility(View.VISIBLE);
+            if (dividerWebsite != null) dividerWebsite.setVisibility(View.VISIBLE);
+            PC_textView_website.setText(PC_website);
+            PC_ll_website.setOnClickListener(v -> {
+                try {
+                    String url = PC_website;
+                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                        url = "https://" + url;
+                    }
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception ignored) {}
+            });
+        } else {
+            PC_ll_website.setVisibility(View.GONE);
+            if (dividerWebsite != null) dividerWebsite.setVisibility(View.GONE);
+        }
+
+        if (PC_appcontact != null && !PC_appcontact.trim().isEmpty()) {
             PC_ll_contact.setVisibility(View.VISIBLE);
             PC_textView_contact.setText(PC_appcontact);
-        }
-
-        if (!PC_appversion.trim().isEmpty()) {
-            PC_textView_version.setText(PC_appversion);
-        }
-
-        if (PC_applogo.trim().isEmpty()) {
-            PC_imageView_logo.setVisibility(View.GONE);
         } else {
-            Picasso
-                    .get()
-                    .load(PC_applogo)
-                    .into(PC_imageView_logo);
+            PC_ll_contact.setVisibility(View.GONE);
         }
+
+        if (PC_appversion != null && !PC_appversion.trim().isEmpty()) {
+            PC_textView_version.setText("VERSION " + PC_appversion.toUpperCase());
+        }
+
+        PC_imageView_logo.setImageResource(R.drawable.pcliq_app_logo);
 
         String mimeType = "text/html";
         String encoding = "utf-8";
 
-        String text;
-        if (PC_methods.isDarkMode()) {
-            text = "<html><head>"
-                    + "<style> body{color:#fff !important;text-align:left}"
-                    + "</style></head>"
-                    + "<body>"
-                    + PC_desc
-                    + "</body></html>";
-        } else {
-            text = "<html><head>"
-                    + "<style> body{color:#000 !important;text-align:left}"
-                    + "</style></head>"
-                    + "<body>"
-                    + PC_desc
-                    + "</body></html>";
-        }
+        String descContent = PC_desc != null ? PC_desc : "";
+
+        String text = "<html><head>"
+                + "<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>"
+                + "<style>"
+                + "* { box-sizing: border-box; }"
+                + "body { color: #503E32 !important; background-color: #FFFFFF !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 2px 0 16px 0; margin: 0; line-height: 1.75; font-size: 14.5px; text-align: left; }"
+                + "p { margin: 0 0 12px 0; }"
+                + "strong, b { color: #2B1D15 !important; font-weight: 600; }"
+                + "a { color: #C19543 !important; text-decoration: none; }"
+                + "</style></head>"
+                + "<body>"
+                + descContent
+                + "</body></html>";
 
         PC_webView.setBackgroundColor(Color.TRANSPARENT);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {

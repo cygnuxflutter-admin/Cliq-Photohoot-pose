@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -519,12 +520,70 @@ public class PCliq_Methods {
     }
 
     public void setStatusColor(Window window) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            window.setStatusBarColor(Color.TRANSPARENT);
+        if (window == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setStatusBarColor(ContextCompat.getColor(context, R.color.bg_warm));
+            if (window.getInsetsController() != null) {
+                window.getInsetsController().setSystemBarsAppearance(
+                        android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                        android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                );
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            window.setStatusBarColor(ContextCompat.getColor(context, R.color.bg_warm));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(ContextCompat.getColor(context, R.color.bg_warm));
         }
+    }
+
+    public void styleSearchView(androidx.appcompat.widget.SearchView searchView) {
+        if (searchView == null) return;
+        try {
+            int textColor = ContextCompat.getColor(context, R.color.text_espresso);
+            int hintColor = ContextCompat.getColor(context, R.color.text_light_brown);
+            int goldColor = ContextCompat.getColor(context, R.color.gold_primary);
+
+            androidx.appcompat.widget.SearchView.SearchAutoComplete searchAutoComplete = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+            if (searchAutoComplete != null) {
+                searchAutoComplete.setTextColor(textColor);
+                searchAutoComplete.setHintTextColor(hintColor);
+                searchAutoComplete.setTextSize(15);
+                try {
+                    searchAutoComplete.setTypeface(androidx.core.content.res.ResourcesCompat.getFont(context, R.font.pcliq_leaguespartan_medium));
+                } catch (Exception ignored) {}
+            }
+
+            ImageView closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+            if (closeButton != null) {
+                closeButton.setColorFilter(textColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+
+            ImageView searchMagIcon = searchView.findViewById(androidx.appcompat.R.id.search_mag_icon);
+            if (searchMagIcon != null) {
+                searchMagIcon.setColorFilter(goldColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+
+            ImageView searchButton = searchView.findViewById(androidx.appcompat.R.id.search_button);
+            if (searchButton != null) {
+                searchButton.setColorFilter(goldColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+
+            ImageView voiceButton = searchView.findViewById(androidx.appcompat.R.id.search_voice_btn);
+            if (voiceButton != null) {
+                voiceButton.setColorFilter(textColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+
+            View searchPlate = searchView.findViewById(androidx.appcompat.R.id.search_plate);
+            if (searchPlate != null) {
+                searchPlate.setBackgroundColor(Color.TRANSPARENT);
+            }
+
+            View submitArea = searchView.findViewById(androidx.appcompat.R.id.submit_area);
+            if (submitArea != null) {
+                submitArea.setBackgroundColor(Color.TRANSPARENT);
+            }
+        } catch (Exception ignored) {}
     }
 
     //check dark mode or not
@@ -686,7 +745,7 @@ public class PCliq_Methods {
     }
 
     public class LoadShare extends AsyncTask<String, String, String> {
-        private ProgressDialog pDialog;
+        private PCliq_CustomProgressDialog pDialog;
         View coordinatorLayout;
         String option, filePath, postType;
         File file;
@@ -699,7 +758,7 @@ public class PCliq_Methods {
 
         @Override
         protected void onPreExecute() {
-            pDialog = new ProgressDialog(context, android.app.AlertDialog.THEME_HOLO_LIGHT);
+            pDialog = new PCliq_CustomProgressDialog(context);
             if (option.equals(context.getString(R.string.download))) {
                 if (postType.equals("wallpaper")) {
                     pDialog.setMessage(context.getResources().getString(R.string.downloading_wallpaper));
@@ -709,7 +768,6 @@ public class PCliq_Methods {
             } else {
                 pDialog.setMessage(context.getResources().getString(R.string.please_wait));
             }
-            pDialog.setIndeterminate(false);
             pDialog.show();
             super.onPreExecute();
         }

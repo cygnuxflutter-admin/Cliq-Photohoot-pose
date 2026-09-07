@@ -39,9 +39,33 @@ public class PCliq_PreferenceClass {
 
     public String getAdsId(String type) {
         if (prefs != null) {
-            return prefs.getString(type, "");
+            String id = prefs.getString(type, "");
+            if (id != null && !id.trim().isEmpty()) {
+                return id;
+            }
         }
-        return "";
+        // Google Test Ad IDs as default fallback
+        switch (type) {
+            case "GoogleNativeAd":
+            case "AdxNativeUnitID":
+                return "ca-app-pub-3940256099942544/2247696110";
+            case "GoogleBannerAd":
+            case "AdxBannerAdunitID":
+                return "ca-app-pub-3940256099942544/6300978111";
+            case "GoogleInterstitialAd":
+            case "AdxInterstitalAdunitID":
+                return "ca-app-pub-3940256099942544/1033173712";
+            case "GoogleRewardedAd":
+            case "AdxRewardVideoUnitID":
+                return "ca-app-pub-3940256099942544/5224354917";
+            case "GoogleAppopenAd":
+            case "AdxAppOpenID":
+                return "ca-app-pub-3940256099942544/3419835294";
+            case "GoogleInterstialRewardAd":
+                return "ca-app-pub-3940256099942544/5354046379";
+            default:
+                return "";
+        }
     }
 
     public void setRateSubmited(String type, Boolean value) {

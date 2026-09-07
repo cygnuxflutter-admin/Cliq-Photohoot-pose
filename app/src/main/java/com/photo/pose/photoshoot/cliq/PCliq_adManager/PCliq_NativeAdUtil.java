@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.content.res.ColorStateList;
 
 import androidx.annotation.NonNull;
 
@@ -72,7 +74,19 @@ public class PCliq_NativeAdUtil {
         return adView;
     }
 
+    public void showAdLoading(final RelativeLayout nativeAdContainer) {
+        if (nativeAdContainer == null) return;
+        int fixedH = (int) (280 * context.getResources().getDisplayMetrics().density);
+        if (nativeAdContainer.getLayoutParams() != null) {
+            nativeAdContainer.getLayoutParams().height = fixedH;
+        }
+        nativeAdContainer.removeAllViews();
+        View loadingView = LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout_loading, nativeAdContainer, false);
+        nativeAdContainer.addView(loadingView);
+    }
+
     public void fillAdmobNativeAd(final RelativeLayout nativeAdContainer) {
+        showAdLoading(nativeAdContainer);
         AdLoader.Builder builder = new AdLoader.Builder(context, taskPreferenceClass.getAdsId("GoogleNativeAd") );
         Log.e("TAG%%Native", "GoogleNativeAd: " + taskPreferenceClass.getAdsId("GoogleNativeAd"));
 
@@ -81,11 +95,16 @@ public class PCliq_NativeAdUtil {
                 this.nativeAd.destroy();
             }
             this.nativeAd = nativeAd;
-            adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout, null);
+            int fixedH = (int) (280 * context.getResources().getDisplayMetrics().density);
+            adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout, nativeAdContainer, false);
             populateUnifiedNativeAdView(nativeAd, adView);
             nativeAdContainer.removeAllViews();
-            nativeAdContainer.addView(adView);
-            nativeAdContainer.setBackgroundColor(Color.parseColor("#151515"));
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    fixedH
+            );
+            nativeAdContainer.addView(adView, lp);
+            nativeAdContainer.setBackgroundColor(Color.TRANSPARENT);
         });
 
         VideoOptions videoOptions = new VideoOptions.Builder().setStartMuted(true).build();
@@ -104,7 +123,7 @@ public class PCliq_NativeAdUtil {
     }
 
     public void fillAdXNativeAd(final RelativeLayout nativeAdContainer) {
-
+        showAdLoading(nativeAdContainer);
         AdLoader.Builder builder = new AdLoader.Builder(context, taskPreferenceClass.getAdsId("AdxNativeUnitID") );
         Log.e("TAG%%Native", "AdxNativeUnitID: " + taskPreferenceClass.getAdsId("AdxNativeUnitID"));
 
@@ -113,11 +132,16 @@ public class PCliq_NativeAdUtil {
                 this.nativeAd.destroy();
             }
             this.nativeAd = nativeAd;
-            adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout, null);
+            int fixedH = (int) (280 * context.getResources().getDisplayMetrics().density);
+            adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout, nativeAdContainer, false);
             populateUnifiedNativeAdView(nativeAd, adView);
             nativeAdContainer.removeAllViews();
-            nativeAdContainer.addView(adView);
-            nativeAdContainer.setBackgroundColor(Color.parseColor("#151515"));
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    fixedH
+            );
+            nativeAdContainer.addView(adView, lp);
+            nativeAdContainer.setBackgroundColor(Color.TRANSPARENT);
         });
 
         VideoOptions videoOptions = new VideoOptions.Builder()

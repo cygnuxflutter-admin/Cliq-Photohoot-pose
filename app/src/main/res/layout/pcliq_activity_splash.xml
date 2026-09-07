@@ -3,57 +3,215 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/black"
     android:layout_height="match_parent"
+    android:background="@drawable/pcliq_bg_splash_gradient"
     tools:context="com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_SplashActivity">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/img_logo"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:src="@color/white" />-->
+    <!-- Camera Viewfinder HUD Brackets (4 Corners) in Gold -->
+    <ImageView
+        android:id="@+id/iv_vf_tl"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/pcliq_ic_viewfinder_tl" />
 
+    <ImageView
+        android:id="@+id/iv_vf_tr"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="24dp"
+        android:rotation="90"
+        android:src="@drawable/pcliq_ic_viewfinder_tl" />
 
+    <ImageView
+        android:id="@+id/iv_vf_bl"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="32dp"
+        android:rotation="270"
+        android:src="@drawable/pcliq_ic_viewfinder_tl" />
+
+    <ImageView
+        android:id="@+id/iv_vf_br"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:rotation="180"
+        android:src="@drawable/pcliq_ic_viewfinder_tl" />
+
+    <!-- Top Studio Status Pill -->
     <LinearLayout
+        android:id="@+id/ll_splash_top_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/pcliq_bg_badge_gold"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="5dp">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:src="@drawable/pcliq_app_icon"
-            app:riv_corner_radius="25dp" />
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/pcliq_ic_aperture_gold" />
 
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:adjustViewBounds="true"-->
-<!--            android:tint="@color/black"-->
-<!--            android:src="@drawable/splsh_pose_text" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pcliq_leaguespartan_bold"
+            android:letterSpacing="0.12"
+            android:text="STUDIO EDITION • LIVE"
+            android:textColor="@color/gold_primary"
+            android:textSize="10.5sp" />
 
     </LinearLayout>
 
-
-    <fr.castorflex.android.circularprogressbar.CircularProgressBar
-        android:id="@+id/pb_latest"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
+    <!-- Center Hero Branding Section -->
+    <LinearLayout
+        android:id="@+id/ll_splash_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="50dp"
-        android:indeterminate="true"
-        app:cpb_color="#FFee44"
-        app:cpb_colors="@array/pocket_bar_colors"
-        app:cpb_max_sweep_angle="300"
-        app:cpb_min_sweep_angle="10"
-        app:cpb_rotation_speed="1.0"
-        app:cpb_stroke_width="4dp"
-        app:cpb_sweep_speed="1.0" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Elevated Frosted White & Gold Logo Card -->
+        <FrameLayout
+            android:id="@+id/fl_splash_logo"
+            android:layout_width="114dp"
+            android:layout_height="114dp"
+            android:background="@drawable/pcliq_bg_splash_logo_card"
+            android:elevation="10dp"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Cliq Logo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pcliq_app_logo" />
+
+        </FrameLayout>
+
+        <!-- Brand Name Typography (Espresso & Gold) -->
+        <LinearLayout
+            android:id="@+id/ll_splash_title_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:letterSpacing="0.06"
+                android:text="CLIQ"
+                android:textColor="@color/text_espresso"
+                android:textSize="38sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="serif"
+                android:letterSpacing="0.06"
+                android:text="STUDIO"
+                android:textColor="@color/gold_primary"
+                android:textSize="34sp"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
+        <!-- Subtitle & Editorial Tagline -->
+        <TextView
+            android:id="@+id/tv_splash_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/pcliq_leaguespartan_semibold"
+            android:letterSpacing="0.14"
+            android:text="EDITORIAL PHOTOSHOOT &amp; POSES"
+            android:textColor="@color/gold_secondary"
+            android:textSize="12sp" />
+
+        <!-- Luxury Archive Badge -->
+        <TextView
+            android:id="@+id/tv_splash_archive_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/pcliq_bg_chip_unselected"
+            android:fontFamily="@font/pcliq_leaguespartan_medium"
+            android:letterSpacing="0.08"
+            android:paddingStart="14dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="5dp"
+            android:text="CURATED POSING ARCHIVE"
+            android:textColor="@color/text_sub_brown"
+            android:textSize="10.5sp" />
+
+    </LinearLayout>
+
+    <!-- Bottom Studio HUD & Animated Loader -->
+    <LinearLayout
+        android:id="@+id/ll_splash_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Camera Lens Specs HUD Watermark -->
+        <TextView
+            android:id="@+id/tv_splash_camera_hud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/pcliq_leaguespartan_regular"
+            android:letterSpacing="0.15"
+            android:text="50mm • ƒ/1.4 • ISO 100 • RAW"
+            android:textColor="@color/gold_secondary"
+            android:textSize="11sp" />
+
+        <!-- Bespoke Animated Focus Loader -->
+        <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+            android:id="@+id/pb_latest"
+            android:layout_width="52dp"
+            android:layout_height="52dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/pcliq_leaguespartan_regular"
+            android:letterSpacing="0.04"
+            android:text="Curating photoshoot perfection..."
+            android:textColor="@color/text_sub_brown"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -83,7 +83,7 @@ public class PCliq_LivePoseDetailsActivity extends AppCompatActivity {
     private int PC_position;
     private Dialog PC_dialog_rate;
     private ConstraintLayout PC_coordinatorLayout;
-    private ProgressDialog PC_progressDialog;
+    private com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog PC_progressDialog;
     private BottomSheetDialog PC_dialog_report;
 
     @Override
@@ -91,7 +91,7 @@ public class PCliq_LivePoseDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcliq_activity_live_pose_details);
 
-        PC_progressDialog = new ProgressDialog(PCliq_LivePoseDetailsActivity.this);
+        PC_progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(PCliq_LivePoseDetailsActivity.this);
         PC_progressDialog.setMessage(getString(R.string.loading));
 
         PC_sharedPref = new PCliq_SharedPref(this);
@@ -397,8 +397,8 @@ public class PCliq_LivePoseDetailsActivity extends AppCompatActivity {
     }
 
     private void loadRatingApi(final String rate) {
-        final ProgressDialog progressDialog;
-        progressDialog = new ProgressDialog(PCliq_LivePoseDetailsActivity.this);
+        final com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog progressDialog;
+        progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(PCliq_LivePoseDetailsActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.loading));
 
         Call<PCliq_ItemSuccessList> call = PCliq_APIClient.getClient().create(PCliq_APIInterface.class).getDoRateWallpaper(PC_methods.getAPIRequest(PCliq_Constant.URL_RATE_WALLPAPER, 0, "", "", "", "", PCliq_Constant.arrayListLiveWallpapers.get(PC_viewpager.getCurrentItem()).getId(), rate, "", "", "", "", PC_sharedPref.getUserId(), "LiveWallpaper"));
