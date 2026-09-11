@@ -59,17 +59,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PCliq_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class PCliq_MainActivity extends AppCompatActivity {
 
     PCliq_Methods PC_methods;
     PCliq_DBHelper PC_dbHelper;
     FragmentManager PC_fm;
     Toolbar PC_toolbar;
     PCliq_AdConsent PC_adConsent;
-    DrawerLayout PC_drawer;
     PCliq_SharedPref PC_sharedPref;
-    NavigationView PC_navigationView;
-    MenuItem PC_menu_login;
     ImageView PC_iv_demo_filter;
     private ConsentInformation consentInformation;
 
@@ -112,14 +109,7 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
                 });
 
 
-        RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
-        if (PCliq_NetworkUtils.isNetworkAvailable(this)) {
-            if (new PCliq_PreferenceClass(PCliq_MainActivity.this).getInt("BannerAdStatus") == 1) {
-                PCliq_LoadAds.loadAdmobBannerAd(this, rl_ad);
-            } else {
-                rl_ad.setVisibility(View.GONE);
-            }
-        }
+        // Banner ad loading moved to PCliq_FragmentDashboard
 
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
 
@@ -132,25 +122,7 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
         setSupportActionBar(PC_toolbar);
         PC_fm = getSupportFragmentManager();
 
-        PC_drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, PC_drawer, PC_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PC_drawer.openDrawer(GravityCompat.START);
-            }
-        });
-        toggle.setHomeAsUpIndicator(R.mipmap.pcliq_nav);
-        PC_drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        toggle.setDrawerIndicatorEnabled(false);
-
         PCliq_Constant.isLiveWallpaperEnabled = PC_sharedPref.getIsLiveWallpaper();
-
-        PC_navigationView = findViewById(R.id.nav_view);
-        PC_navigationView.setNavigationItemSelectedListener(this);
 
         PC_iv_demo_filter = findViewById(R.id.iv_demo_filter);
 
@@ -166,13 +138,8 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
             getColors();
         }
 
-        Menu menu = PC_navigationView.getMenu();
-        PC_menu_login = menu.findItem(R.id.nav_login);
-        changeLoginName();
-
         PCliq_FragmentDashboard f1 = new PCliq_FragmentDashboard();
         loadFrag(f1, getResources().getString(R.string.home), PC_fm);
-        PC_navigationView.setCheckedItem(R.id.nav_home);
     }
     private void getAppDetails() {
         if (PC_methods.isNetworkAvailable()) {
@@ -286,7 +253,6 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
         } else {
             PCliq_FragmentDashboard f1 = new PCliq_FragmentDashboard();
             loadFrag(f1, getResources().getString(R.string.home), PC_fm);
-            PC_navigationView.setCheckedItem(R.id.nav_home);
 
             PC_adConsent.checkForConsent();
             PC_dbHelper.getAbout();
@@ -320,57 +286,17 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (PC_fm.getBackStackEntryCount() != 0) {
+        if (PC_fm.getBackStackEntryCount() != 0) {
             String title = PC_fm.getFragments().get(PC_fm.getBackStackEntryCount() - 1).getTag();
-            if (title.equals(getString(R.string.dashboard)) || title.equals(getString(R.string.home))) {
+            if (title != null && (title.equals(getString(R.string.dashboard)) || title.equals(getString(R.string.home)))) {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(getString(R.string.home));
                 }
-                PC_navigationView.setCheckedItem(R.id.nav_home);
             }
             super.onBackPressed();
         } else {
             exitDialog();
         }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
-        clickNav(item.getItemId());
-        return true;
-    }
-
-    private void clickNav(int item) {
-        if (item == R.id.nav_home) {
-            PCliq_FragmentDashboard fhome = new PCliq_FragmentDashboard();
-            loadFrag(fhome, getResources().getString(R.string.home), PC_fm);
-        } else if (item == R.id.nav_recent) {
-            PCliq_FragmentPoseRecent frecent = new PCliq_FragmentPoseRecent();
-            loadFrag(frecent, getResources().getString(R.string.recently_viewed), PC_fm);
-        } else if (item == R.id.nav_featured) {
-            PCliq_FragmentPoseFeatured ffeatured = new PCliq_FragmentPoseFeatured();
-            loadFrag(ffeatured, getResources().getString(R.string.featured), PC_fm);
-        } else if (item == R.id.nav_rated) {
-            PCliq_FragmentPoseRated frated = new PCliq_FragmentPoseRated();
-            loadFrag(frated, getResources().getString(R.string.rated), PC_fm);
-        } else if (item == R.id.nav_downloaded) {
-            PCliq_FragmentPoseDownloaded fdownloaded = new PCliq_FragmentPoseDownloaded();
-            loadFrag(fdownloaded, getResources().getString(R.string.most_downloaded), PC_fm);
-        } else if (item == R.id.nav_setting) {
-            Intent intent_set = new Intent(PCliq_MainActivity.this, PCliq_SettingActivity.class);
-            startActivity(intent_set);
-        } else if (item == R.id.nav_login) {
-            PC_methods.clickLogin();
-        } /*else if (item == R.id.nav_unsplash) {
-            startActivity(new Intent(MainActivity.this, SearchActivity.class));
-        }*/
     }
 
     public void loadFrag(Fragment f1, String name, FragmentManager fm) {
@@ -379,8 +305,6 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
         }
 
         FragmentTransaction ft = fm.beginTransaction();
-//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
         if (!name.equals(getString(R.string.home))) {
             ft.hide(fm.getFragments().get(fm.getBackStackEntryCount()));
             ft.add(R.id.frame_layout, f1, name);
@@ -391,12 +315,13 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
 
         ft.commitAllowingStateLoss();
 
-        getSupportActionBar().setTitle(name);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(name);
+        }
     }
 
     private void exitDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(PCliq_MainActivity.this, R.style.ThemeDialog);
-
         alert.setTitle(getString(R.string.exit));
         alert.setMessage(getString(R.string.sure_exit));
         alert.setPositiveButton(getString(R.string.exit), new DialogInterface.OnClickListener() {
@@ -407,28 +332,8 @@ public class PCliq_MainActivity extends AppCompatActivity implements NavigationV
         });
         alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
+            public void onClick(DialogInterface dialogInterface, int i) {}
         });
         alert.show();
-    }
-
-    private void changeLoginName() {
-        if (PC_menu_login != null) {
-            if (new PCliq_SharedPref(PCliq_MainActivity.this).isLogged()) {
-                PC_menu_login.setTitle(getResources().getString(R.string.logout));
-                PC_menu_login.setIcon(getResources().getDrawable(R.mipmap.pcliq_logout));
-            } else {
-                PC_menu_login.setTitle(getResources().getString(R.string.login));
-                PC_menu_login.setIcon(getResources().getDrawable(R.mipmap.pcliq_login));
-            }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        changeLoginName();
-        super.onResume();
     }
 }

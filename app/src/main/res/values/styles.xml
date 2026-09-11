@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -16,6 +16,9 @@
         <item name="android:editTextColor">@color/text_espresso</item>
         <item name="android:textColorHint">@color/text_light_brown</item>
         <item name="searchViewStyle">@style/PCliq_SearchViewStyle</item>
+        <item name="popupMenuStyle">@style/PCliq_PopupMenuStyle</item>
+        <item name="android:popupMenuStyle">@style/PCliq_PopupMenuStyle</item>
+        <item name="actionOverflowMenuStyle">@style/PCliq_PopupMenuStyle</item>
     </style>
 
     <style name="PCliq_SearchViewStyle" parent="Widget.AppCompat.SearchView">
@@ -84,6 +87,30 @@
         <item name="colorControlNormal">@color/text_espresso</item>
         <item name="fontFamily">@font/pcliq_leaguespartan_semibold</item>
         <item name="popupMenuBackground">@color/bg</item>
+    </style>
+
+    <style name="PCliq_PopupMenuStyle" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/pcliq_bg_popup_menu</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+
+    <style name="PCliq_PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:textColor">@color/text_espresso</item>
+        <item name="android:textColorPrimary">@color/text_espresso</item>
+        <item name="actionMenuTextColor">@color/text_espresso</item>
+        <item name="colorControlHighlight">#20C19543</item>
+        <item name="popupMenuStyle">@style/PCliq_PopupMenuStyle</item>
+        <item name="android:popupMenuStyle">@style/PCliq_PopupMenuStyle</item>
+        <item name="android:itemTextAppearance">@style/PCliq_PopupItemTextAppearance</item>
+    </style>
+
+    <style name="PCliq_PopupItemTextAppearance" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@color/text_espresso</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/pcliq_leaguespartan_semibold</item>
+        <item name="fontFamily">@font/pcliq_leaguespartan_semibold</item>
     </style>
 
 </resources>

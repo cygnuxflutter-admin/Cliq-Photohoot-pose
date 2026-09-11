@@ -41,7 +41,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -57,7 +57,7 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
     private PCliq_AdapterPose adapterWallpaper;
     private ArrayList<PCliq_ItemSubCat> arrayListSubCat;
     private ArrayList<PCliq_ItemPose> arrayListWallpapers;
-    private CircularProgressBar progressBar;
+    private ProgressBar progressBar;
     private TextView textView_empty;
     private SearchView searchView; 
     private int page = 1, totalRecord = 0;
@@ -115,8 +115,7 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
         View ivBack = findViewById(R.id.iv_cat_back);
         View ivSearch = findViewById(R.id.iv_cat_search);
         View fabCamera = findViewById(R.id.fab_cat_camera);
-
-        if (catName != null && !catName.isEmpty()) {
+        if (catName != null && !catName.isEmpty()) {
             tvHeading.setText(catName.toLowerCase().contains("pose") ? catName : catName + " Poses");
         } else {
             tvHeading.setText("Couple Poses");
@@ -134,6 +133,16 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
 
         dbHelper = new PCliq_DBHelper(PCliq_PoseByCatActivity.this);
         methods = new PCliq_Methods(PCliq_PoseByCatActivity.this, interAdListener);
+
+        android.widget.RelativeLayout rl_ad = findViewById(R.id.rl_ad);
+        if (com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_NetworkUtils.isNetworkAvailable(PCliq_PoseByCatActivity.this)) {
+            if (new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass(PCliq_PoseByCatActivity.this).getInt("BannerAdStatus") == 1) {
+                rl_ad.setVisibility(View.VISIBLE);
+                com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_LoadAds.loadAdmobBannerAd(PCliq_PoseByCatActivity.this, rl_ad);
+            } else {
+                rl_ad.setVisibility(View.GONE);
+            }
+        }
 
         arrayListSubCat = new ArrayList<>();
         arrayListWallpapers = new ArrayList<>();
@@ -293,9 +302,11 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
                         } else {
                             totalRecord = totalRecord + response.body().getArrayListWallpaper().size();
                             for (int i = 0; i < response.body().getArrayListWallpaper().size(); i++) {
-                                dbHelper.addWallpaper(response.body().getArrayListWallpaper().get(i), databaseTable, databaseID);
-
-                                arrayListWallpapers.add(response.body().getArrayListWallpaper().get(i));
+                                com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPose item = response.body().getArrayListWallpaper().get(i);
+                                String img = item.getImage();
+                                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
+                                dbHelper.addWallpaper(item, databaseTable, databaseID);
+                                arrayListWallpapers.add(item);
 
                                 int abc = arrayListWallpapers.lastIndexOf(null);
                                 if (((arrayListWallpapers.size() - (abc + 1)) % new PCliq_PreferenceClass(PCliq_PoseByCatActivity.this).getInt("rv_count", 4) == 0) ) {
@@ -485,6 +496,17 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
             if (adapterColors != null) {
                 adapterColors.clearSelected();
             }
+
+            page = 1;
+            totalRecord = 0;
+            isOver = false;
+            isScroll = false;
+            arrayListWallpapers.clear();
+            if (adapterWallpaper != null) {
+                adapterWallpaper.notifyDataSetChanged();
+            }
+            getWallpaperData();
+            dialog_filter.dismiss();
         });
 
         button_filter.setOnClickListener(v -> {
@@ -492,10 +514,10 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
                 color_ids = adapterColors.getSelected();
             }
             wallType = wallTempType;
-
             page = 1;
             totalRecord = 0;
             isOver = false;
+            isScroll = false;
             arrayListWallpapers.clear();
             if (adapterWallpaper != null) {
                 adapterWallpaper.notifyDataSetChanged();
@@ -524,3 +546,4 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
         super.onDestroy();
     }
 }
+

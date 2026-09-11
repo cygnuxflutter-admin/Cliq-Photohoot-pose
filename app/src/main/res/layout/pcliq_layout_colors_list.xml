@@ -10,9 +10,7 @@
         android:id="@+id/tv_color"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/white"
-        android:textSize="10sp" />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -24,8 +22,9 @@
             android:layout_width="75dp"
             android:layout_height="40dp"
             android:scaleType="centerCrop"
-            app:riv_border_width="3dp"
-            app:riv_corner_radius="5dp" />
+            app:riv_border_color="#DED4CA"
+            app:riv_border_width="2dp"
+            app:riv_corner_radius="10dp" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv_color_tick"
@@ -34,7 +33,7 @@
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
             android:src="@drawable/pcliq_tick"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

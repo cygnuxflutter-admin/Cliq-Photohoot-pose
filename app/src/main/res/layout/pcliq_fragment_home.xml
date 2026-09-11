@@ -293,18 +293,21 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="225dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:layout_marginTop="8dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_wall_by_cat_download"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:clipChildren="false"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp" />
 
-                <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+                <ProgressBar android:indeterminateTint="@color/gold_primary"
                     android:id="@+id/pb_wallcat_download"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -478,18 +481,21 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:layout_marginTop="8dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_wall_by_cat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:paddingBottom="100dp" />
 
-                <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+                <ProgressBar android:indeterminateTint="@color/gold_primary"
                     android:id="@+id/pb_wallcat"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -523,7 +529,7 @@
                 android:layout_height="0dp"
                 android:visibility="gone" />
 
-            <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+            <ProgressBar android:indeterminateTint="@color/gold_primary"
                 android:id="@+id/pb_wallcat_pupular"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

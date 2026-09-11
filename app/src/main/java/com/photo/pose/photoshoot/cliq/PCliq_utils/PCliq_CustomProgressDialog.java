@@ -33,6 +33,8 @@ public class PCliq_CustomProgressDialog extends Dialog {
 
         if (getWindow() != null) {
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            getWindow().setDimAmount(0.6f);
         }
 
         textView = findViewById(R.id.textView);

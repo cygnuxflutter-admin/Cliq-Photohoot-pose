@@ -2,14 +2,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="280dp">
+    android:layout_height="280dp"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="280dp"
+        android:outlineSpotShadowColor="#40000000"
+        android:outlineAmbientShadowColor="#20000000"
         app:cardBackgroundColor="@color/bg_card_warm"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="3dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="6dp"
+        app:cardMaxElevation="10dp"
         app:strokeWidth="0dp">
 
         <RelativeLayout

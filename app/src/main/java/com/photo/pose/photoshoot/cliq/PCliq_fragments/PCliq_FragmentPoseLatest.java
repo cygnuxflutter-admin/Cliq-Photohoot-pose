@@ -49,7 +49,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -62,7 +62,7 @@ public class PCliq_FragmentPoseLatest extends Fragment {
     private RecyclerView recyclerView;
     private PCliq_AdapterPose adapter;
     private ArrayList<PCliq_ItemPose> arrayList;
-    private CircularProgressBar progressBar;
+    private ProgressBar progressBar;
     private PCliq_Methods methods;
     private Boolean isOver = false, isScroll = false, isLoading = false;
     private TextView textView_empty;
@@ -406,6 +406,17 @@ public class PCliq_FragmentPoseLatest extends Fragment {
             if (adapterColors != null) {
                 adapterColors.clearSelected();
             }
+
+            page = 1;
+            totalRecord = 0;
+            isOver = false;
+            isScroll = false;
+            arrayList.clear();
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            getWallpaperData();
+            dialog_filter.dismiss();
         });
 
         button_filter.setOnClickListener(v -> {
@@ -417,6 +428,7 @@ public class PCliq_FragmentPoseLatest extends Fragment {
             page = 1;
             totalRecord = 0;
             isOver = false;
+            isScroll = false;
             arrayList.clear();
             if (adapter != null) {
                 adapter.notifyDataSetChanged();

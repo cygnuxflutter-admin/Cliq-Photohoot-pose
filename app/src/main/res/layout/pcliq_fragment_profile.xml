@@ -9,7 +9,10 @@
         android:id="@+id/nsv_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:paddingBottom="90dp"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +46,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/pcliq_ic_placeholder_square"
+                        android:src="@drawable/pcliq_ic_profile_placeholder"
                         app:riv_border_color="@color/gold_primary"
                         app:riv_border_width="1.5dp"
                         app:riv_corner_radius="18dp" />
@@ -105,78 +108,744 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Favourite Poses Section -->
-            <LinearLayout
+            <!-- Section 0 Header: My Activity -->
+            <TextView
+                android:id="@+id/tv_header_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/pcliq_leaguespartan_bold"
+                android:letterSpacing="0.05"
+                android:text="MY ACTIVITY"
+                android:textColor="@color/gold_primary"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <!-- Card 0: Favourite Poses -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_favourite_poses"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/pcliq_bg_gradient_top_curve"
-                android:orientation="vertical"
-                android:paddingTop="8dp">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#154A3B32"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="serif"
-                        android:text="Favourite Poses"
-                        android:textColor="@color/text_espresso"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:id="@+id/rl_favourite"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="Favourite Poses"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#10000000" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_recent"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/recently_viewed"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#10000000" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_featured"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/featured"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#10000000" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_rated"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/most_rated"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#10000000" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_downloaded"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/most_downloaded"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Section 1 Header: Preferences -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/pcliq_leaguespartan_bold"
+                android:letterSpacing="0.05"
+                android:text="PREFERENCES"
+                android:textColor="@color/gold_primary"
+                android:textSize="12sp" />
+
+            <!-- Card 1: Preferences & Storage -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#154A3B32"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Theme Option (Hidden by default) -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_theme"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tv1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:text="@string/theme"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_theme"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/tv_theme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pcliq_leaguespartan_regular"
+                            android:textColor="@color/text_sub_brown"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+                        <ImageView
+                            android:id="@+id/iv_theme"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="@string/image"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Consent Option -->
+                    <LinearLayout
+                        android:id="@+id/ll_consent"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pcliq_leaguespartan_medium"
+                                android:text="@string/your_ad_consent"
+                                android:textColor="@color/text_espresso"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_show_personalized"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pcliq_leaguespartan_regular"
+                                android:text="@string/show_personalized_ad"
+                                android:textColor="@color/red"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_consent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="@color/pcliq_switch_thumb_selector"
+                            app:trackTint="@color/pcliq_switch_track_selector" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#154A3B32" />
+
+                    <!-- Push Notification -->
+                    <LinearLayout
+                        android:id="@+id/llvibrate"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:text="@string/enable_push_noti"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_noti"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:thumbTint="@color/pcliq_switch_thumb_selector"
+                            app:trackTint="@color/pcliq_switch_track_selector" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#154A3B32" />
+
+                    <!-- Clear Cache -->
+                    <LinearLayout
+                        android:id="@+id/ll_cache"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:text="@string/clear_cache"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_cachesize"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/pcliq_leaguespartan_semibold"
+                            android:textColor="@color/gold_primary"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:contentDescription="@string/image"
+                            android:src="@drawable/pcliq_clear"
+                            app:tint="@color/gold_primary" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <RelativeLayout
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Section 2 Header: Community & Support -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/pcliq_leaguespartan_bold"
+                android:letterSpacing="0.05"
+                android:text="SUPPORT &amp; COMMUNITY"
+                android:textColor="@color/gold_primary"
+                android:textSize="12sp" />
+
+            <!-- Card 2: Support & Community -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#154A3B32"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Rate App -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp">
+
+                        <TextView
+                            android:id="@+id/tv_rateapp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/rateapp"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view_moreapp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#154A3B32" />
+
+                    <!-- More Apps -->
+                    <RelativeLayout
+                        android:id="@+id/rl_moreapp"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp">
+
+                        <TextView
+                            android:id="@+id/tv_moreapp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/moreapp"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#154A3B32" />
+
+                    <!-- Share App -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp">
+
+                        <TextView
+                            android:id="@+id/tv_shareapp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/shareapp"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#154A3B32" />
+
+                    <!-- About -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp">
+
+                        <TextView
+                            android:id="@+id/tv_about"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="@string/about"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Section 3 Header: Legal & Info -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/pcliq_leaguespartan_bold"
+                android:letterSpacing="0.05"
+                android:text="LEGAL &amp; POLICIES"
+                android:textColor="@color/gold_primary"
+                android:textSize="12sp" />
+
+            <!-- Card 3: Legal Pages -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#154A3B32"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Privacy Policy -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp">
+
+                        <TextView
+                            android:id="@+id/tv_privacy_policy"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:fontFamily="@font/pcliq_leaguespartan_medium"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="40dp"
+                            android:text="Privacy Policy"
+                            android:textColor="@color/text_espresso"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="Next"
+                            android:src="@drawable/pcliq_ic_chevron_right"
+                            app:tint="@color/text_sub_brown" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#154A3B32" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_wall_by_cat"
+                        android:id="@+id/rv_pages"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingStart="8dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="90dp"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 4: Logout -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#FFF0F0"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#FFCDCD"
+                app:strokeWidth="1dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="?attr/selectableItemBackground">
 
                     <TextView
-                        android:id="@+id/tv_empty_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/pcliq_leaguespartan_medium"
-                        android:gravity="center"
-                        android:padding="20dp"
-                        android:text="@string/no_data_found"
-                        android:textColor="@color/text_sub_brown"
-                        android:visibility="gone" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_margin="20dp"
-                        android:src="@mipmap/pcliq_arrow_up"
-                        android:visibility="invisible"
-                        app:backgroundTint="@color/gold_primary"
-                        app:fabSize="normal"
-                        app:tint="#FFFFFF" />
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="LOGOUT"
+                        android:textColor="#D32F2F"
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- App Branding Footer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:text="CLIQ STUDIO"
+                    android:textColor="@color/text_espresso"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_app_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/pcliq_leaguespartan_regular"
+                    android:text="Curated Photoshoot Inspiration"
+                    android:textColor="@color/text_sub_brown"
+                    android:textSize="12sp" />
+
             </LinearLayout>
+
+        
+
 
         </LinearLayout>
 
@@ -195,7 +864,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+    <ProgressBar android:indeterminateTint="@color/gold_primary"
         android:id="@+id/pb_wallcat"
         android:layout_width="60dp"
         android:layout_height="60dp"

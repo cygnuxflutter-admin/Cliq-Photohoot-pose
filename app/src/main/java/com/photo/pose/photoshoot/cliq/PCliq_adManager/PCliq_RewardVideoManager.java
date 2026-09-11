@@ -40,6 +40,11 @@ public class PCliq_RewardVideoManager {
             taskPreferenceClass = new PCliq_PreferenceClass(context);
         }
         AD_google_Rw = taskPreferenceClass.getAdsId("GoogleInterstialRewardAd");
+        if (AD_google_Rw == null || AD_google_Rw.trim().isEmpty()) {
+            onAdLoadInterface.onAdClose(true);
+            return;
+        }
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.pcliq_lottie_anim_dialog, null);
@@ -61,10 +66,10 @@ public class PCliq_RewardVideoManager {
             @Override
             public void onAdLoaded(RewardedInterstitialAd ad) {
                 mRewardedAd = ad;
-                if (alertDialog != null) {
-                    if (alertDialog.isShowing()) {
+                if (alertDialog != null && alertDialog.isShowing() && !context.isFinishing()) {
+                    try {
                         alertDialog.dismiss();
-                    }
+                    } catch (Exception ignored) {}
                 }
                 if (mRewardedAd != null) {
                     mRewardedAd.show(context, new OnUserEarnedRewardListener() {
@@ -83,26 +88,23 @@ public class PCliq_RewardVideoManager {
                         @Override
                         public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
                             super.onAdFailedToShowFullScreenContent(adError);
-                            onAdLoadInterface.onAdFail();
-//                            isUserEarnReward = false;
-//                            onAdLoadInterface.onAdClose(isUserEarnReward);
+                            onAdLoadInterface.onAdClose(true);
                         }
                     });
+                } else {
+                    onAdLoadInterface.onAdClose(true);
                 }
             }
 
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 super.onAdFailedToLoad(loadAdError);
-//                if (alertDialog != null) {
-//                    if (alertDialog.isShowing()) {
-//                        alertDialog.dismiss();
-//                    }
-//                }
-                fbInterstitial(context, onAdLoadInterface);
-
-//              isUserEarnReward = false;
-//              onAdLoadInterface.onAdClose(isUserEarnReward);
+                if (alertDialog != null && alertDialog.isShowing() && !context.isFinishing()) {
+                    try {
+                        alertDialog.dismiss();
+                    } catch (Exception ignored) {}
+                }
+                onAdLoadInterface.onAdClose(true);
             }
         });
 

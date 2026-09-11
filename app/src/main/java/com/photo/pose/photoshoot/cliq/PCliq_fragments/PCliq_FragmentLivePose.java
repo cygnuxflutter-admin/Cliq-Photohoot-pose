@@ -43,7 +43,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -56,7 +56,7 @@ public class PCliq_FragmentLivePose extends Fragment {
     private RecyclerView recyclerView;
     private PCliq_AdapterLivePose adapter;
     private ArrayList<PCliq_ItemPose> arrayList;
-    private CircularProgressBar progressBar;
+    private ProgressBar progressBar;
     private PCliq_Methods methods;
     private Boolean isOver = false, isScroll = false, isLoading = false;
     private TextView textView_empty;
@@ -368,6 +368,17 @@ public class PCliq_FragmentLivePose extends Fragment {
             button_rated.setBackgroundResource(R.drawable.pcliq_bg_button_filter);
             wallTempType = "";
             wallType = "";
+
+            page = 1;
+            totalRecord = 0;
+            isOver = false;
+            isScroll = false;
+            arrayList.clear();
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            getWallpaperData();
+            dialog_filter.dismiss();
         });
 
         button_filter.setOnClickListener(v -> {
@@ -376,6 +387,7 @@ public class PCliq_FragmentLivePose extends Fragment {
             page = 1;
             totalRecord = 0;
             isOver = false;
+            isScroll = false;
             arrayList.clear();
             if(adapter != null) {
                 adapter.notifyDataSetChanged();

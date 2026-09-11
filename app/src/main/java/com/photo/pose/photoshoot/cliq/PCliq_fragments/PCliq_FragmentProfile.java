@@ -2,6 +2,9 @@ package com.photo.pose.photoshoot.cliq.PCliq_fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.net.Uri;
+import android.widget.Toast;
+import android.widget.LinearLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,7 +14,10 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.RelativeLayout;
 
+import com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_FavouriteActivity;
+import com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_MainActivity;
 import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterLivePose;
 import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterPose;
 import com.photo.pose.photoshoot.cliq.PCliq_apiservices.PCliq_APIClient;
@@ -23,6 +29,10 @@ import com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_ProfileEditActivity;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass;
 import com.photo.pose.photoshoot.cliq.R;
 import com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_PoseDetailsActivity;
+import com.photo.pose.photoshoot.cliq.PCliq_fragments.PCliq_FragmentPoseRecent;
+import com.photo.pose.photoshoot.cliq.PCliq_fragments.PCliq_FragmentPoseFeatured;
+import com.photo.pose.photoshoot.cliq.PCliq_fragments.PCliq_FragmentPoseRated;
+import com.photo.pose.photoshoot.cliq.PCliq_fragments.PCliq_FragmentPoseDownloaded;
 import com.photo.pose.photoshoot.cliq.PCliq_interfaces.PCliq_InterAdListener;
 import com.photo.pose.photoshoot.cliq.PCliq_interfaces.PCliq_RecyclerViewClickListener;
 import com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPose;
@@ -43,7 +53,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -54,145 +64,93 @@ public class PCliq_FragmentProfile extends Fragment {
 
     PCliq_Methods methods;
     PCliq_SharedPref sharedPref;
-    RecyclerView recyclerView;
-    PCliq_AdapterPose adapter;
-    PCliq_AdapterLivePose adapterLiveWallpaper;
-    ArrayList<PCliq_ItemPose> arrayList;
     NestedScrollView nestedScrollView;
-//    Spinner sp_fav_type;
     ImageView iv_profile, iv_profile_edit;
     TextView tv_name, tv_email;
-    CircularProgressBar progressBar;
-    TextView tv_empty, tv_empty_list;
-    int totalRecord = 0;
-    StaggeredGridLayoutManager grid;
+    ProgressBar progressBar;
+    TextView tv_empty;
     String errorString = "";
-    FloatingActionButton fab;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pcliq_fragment_profile, container, false);
 
-        grid = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        grid.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-
-        PCliq_InterAdListener interAdListener = new PCliq_InterAdListener() {
-            @Override
-            public void onClick(int position, String type) {
-                Intent intent;
-                if (type.equals(getString(R.string.wallpapers))) {
-
-                    PCliq_Constant.arrayList.clear();
-                    PCliq_Constant.arrayList.addAll(arrayList);
-                    PCliq_Constant.arrayList.removeAll(Collections.singleton(null));
-
-                    int real_pos = PCliq_Constant.arrayList.indexOf(arrayList.get(position));
-
-                    intent = new Intent(getActivity(), PCliq_PoseDetailsActivity.class);
-                    intent.putExtra("pos", real_pos);
-                    intent.putExtra("list_type", getString(R.string.favourite));
-                    intent.putExtra("page", 1);
-                    intent.putExtra("wallType", "");
-                    intent.putExtra("color_ids", "");
-                } else {
-
-                    PCliq_Constant.arrayListLiveWallpapers.clear();
-                    PCliq_Constant.arrayListLiveWallpapers.addAll(arrayList);
-                    PCliq_Constant.arrayListLiveWallpapers.removeAll(Collections.singleton(null));
-
-                    int real_pos = PCliq_Constant.arrayListLiveWallpapers.indexOf(arrayList.get(position));
-
-                    intent = new Intent(getActivity(), PCliq_LivePoseDetailsActivity.class);
-                    intent.putExtra("pos", real_pos);
-                }
-                startActivity(intent);
-            }
-        };
-
-        methods = new PCliq_Methods(getActivity(), interAdListener);
+        methods = new PCliq_Methods(getActivity());
         sharedPref = new PCliq_SharedPref(getActivity());
-
-        arrayList = new ArrayList<>();
 
         nestedScrollView = rootView.findViewById(R.id.nsv_profile);
 
-//        sp_fav_type = rootView.findViewById(R.id.sp_prof_fav);
+        TextView tv_app_version = rootView.findViewById(R.id.tv_app_version);
+        if (tv_app_version != null) {
+            tv_app_version.setText("Curated Photoshoot Inspiration • v" + com.photo.pose.photoshoot.cliq.BuildConfig.VERSION_NAME);
+        }
+
         iv_profile = rootView.findViewById(R.id.iv_profile);
         iv_profile_edit = rootView.findViewById(R.id.iv_profile_edit);
         tv_name = rootView.findViewById(R.id.tv_profile_name);
         tv_email = rootView.findViewById(R.id.tv_profile_email);
         progressBar = rootView.findViewById(R.id.pb_wallcat);
         tv_empty = rootView.findViewById(R.id.tv_empty_wallcat);
-        tv_empty_list = rootView.findViewById(R.id.tv_empty_list);
+        
+        TextView tv_header_activity = rootView.findViewById(R.id.tv_header_activity);
+        com.google.android.material.card.MaterialCardView card_favourite_poses = rootView.findViewById(R.id.card_favourite_poses);
+        RelativeLayout rl_favourite = rootView.findViewById(R.id.rl_favourite);
 
-//        ArrayList<String> arrayListType = new ArrayList<>();
-//        arrayListType.add(getString(R.string.wallpapers));
-//        arrayListType.add(getString(R.string.live_wallpapers));
-//        SpinAdapter adapterFavType = new SpinAdapter(getActivity(), android.R.layout.simple_spinner_item, arrayListType);
-//        sp_fav_type.setAdapter(adapterFavType);
+        com.google.android.material.card.MaterialCardView card_logout = rootView.findViewById(R.id.card_logout);
+        RelativeLayout rl_logout = rootView.findViewById(R.id.rl_logout);
+        RelativeLayout rl_recent = rootView.findViewById(R.id.rl_recent);
+        RelativeLayout rl_featured = rootView.findViewById(R.id.rl_featured);
+        RelativeLayout rl_rated = rootView.findViewById(R.id.rl_rated);
+        RelativeLayout rl_downloaded = rootView.findViewById(R.id.rl_downloaded);
 
-//        sp_fav_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                arrayList.clear();
-//
-//                if (position == 0) {
-//                    if (adapter != null) {
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                } else {
-//                    if (adapterLiveWallpaper != null) {
-//                        adapterLiveWallpaper.notifyDataSetChanged();
-//                    }
-//                }
-                getWallpaperData();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        // Always show the header and favourite poses card so guest users know the feature exists
+        tv_header_activity.setVisibility(View.VISIBLE);
+        card_favourite_poses.setVisibility(View.VISIBLE);
+
+        rl_favourite.setOnClickListener(v -> {
+            if (sharedPref.isLogged() && !sharedPref.getUserId().equals("")) {
+                Intent intent = new Intent(getActivity(), PCliq_FavouriteActivity.class);
+                startActivity(intent);
+            } else {
+                methods.clickLogin();
+            }
+        });
+
+        rl_recent.setOnClickListener(v -> {
+            if (getActivity() instanceof PCliq_MainActivity) {
+                ((PCliq_MainActivity) getActivity()).loadFrag(new PCliq_FragmentPoseRecent(), getString(R.string.recently_viewed), getActivity().getSupportFragmentManager());
+            }
+        });
+
+        rl_featured.setOnClickListener(v -> {
+            if (getActivity() instanceof PCliq_MainActivity) {
+                ((PCliq_MainActivity) getActivity()).loadFrag(new PCliq_FragmentPoseFeatured(), getString(R.string.featured), getActivity().getSupportFragmentManager());
+            }
+        });
+
+        rl_rated.setOnClickListener(v -> {
+            if (getActivity() instanceof PCliq_MainActivity) {
+                ((PCliq_MainActivity) getActivity()).loadFrag(new PCliq_FragmentPoseRated(), getString(R.string.rated), getActivity().getSupportFragmentManager());
+            }
+        });
+
+        rl_downloaded.setOnClickListener(v -> {
+            if (getActivity() instanceof PCliq_MainActivity) {
+                ((PCliq_MainActivity) getActivity()).loadFrag(new PCliq_FragmentPoseDownloaded(), getString(R.string.most_downloaded), getActivity().getSupportFragmentManager());
+            }
+        });
+
+        rl_logout.setOnClickListener(v -> {
+            methods.clickLogin();
+        });
 
         if (sharedPref.isLogged() && !sharedPref.getUserId().equals("")) {
             loadUserProfile();
 
-            fab = rootView.findViewById(R.id.fab);
-            recyclerView = rootView.findViewById(R.id.rv_wall_by_cat);
-            recyclerView.setHasFixedSize(true);
-
-            recyclerView.setLayoutManager(grid);
-
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    int[] firstVisibleItem = grid.findFirstVisibleItemPositions(null);
-
-                    if (fab != null) {
-                        if (firstVisibleItem[0] > 6) {
-                            fab.show();
-                        } else {
-                            fab.hide();
-                        }
-                    }
-                }
-            });
-
-            if (fab != null) {
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (recyclerView != null) {
-                            recyclerView.smoothScrollToPosition(0);
-                        }
-                    }
-                });
-            }
+            card_logout.setVisibility(View.VISIBLE);
 
             if (iv_profile_edit != null) {
+                iv_profile_edit.setImageResource(R.drawable.pcliq_ic_edit_pencil);
                 iv_profile_edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -204,13 +162,25 @@ public class PCliq_FragmentProfile extends Fragment {
 
         } else {
             if (progressBar != null) progressBar.setVisibility(View.GONE);
-            if (nestedScrollView != null) nestedScrollView.setVisibility(View.GONE);
-            if (tv_empty != null) {
-                tv_empty.setText(getString(R.string.not_log));
-                tv_empty.setVisibility(View.VISIBLE);
+            if (nestedScrollView != null) nestedScrollView.setVisibility(View.VISIBLE);
+            
+            card_logout.setVisibility(View.GONE);
+            
+            if (tv_name != null) tv_name.setText("Guest User");
+            if (tv_email != null) tv_email.setText("Login to see your favourite poses");
+            if (iv_profile != null) iv_profile.setImageResource(R.drawable.pcliq_ic_profile_placeholder);
+
+            if (iv_profile_edit != null) {
+                iv_profile_edit.setImageResource(R.mipmap.pcliq_login);
+                iv_profile_edit.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_LoginActivity.class);
+                    intent.putExtra("from", "app");
+                    startActivity(intent);
+                });
             }
         }
 
+                setupSettings(rootView);
         return rootView;
     }
 
@@ -251,15 +221,20 @@ public class PCliq_FragmentProfile extends Fragment {
 
                             tv_name.setText(response.body().getArrayListUser().get(0).getName());
                             tv_email.setText(response.body().getArrayListUser().get(0).getEmail());
-                            if (!response.body().getArrayListUser().get(0).getImage().equals("")) {
-                                Picasso.get()
-                                        .load(response.body().getArrayListUser().get(0).getImage())
-                                        .placeholder(R.drawable.pcliq_user)
+                            String userImg = response.body().getArrayListUser().get(0).getImage();
+                            if (!userImg.equals("") && !userImg.contains("pcliq_user") && !userImg.contains("default") && !userImg.contains("placeholder")) {
+                                com.squareup.picasso.Picasso.get()
+                                        .load(userImg)
+                                        .placeholder(R.drawable.pcliq_ic_profile_placeholder)
                                         .into(iv_profile);
+                            } else {
+                                iv_profile.setImageResource(R.drawable.pcliq_ic_profile_placeholder);
                             }
+                            progressBar.setVisibility(View.GONE);
                         } else {
 //                            setEmpty(false, getString(R.string.invalid_user));
                             methods.logout(getActivity(), sharedPref);
+                            progressBar.setVisibility(View.GONE);
                         }
                     } else {
                         errorString = getString(R.string.server_error);
@@ -280,133 +255,10 @@ public class PCliq_FragmentProfile extends Fragment {
         }
     }
 
-    private void getWallpaperData() {
-        if (methods.isNetworkAvailable()) {
-            progressBar.setVisibility(View.VISIBLE);
-            Call<PCliq_ItemFavList> call;
-//            if (sp_fav_type.getSelectedItemPosition() == 0) {
-                call = PCliq_APIClient.getClient().create(PCliq_APIInterface.class).getWallpapersByFav(methods.getAPIRequest(PCliq_Constant.URL_WALLPAPER_BY_FAV, 0, "", "", "", "", "", "", "", "", "", "", new PCliq_SharedPref(getActivity()).getUserId(), "Wallpaper"));
-//            } else {
-//                call = APIClient.getClient().create(APIInterface.class).getWallpapersByFav(methods.getAPIRequest(Constant.URL_WALLPAPER_BY_FAV, 0, "", "", "", "", "", "", "", "", "", "", new SharedPref(getActivity()).getUserId(), "LiveWallpaper"));
-//            }
-
-            call.enqueue(new Callback<PCliq_ItemFavList>() {
-                @Override
-                public void onResponse(@NonNull Call<PCliq_ItemFavList> call, @NonNull Response<PCliq_ItemFavList> response) {
-                    if (getActivity() != null) {
-                        if (response.body() != null && response.body().getItemFavPost() != null) {
-                            if (response.body().getItemFavPost().getArrayListWallpapers().size() == 0 &&
-                                    response.body().getItemFavPost().getArrayListLiveWallpapers().size() == 0) {
-                                setEmptyList();
-                            } else {
-//                                if (sp_fav_type.getSelectedItemPosition() == 0) {
-                                    totalRecord = response.body().getItemFavPost().getArrayListWallpapers().size();
-                                    for (int i = 0; i < response.body().getItemFavPost().getArrayListWallpapers().size(); i++) {
-
-                                        arrayList.add(response.body().getItemFavPost().getArrayListWallpapers().get(i));
-
-                                        int abc = arrayList.lastIndexOf(null);
-                                        if (((arrayList.size() - (abc + 1)) % new PCliq_PreferenceClass(getContext()).getInt("rv_count", 4) == 0) ) {
-                                            arrayList.add(null);
-                                        }
-
-//                                        if (PCliq_Constant.isNativeAd) {
-//                                            int abc = arrayList.lastIndexOf(null);
-//                                            if (((arrayList.size() - (abc + 1)) % PCliq_Constant.nativeAdShow == 0) && (response.body().getItemFavPost().getArrayListWallpapers().size() - 1 != i || totalRecord != response.body().getItemFavPost().getArrayListWallpapers().size())) {
-//                                                arrayList.add(null);
-//                                            }
-//                                        }
-                                    }
-//                                } else {
-//                                    totalRecord = response.body().getItemFavPost().getArrayListLiveWallpapers().size();
-//                                    for (int i = 0; i < response.body().getItemFavPost().getArrayListLiveWallpapers().size(); i++) {
-//
-//                                        arrayList.add(response.body().getItemFavPost().getArrayListLiveWallpapers().get(i));
-//
-//                                        if (Constant.isNativeAd) {
-//                                            int abc = arrayList.lastIndexOf(null);
-//                                            if (((arrayList.size() - (abc + 1)) % Constant.nativeAdShow == 0) && (response.body().getItemFavPost().getArrayListLiveWallpapers().size() - 1 != i || totalRecord != response.body().getItemFavPost().getArrayListLiveWallpapers().size())) {
-//                                                arrayList.add(null);
-//                                            }
-//                                        }
-//                                    }
-//                                }
-
-                                setAdapter();
-                            }
-                        } else {
-                            setEmptyList();
-                        }
-                        progressBar.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<PCliq_ItemFavList> call, @NonNull Throwable t) {
-                    call.cancel();
-                    setEmptyList();
-                    progressBar.setVisibility(View.GONE);
-                }
-            });
-        } else {
-            setAdapter();
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void setAdapter() {
-//        if (sp_fav_type.getSelectedItemPosition() == 0) {
-            adapterLiveWallpaper = null;
-            adapter = new PCliq_AdapterPose(getActivity(), arrayList, new PCliq_RecyclerViewClickListener() {
-                @Override
-                public void onClick(int position) {
-                    methods.showInter(position, getString(R.string.wallpapers));
-                }
-            });
-            AnimationAdapter adapterAnim = new AlphaInAnimationAdapter(adapter);
-            adapterAnim.setFirstOnly(true);
-            adapterAnim.setDuration(500);
-            adapterAnim.setInterpolator(new OvershootInterpolator(.9f));
-            recyclerView.setAdapter(adapterAnim);
-//        } else {
-//            adapter = null;
-//            adapterLiveWallpaper = new AdapterLiveWallpaper(getActivity(), arrayList, new RecyclerViewClickListener() {
-//                @Override
-//                public void onClick(int position) {
-//                    methods.showInter(position, getString(R.string.live_wallpapers));
-//                }
-//            });
-//            AnimationAdapter adapterAnim = new AlphaInAnimationAdapter(adapterLiveWallpaper);
-//            adapterAnim.setFirstOnly(true);
-//            adapterAnim.setDuration(500);
-//            adapterAnim.setInterpolator(new OvershootInterpolator(.9f));
-//            recyclerView.setAdapter(adapterAnim);
-//        }
-        setEmptyList();
-    }
-
     private void setEmpty() {
         progressBar.setVisibility(View.GONE);
-        if (arrayList.size() == 0) {
-            tv_empty.setText(errorString);
-            tv_empty.setVisibility(View.VISIBLE);
-            nestedScrollView.setVisibility(View.GONE);
-        } else {
-            nestedScrollView.setVisibility(View.VISIBLE);
-            tv_empty.setVisibility(View.GONE);
-        }
-    }
-
-    private void setEmptyList() {
-        progressBar.setVisibility(View.GONE);
-        if (arrayList.size() == 0) {
-            tv_empty_list.setText(getString(R.string.no_data_found));
-            tv_empty_list.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            tv_empty_list.setVisibility(View.GONE);
-        }
+        tv_empty.setText(errorString);
+        tv_empty.setVisibility(View.GONE);
     }
 
     @Override
@@ -415,11 +267,14 @@ public class PCliq_FragmentProfile extends Fragment {
             PCliq_Constant.isUpdate = false;
             tv_name.setText(sharedPref.getUserName());
             tv_email.setText(sharedPref.getEmail());
-            if (!sharedPref.getUserImage().equals("")) {
-                Picasso.get()
-                        .load(sharedPref.getUserImage())
-                        .placeholder(R.drawable.pcliq_user)
+            String userImg = sharedPref.getUserImage();
+            if (!userImg.equals("") && !userImg.contains("pcliq_user") && !userImg.contains("default") && !userImg.contains("placeholder")) {
+                com.squareup.picasso.Picasso.get()
+                        .load(userImg)
+                        .placeholder(R.drawable.pcliq_ic_profile_placeholder)
                         .into(iv_profile);
+            } else {
+                iv_profile.setImageResource(R.drawable.pcliq_ic_profile_placeholder);
             }
         }
         super.onResume();
@@ -427,9 +282,146 @@ public class PCliq_FragmentProfile extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (adapter != null) {
-            adapter.destroyNativeAds();
-        }
         super.onDestroy();
     }
+
+    private void setupSettings(View rootView) {
+        LinearLayout ll_consent = rootView.findViewById(R.id.ll_consent);
+        androidx.recyclerview.widget.RecyclerView rv_pages = rootView.findViewById(R.id.rv_pages);
+        androidx.appcompat.widget.SwitchCompat switch_noti = rootView.findViewById(R.id.switch_noti);
+        androidx.appcompat.widget.SwitchCompat switch_consent = rootView.findViewById(R.id.switch_consent);
+        TextView tv_rateapp = rootView.findViewById(R.id.tv_rateapp);
+        TextView tv_moreapp = rootView.findViewById(R.id.tv_moreapp);
+        TextView tv_cachesize = rootView.findViewById(R.id.tv_cachesize);
+        TextView tv_shareapp = rootView.findViewById(R.id.tv_shareapp);
+        TextView tv_about = rootView.findViewById(R.id.tv_about);
+        TextView tv_privacy = rootView.findViewById(R.id.tv_privacy_policy);
+        LinearLayout ll_clearcache = rootView.findViewById(R.id.ll_cache);
+        View view_moreapp = rootView.findViewById(R.id.view_moreapp);
+        View rl_moreapp = rootView.findViewById(R.id.rl_moreapp);
+
+        if (getString(R.string.play_more_apps).isEmpty()) {
+            if (view_moreapp != null) view_moreapp.setVisibility(View.GONE);
+            if (rl_moreapp != null) rl_moreapp.setVisibility(View.GONE);
+            if (tv_moreapp != null) tv_moreapp.setVisibility(View.GONE);
+        }
+
+        if (switch_noti != null) {
+            switch_noti.setChecked(sharedPref.getIsNotification());
+            switch_noti.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                com.onesignal.OneSignal.disablePush(!isChecked);
+                sharedPref.setIsNotification(isChecked);
+            });
+        }
+
+        if (switch_consent != null) {
+            com.google.ads.consent.ConsentStatus consentStatus = com.google.ads.consent.ConsentInformation.getInstance(getActivity()).getConsentStatus();
+            switch_consent.setChecked(consentStatus == com.google.ads.consent.ConsentStatus.PERSONALIZED);
+            switch_consent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    com.google.ads.consent.ConsentInformation.getInstance(getActivity()).setConsentStatus(com.google.ads.consent.ConsentStatus.PERSONALIZED);
+                } else {
+                    com.google.ads.consent.ConsentInformation.getInstance(getActivity()).setConsentStatus(com.google.ads.consent.ConsentStatus.NON_PERSONALIZED);
+                }
+            });
+        }
+
+        if (tv_rateapp != null) {
+            tv_rateapp.setOnClickListener(v -> {
+                final String appName = getActivity().getPackageName();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appName)));
+                }
+            });
+        }
+
+        if (tv_moreapp != null) {
+            tv_moreapp.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.play_more_apps)))));
+        }
+
+        if (tv_about != null) {
+            tv_about.setOnClickListener(v -> startActivity(new Intent(getActivity(), com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_AboutActivity.class)));
+        }
+
+        if (tv_privacy != null) {
+            tv_privacy.setOnClickListener(v -> {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://cygnux.in/application-privacy-policy/cliq-photo-policy.html"));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Cannot open link", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if (tv_shareapp != null) {
+            tv_shareapp.setOnClickListener(v -> {
+                Intent ishare = new Intent(Intent.ACTION_SEND);
+                ishare.setType("text/plain");
+                ishare.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.app_name) + " - http://play.google.com/store/apps/details?id=" + getActivity().getPackageName());
+                startActivity(ishare);
+            });
+        }
+
+        if (ll_clearcache != null && tv_cachesize != null) {
+            tv_cachesize.setText(android.text.format.Formatter.formatFileSize(getActivity(), getCacheFolderSize(getActivity().getCacheDir())));
+            ll_clearcache.setOnClickListener(v -> {
+                com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.clearing_cache));
+                progressDialog.show();
+                new android.os.Handler().postDelayed(() -> {
+                    clearCache();
+                    tv_cachesize.setText("0.00 MB");
+                    progressDialog.dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.cache_cleared), Toast.LENGTH_SHORT).show();
+                }, 1000);
+            });
+        }
+
+        if (rv_pages != null) {
+            rv_pages.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getActivity()));
+            rv_pages.setAdapter(new com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterPages(getActivity(), com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant.arrayListPages));
+        }
+    }
+
+    private void clearCache() {
+        try {
+            java.io.File dir = getActivity().getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean deleteDir(java.io.File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String child : children) {
+                boolean success = deleteDir(new java.io.File(dir, child));
+                if (!success) return false;
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
+
+    private long getCacheFolderSize(java.io.File dir) {
+        long size = 0;
+        if (dir != null && dir.isDirectory()) {
+            for (java.io.File file : dir.listFiles()) {
+                if (file.isFile()) size += file.length();
+                else size += getCacheFolderSize(file);
+            }
+        } else if (dir != null && dir.isFile()) {
+            size += dir.length();
+        }
+        return size;
+    }
+
 }
+

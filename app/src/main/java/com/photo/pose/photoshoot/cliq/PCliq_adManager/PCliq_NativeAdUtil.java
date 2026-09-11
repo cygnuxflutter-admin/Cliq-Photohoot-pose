@@ -76,32 +76,77 @@ public class PCliq_NativeAdUtil {
 
     public void showAdLoading(final RelativeLayout nativeAdContainer) {
         if (nativeAdContainer == null) return;
-        int fixedH = (int) (280 * context.getResources().getDisplayMetrics().density);
-        if (nativeAdContainer.getLayoutParams() != null) {
-            nativeAdContainer.getLayoutParams().height = fixedH;
-        }
         nativeAdContainer.removeAllViews();
         View loadingView = LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout_loading, nativeAdContainer, false);
         nativeAdContainer.addView(loadingView);
     }
 
     public void fillAdmobNativeAd(final RelativeLayout nativeAdContainer) {
+        if (nativeAdContainer == null) return;
         showAdLoading(nativeAdContainer);
-        AdLoader.Builder builder = new AdLoader.Builder(context, taskPreferenceClass.getAdsId("GoogleNativeAd") );
-        Log.e("TAG%%Native", "GoogleNativeAd: " + taskPreferenceClass.getAdsId("GoogleNativeAd"));
+
+        String nativeAdId = taskPreferenceClass.getAdsId("GoogleNativeAd");
+        if (nativeAdId == null || nativeAdId.trim().isEmpty()) {
+            return;
+        }
+
+        AdLoader.Builder builder = new AdLoader.Builder(context, nativeAdId);
+        Log.e("TAG%%Native", "GoogleNativeAd: " + nativeAdId);
 
         builder.forNativeAd(nativeAd -> {
             if (this.nativeAd != null) {
                 this.nativeAd.destroy();
             }
             this.nativeAd = nativeAd;
-            int fixedH = (int) (280 * context.getResources().getDisplayMetrics().density);
             adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout, nativeAdContainer, false);
             populateUnifiedNativeAdView(nativeAd, adView);
             nativeAdContainer.removeAllViews();
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
-                    fixedH
+                    RelativeLayout.LayoutParams.MATCH_PARENT
+            );
+            nativeAdContainer.addView(adView, lp);
+            nativeAdContainer.setBackgroundColor(Color.TRANSPARENT);
+        });
+
+        VideoOptions videoOptions = new VideoOptions.Builder().setStartMuted(true).build();
+        NativeAdOptions adOptions = new NativeAdOptions.Builder().setVideoOptions(videoOptions).build();
+        builder.withNativeAdOptions(adOptions);
+
+        AdLoader adLoader = builder.withAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                fillAdXNativeAd(nativeAdContainer);
+            }
+        }).build();
+
+        adLoader.loadAd(new AdRequest.Builder().build());
+
+    }
+
+    public void fillAdmobNativeAdHorizontal(final RelativeLayout nativeAdContainer) {
+        if (nativeAdContainer == null) return;
+        showAdLoading(nativeAdContainer);
+
+        String nativeAdId = taskPreferenceClass.getAdsId("GoogleNativeAd");
+        if (nativeAdId == null || nativeAdId.trim().isEmpty()) {
+            return;
+        }
+
+        AdLoader.Builder builder = new AdLoader.Builder(context, nativeAdId);
+        Log.e("TAG%%Native", "GoogleNativeAd: " + nativeAdId);
+
+        builder.forNativeAd(nativeAd -> {
+            if (this.nativeAd != null) {
+                this.nativeAd.destroy();
+            }
+            this.nativeAd = nativeAd;
+            adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout_horizontal, nativeAdContainer, false);
+            populateUnifiedNativeAdView(nativeAd, adView);
+            nativeAdContainer.removeAllViews();
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT
             );
             nativeAdContainer.addView(adView, lp);
             nativeAdContainer.setBackgroundColor(Color.TRANSPARENT);
@@ -123,9 +168,14 @@ public class PCliq_NativeAdUtil {
     }
 
     public void fillAdXNativeAd(final RelativeLayout nativeAdContainer) {
+        if (nativeAdContainer == null) return;
+        String adxId = taskPreferenceClass.getAdsId("AdxNativeUnitID");
+        if (adxId == null || adxId.trim().isEmpty()) {
+            return;
+        }
         showAdLoading(nativeAdContainer);
-        AdLoader.Builder builder = new AdLoader.Builder(context, taskPreferenceClass.getAdsId("AdxNativeUnitID") );
-        Log.e("TAG%%Native", "AdxNativeUnitID: " + taskPreferenceClass.getAdsId("AdxNativeUnitID"));
+        AdLoader.Builder builder = new AdLoader.Builder(context, adxId);
+        Log.e("TAG%%Native", "AdxNativeUnitID: " + adxId);
 
         builder.forNativeAd(nativeAd -> {
             if (this.nativeAd != null) {

@@ -44,7 +44,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -57,7 +57,7 @@ public class PCliq_FragmentPoseDownloaded extends Fragment {
     private RecyclerView DrecyclerView;
     private PCliq_AdapterPose Dadapter;
     private ArrayList<PCliq_ItemPose> DarrayList;
-    private CircularProgressBar DprogressBar;
+    private ProgressBar DprogressBar;
     private PCliq_Methods Dmethods;
     private TextView DtextView_empty;
     private StaggeredGridLayoutManager Dgrid;
@@ -350,6 +350,13 @@ public class PCliq_FragmentPoseDownloaded extends Fragment {
             if (DadapterColors != null) {
                 DadapterColors.clearSelected();
             }
+
+            DarrayList.clear();
+            if (Dadapter != null) {
+                Dadapter.notifyDataSetChanged();
+            }
+            DgetWallpaperData();
+            dialog_filter.dismiss();
         });
 
         button_filter.setOnClickListener(v -> {

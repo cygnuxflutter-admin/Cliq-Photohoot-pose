@@ -203,6 +203,9 @@ public class PCliq_InterstitialAdManager {
                         @Override
                         public void onAdShowedFullScreenContent() {
                             super.onAdShowedFullScreenContent();
+                            if (progressDialog != null && progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
                         }
 
                         @Override
@@ -222,9 +225,23 @@ public class PCliq_InterstitialAdManager {
                         }
                     };
                     admobInterstitialAd.setFullScreenContentCallback(fullScreenContentCallback);
-                    admobInterstitialAd.show(activity);
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    try {
+                        admobInterstitialAd.show(activity);
+                    } catch (Exception e) {
+                        onAdLoadInterface.onAdClose();
+                    }
                 } else if (isFbAdAvailable()) {
-                    fbInterstitialAd.show();
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    try {
+                        fbInterstitialAd.show();
+                    } catch (Exception e) {
+                        onAdLoadInterface.onAdClose();
+                    }
                 } else {
                     if (progressDialog != null && progressDialog.isShowing()) {
                         progressDialog.dismiss();
@@ -389,9 +406,23 @@ public class PCliq_InterstitialAdManager {
                 }
             };
             admobInterstitialAd.setFullScreenContentCallback(fullScreenContentCallback);
-            admobInterstitialAd.show(activity);
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    try {
+                        admobInterstitialAd.show(activity);
+                    } catch (Exception e) {
+                        onAdLoadInterface.onAdClose();
+                    }
         } else if (isFbAdAvailable()) {
-            fbInterstitialAd.show();
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    try {
+                        fbInterstitialAd.show();
+                    } catch (Exception e) {
+                        onAdLoadInterface.onAdClose();
+                    }
         } else {
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
@@ -476,9 +507,23 @@ public class PCliq_InterstitialAdManager {
                 }
             };
             admobInterstitialAd.setFullScreenContentCallback(fullScreenContentCallback);
-            admobInterstitialAd.show(activity);
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    try {
+                        admobInterstitialAd.show(activity);
+                    } catch (Exception e) {
+                        onAdLoadInterface.onAdClose();
+                    }
         } else if (isFbAdAvailable()) {
-            fbInterstitialAd.show();
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    try {
+                        fbInterstitialAd.show();
+                    } catch (Exception e) {
+                        onAdLoadInterface.onAdClose();
+                    }
         } else {
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
@@ -493,3 +538,4 @@ public class PCliq_InterstitialAdManager {
     }
 
 }
+

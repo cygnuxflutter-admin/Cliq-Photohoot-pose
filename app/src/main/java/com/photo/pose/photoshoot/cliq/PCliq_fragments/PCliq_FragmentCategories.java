@@ -37,7 +37,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -51,7 +51,7 @@ public class PCliq_FragmentCategories extends Fragment {
     private RecyclerView recyclerView;
     private PCliq_AdapterCategories adapterCategories;
     private ArrayList<PCliq_ItemCat> arrayList;
-    private CircularProgressBar progressBar;
+    private ProgressBar progressBar;
     private TextView textView_empty, tvCollectionCount;
     private SearchView searchView;
     private PCliq_SharedPref sharedPref;
@@ -99,7 +99,7 @@ public class PCliq_FragmentCategories extends Fragment {
         recyclerView.addOnItemTouchListener(new PCliq_RecyclerItemClickListener(getActivity(), new PCliq_RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                methods.showInter(position, "");
+                interAdListener.onClick(position, "");
             }
         }));
 

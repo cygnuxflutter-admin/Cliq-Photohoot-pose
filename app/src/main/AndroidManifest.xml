@@ -30,11 +30,11 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/pcliq_ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/pcliq_ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
@@ -105,6 +105,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name="com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_FavouriteActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".PCliq_Activity.PCliq_WebViewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
@@ -128,7 +132,11 @@
 
         <meta-data
             android:name="com.onesignal.NotificationServiceExtension"
-            android:value="com.photo.pose.photoshoot.cliq.utils.OnesignalNotificationHelper" />
+            android:value="com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_OnesignalNotificationHelper" />
+
+        <meta-data
+            android:name="onesignal_app_id"
+            android:value="5e89cd25-7026-45fb-802d-e17f5256e157" />
 
         <service
             android:name=".PCliq_Activity.PCliq_SetAsLivePoseService"

@@ -3,25 +3,25 @@
 
     <item
         android:id="@+id/menu_rate"
-        android:icon="@mipmap/pcliq_rate"
+        android:icon="@drawable/pcliq_ic_menu_rate"
         android:title="@string/rate"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_share"
-        android:icon="@mipmap/pcliq_share_nav"
+        android:icon="@drawable/pcliq_ic_menu_share"
         android:title="@string/share"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_report"
-        android:icon="@mipmap/pcliq_report"
+        android:icon="@drawable/pcliq_ic_menu_report"
         android:title="@string/report"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_details"
-        android:icon="@mipmap/pcliq_share_nav"
+        android:icon="@drawable/pcliq_ic_menu_details"
         android:title="@string/details"
         app:showAsAction="never" />
 

@@ -2,6 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
+            <size android:width="200dp" android:height="300dp" />
             <gradient
                 android:angle="135"
                 android:endColor="#EDE4D8"
@@ -11,6 +12,6 @@
     <item
         android:width="36dp"
         android:height="36dp"
-        android:drawable="@drawable/pcliq_app_logo"
+        android:drawable="@drawable/pcliq_ic_placeholder_camera_icon"
         android:gravity="center" />
 </layer-list>

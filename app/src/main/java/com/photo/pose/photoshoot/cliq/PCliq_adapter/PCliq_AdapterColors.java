@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -59,22 +60,35 @@ public class PCliq_AdapterColors extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+        MyViewHolder myViewHolder = (MyViewHolder) holder;
+        String hex = arrayList.get(position).getColorHex();
+        int color = Color.parseColor(hex.startsWith("#") ? hex : ("#" + hex));
+        boolean isSelected = arrayListSelected.contains(arrayList.get(position).getId());
 
-        if (arrayListSelected.contains(arrayList.get(position).getId())) {
-            ((MyViewHolder) holder).imageView.setBorderColor(Color.WHITE);
-            ((MyViewHolder) holder).iv_color_tick.setVisibility(View.VISIBLE);
+        double luminance = ColorUtils.calculateLuminance(color);
+        boolean isLightColor = luminance > 0.75;
+
+        if (isSelected) {
+            myViewHolder.imageView.setBorderColor(Color.parseColor("#C19543"));
+            myViewHolder.iv_color_tick.setVisibility(View.VISIBLE);
+            if (isLightColor) {
+                myViewHolder.iv_color_tick.setColorFilter(Color.parseColor("#2B1D15"));
+            } else {
+                myViewHolder.iv_color_tick.setColorFilter(Color.WHITE);
+            }
         } else {
-            ((MyViewHolder) holder).imageView.setBorderColor(Color.TRANSPARENT);
-            ((MyViewHolder) holder).iv_color_tick.setVisibility(View.GONE);
+            if (isLightColor) {
+                myViewHolder.imageView.setBorderColor(Color.parseColor("#A38F7A"));
+            } else {
+                myViewHolder.imageView.setBorderColor(Color.parseColor("#DED4CA"));
+            }
+            myViewHolder.iv_color_tick.setVisibility(View.GONE);
         }
 
-        ((MyViewHolder) holder).imageView.setColorFilter(Color.parseColor(arrayList.get(position).getColorHex()));
-        ((MyViewHolder) holder).tv_color.setText(arrayList.get(position).getColorName());
-        Log.e("TAG", "onBindViewHolder: " + arrayList.get(position).getColorName());
-        Picasso.get()
-                .load(arrayList.get(position).getColorHex())
-                .placeholder(R.drawable.pcliq_placeholder_cat)
-                .into(((MyViewHolder) holder).imageView);
+        myViewHolder.imageView.setImageDrawable(new android.graphics.drawable.ColorDrawable(color));
+        myViewHolder.imageView.setColorFilter(null);
+        myViewHolder.tv_color.setText(arrayList.get(position).getColorName());
+        myViewHolder.tv_color.setVisibility(View.GONE);
     }
 
     public void setMultipleSelected(String colorIDs) {

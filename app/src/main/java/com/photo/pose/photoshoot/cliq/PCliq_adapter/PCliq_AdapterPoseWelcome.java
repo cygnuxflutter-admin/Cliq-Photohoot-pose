@@ -74,7 +74,22 @@ public class PCliq_AdapterPoseWelcome extends RecyclerView.Adapter<PCliq_Adapter
                 .placeholder(placeholder)
                 .resize(methods.getImageThumbWidth(arrayList.get(holder.getAbsoluteAdapterPosition()).getType()), methods.getImageThumbHeight(arrayList.get(holder.getAbsoluteAdapterPosition()).getType()))
                 .centerCrop()
-                .into(holder.my_image_view);
+                .into(holder.my_image_view, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {}
+                    @Override
+                    public void onError(Exception e) {
+                        holder.itemView.setVisibility(android.view.View.GONE);
+                        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+                        if (params != null) {
+                            params.width = 0;
+                            params.height = 0;
+                            params.setMargins(0, 0, 0, 0);
+                            holder.itemView.setLayoutParams(params);
+                        }
+                        holder.itemView.requestLayout();
+                    }
+                });
     }
 
     @Override

@@ -350,163 +350,48 @@ public class PCliq_Methods {
     }
 
     public void showInter(final int pos, final String type) {
-        if (PCliq_Constant.isInterAd) {
-            PCliq_Constant.adCount = PCliq_Constant.adCount + 1;
-            if (PCliq_Constant.adCount % PCliq_Constant.interstitialAdShow == 0) {
-                switch (PCliq_Constant.interstitialAdType) {
-                    case PCliq_Constant.AD_TYPE_ADMOB:
-                    case PCliq_Constant.AD_TYPE_FACEBOOK:
-                        final PCliq_AdManagerInterAdmob adManagerInterAdmob = new PCliq_AdManagerInterAdmob(context);
-                        if (adManagerInterAdmob.getAd() != null) {
-                            adManagerInterAdmob.getAd().setFullScreenContentCallback(new FullScreenContentCallback() {
-                                @Override
-                                public void onAdDismissedFullScreenContent() {
-                                    PCliq_AdManagerInterAdmob.setAd(null);
-                                    adManagerInterAdmob.createAd();
-                                    interAdListener.onClick(pos, type);
-                                    super.onAdDismissedFullScreenContent();
-                                }
-
-                                @Override
-                                public void onAdFailedToShowFullScreenContent(@NonNull @NotNull com.google.android.gms.ads.AdError adError) {
-                                    PCliq_AdManagerInterAdmob.setAd(null);
-                                    adManagerInterAdmob.createAd();
-                                    interAdListener.onClick(pos, type);
-                                    super.onAdFailedToShowFullScreenContent(adError);
-                                }
-                            });
-                            adManagerInterAdmob.getAd().show((Activity) context);
-                        } else {
-                            PCliq_AdManagerInterAdmob.setAd(null);
-                            adManagerInterAdmob.createAd();
-                            interAdListener.onClick(pos, type);
-                        }
-                        break;
-                    case PCliq_Constant.AD_TYPE_STARTAPP:
-                        final PCliq_AdManagerInterStartApp adManagerInterStartApp = new PCliq_AdManagerInterStartApp(context);
-                        if (adManagerInterStartApp.getAd() != null && adManagerInterStartApp.getAd().isReady()) {
-                            adManagerInterStartApp.getAd().showAd(new AdDisplayListener() {
-                                @Override
-                                public void adHidden(Ad ad) {
-                                    PCliq_AdManagerInterStartApp.setAd(null);
-                                    adManagerInterStartApp.createAd();
-                                    interAdListener.onClick(pos, type);
-                                }
-
-                                @Override
-                                public void adDisplayed(Ad ad) {
-
-                                }
-
-                                @Override
-                                public void adClicked(Ad ad) {
-
-                                }
-
-                                @Override
-                                public void adNotDisplayed(Ad ad) {
-                                    PCliq_AdManagerInterStartApp.setAd(null);
-                                    adManagerInterStartApp.createAd();
-                                    interAdListener.onClick(pos, type);
-                                }
-                            });
-                        } else {
-                            PCliq_AdManagerInterStartApp.setAd(null);
-                            adManagerInterStartApp.createAd();
-                            interAdListener.onClick(pos, type);
-                        }
-                        break;
-                    case PCliq_Constant.AD_TYPE_APPLOVIN:
-                        final PCliq_AdManagerInterApplovin adManagerInterApplovin = new PCliq_AdManagerInterApplovin(context);
-                        if (adManagerInterApplovin.getAd() != null && adManagerInterApplovin.getAd().isReady()) {
-                            adManagerInterApplovin.getAd().setListener(new MaxAdListener() {
-                                @Override
-                                public void onAdLoaded(MaxAd ad) {
-
-                                }
-
-                                @Override
-                                public void onAdDisplayed(MaxAd ad) {
-
-                                }
-
-                                @Override
-                                public void onAdHidden(MaxAd ad) {
-                                    PCliq_AdManagerInterApplovin.setAd(null);
-                                    adManagerInterApplovin.createAd();
-                                    interAdListener.onClick(pos, type);
-                                }
-
-                                @Override
-                                public void onAdClicked(MaxAd ad) {
-
-                                }
-
-                                @Override
-                                public void onAdLoadFailed(String adUnitId, MaxError error) {
-                                    PCliq_AdManagerInterApplovin.setAd(null);
-                                    adManagerInterApplovin.createAd();
-                                    interAdListener.onClick(pos, type);
-                                }
-
-                                @Override
-                                public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-                                    PCliq_AdManagerInterApplovin.setAd(null);
-                                    adManagerInterApplovin.createAd();
-                                    interAdListener.onClick(pos, type);
-                                }
-                            });
-                            adManagerInterApplovin.getAd().showAd();
-                        } else {
-                            PCliq_AdManagerInterStartApp.setAd(null);
-                            adManagerInterApplovin.createAd();
-                            interAdListener.onClick(pos, type);
-                        }
-                        break;
-
-                    case PCliq_Constant.AD_TYPE_WORTISE:
-                        final PCliq_AdManagerInterWortise adManagerInterWortise = new PCliq_AdManagerInterWortise(context);
-                        if (adManagerInterWortise.getAd() != null && adManagerInterWortise.getAd().isAvailable()) {
-                            adManagerInterWortise.getAd().setListener(new InterstitialAd.Listener() {
-                                @Override
-                                public void onInterstitialClicked(@NonNull InterstitialAd interstitialAd) {
-
-                                }
-
-                                @Override
-                                public void onInterstitialDismissed(@NonNull InterstitialAd interstitialAd) {
-                                    PCliq_AdManagerInterWortise.setAd(null);
-                                    adManagerInterWortise.createAd();
-                                    interAdListener.onClick(pos, type);
-                                }
-
-                                @Override
-                                public void onInterstitialFailed(@NonNull InterstitialAd interstitialAd, @NonNull AdError adError) {
-                                    PCliq_AdManagerInterWortise.setAd(null);
-                                    adManagerInterWortise.createAd();
-                                    interAdListener.onClick(pos, type);
-                                }
-
-                                @Override
-                                public void onInterstitialLoaded(@NonNull InterstitialAd interstitialAd) {
-
-                                }
-
-                                @Override
-                                public void onInterstitialShown(@NonNull InterstitialAd interstitialAd) {
-
-                                }
-                            });
-                            adManagerInterWortise.getAd().showAd();
-                        } else {
-                            PCliq_AdManagerInterWortise.setAd(null);
-                            adManagerInterWortise.createAd();
-                            interAdListener.onClick(pos, type);
-                        }
-                        break;
+        if (context instanceof android.app.Activity) {
+            android.app.Activity activity = (android.app.Activity) context;
+            
+            // Check for PRO pose click (type is empty for pose clicks, and every 5th item is PRO)
+            if ("".equals(type) && pos % 5 == 3) {
+                final android.app.Dialog dialog = new android.app.Dialog(activity);
+                dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.pcliq_dialog_pro);
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
+                dialog.setCancelable(true);
+
+                dialog.findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
+                dialog.findViewById(R.id.btn_watch).setOnClickListener(v -> {
+                    dialog.dismiss();
+                    com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_RewardVideoManager.showRewardVideoAd(activity, new com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_RewardVideoManager.OnRewardAdLoadInterface() {
+                        @Override
+                        public void onAdClose(boolean isWithReward) {
+                            if (isWithReward) {
+                                interAdListener.onClick(pos, type);
+                            } else {
+                                android.widget.Toast.makeText(activity, "Please watch the full video to unlock this PRO pose.", android.widget.Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onAdFail() {
+                            // Fallback to interstitial if reward ad fails
+                            com.photo.pose.photoshoot.cliq.MyApplication.showInterstitialAd(activity, () -> interAdListener.onClick(pos, type));
+                        }
+                    });
+                });
+                dialog.show();
             } else {
-                interAdListener.onClick(pos, type);
+                com.photo.pose.photoshoot.cliq.MyApplication.showInterstitialAd(activity, new com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_InterstitialAdManager.OnAdLoadInterface() {
+                    @Override
+                    public void onAdClose() {
+                        interAdListener.onClick(pos, type);
+                    }
+                });
             }
         } else {
             interAdListener.onClick(pos, type);

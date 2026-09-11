@@ -51,12 +51,8 @@ public class PCliq_PopularPoseActivity extends AppCompatActivity {
         }
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
-        if (PCliq_NetworkUtils.isNetworkAvailable(this)) {
-            if (new PCliq_PreferenceClass(PCliq_PopularPoseActivity.this).getInt("BannerAdStatus") == 1) {
-                PCliq_LoadAds.loadAdmobBannerAd(this, rl_ad);
-            } else {
-                rl_ad.setVisibility(View.GONE);
-            }
+        if (rl_ad != null) {
+            rl_ad.setVisibility(View.GONE);
         }
 
         if (cate_name.equals("Popular")) {

@@ -137,7 +137,23 @@ public class PCliq_AdapterLivePose extends RecyclerView.Adapter {
             Picasso.get()
                     .load(arrayList.get(position).getImage())
                     .placeholder(R.drawable.pcliq_placeholder_pose)
-                    .into(((MyViewHolder) holder).iv_wallpaper);
+                    .into(((MyViewHolder) holder).iv_wallpaper, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+                        @Override
+                        public void onError(Exception e) {
+                            ((MyViewHolder) holder).itemView.setVisibility(android.view.View.GONE);
+                            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) ((MyViewHolder) holder).itemView.getLayoutParams();
+                            if (params != null) {
+                                params.width = 0;
+                                params.height = 0;
+                                params.setMargins(0, 0, 0, 0);
+                                ((MyViewHolder) holder).itemView.setLayoutParams(params);
+                            }
+                            ((MyViewHolder) holder).itemView.requestLayout();
+                        }
+                    });
 
             if (sharedPref.isLogged()) {
                 ((MyViewHolder) holder).likeButton.setOnLikeListener(new OnLikeListener() {

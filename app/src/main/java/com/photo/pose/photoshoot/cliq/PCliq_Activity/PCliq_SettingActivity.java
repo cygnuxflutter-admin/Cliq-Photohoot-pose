@@ -80,6 +80,11 @@ public class PCliq_SettingActivity extends AppCompatActivity {
         isNoti = sharedPref.getIsNotification();
         them_mode = methods.getDarkMode();
 
+        TextView tv_app_version = findViewById(R.id.tv_app_version);
+        if (tv_app_version != null) {
+            tv_app_version.setText("Curated Photoshoot Inspiration • v" + com.photo.pose.photoshoot.cliq.BuildConfig.VERSION_NAME);
+        }
+
         toolbar = this.findViewById(R.id.toolbar_setting);
         toolbar.setTitle(getString(R.string.action_settings));
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.text_espresso));
@@ -193,7 +198,7 @@ public class PCliq_SettingActivity extends AppCompatActivity {
         switch_noti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                OneSignal.unsubscribeWhenNotificationsAreDisabled(!isChecked);
+                OneSignal.disablePush(!isChecked);
                 sharedPref.setIsNotification(isChecked);
             }
         });

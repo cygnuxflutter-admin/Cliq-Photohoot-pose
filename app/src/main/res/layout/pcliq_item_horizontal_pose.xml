@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="140dp"
-    android:layout_height="210dp"
-    android:layout_marginEnd="12dp">
+    android:layout_width="144dp"
+    android:layout_height="214dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="4dp"
+    android:layout_marginEnd="8dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/rootlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:outlineSpotShadowColor="#40000000"
+        android:outlineAmbientShadowColor="#20000000"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="18dp"
-        app:cardElevation="4dp"
+        app:cardElevation="6dp"
+        app:cardMaxElevation="10dp"
         app:strokeColor="#20C19543"
         app:strokeWidth="1.2dp">
 
@@ -107,5 +113,62 @@
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- Native Ad Container -->
+    <RelativeLayout
+        android:id="@+id/ad_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/native_banner_ad_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- While Ad is loading: clean card with spinner & Ad badge -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:outlineSpotShadowColor="#40000000"
+                android:outlineAmbientShadowColor="#20000000"
+                app:cardBackgroundColor="@color/bg_card_warm"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="6dp"
+                app:strokeColor="#20C19543"
+                app:strokeWidth="1.2dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ProgressBar
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:indeterminateTint="@color/gold_primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|start"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/pcliq_bg_pro_badge"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:paddingStart="6dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="6dp"
+                        android:paddingBottom="2dp"
+                        android:text="Ad"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp" />
+
+                </FrameLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

@@ -154,7 +154,7 @@
                 android:id="@+id/til1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
+                android:layout_marginBottom="4dp"
                 android:background="@drawable/pcliq_bg_input_field"
                 android:elevation="1dp"
                 android:paddingStart="12dp"
@@ -162,7 +162,8 @@
                 android:paddingBottom="2dp"
                 app:hintEnabled="false"
                 app:startIconDrawable="@drawable/pcliq_ic_email"
-                app:startIconTint="@color/gold_primary">
+                app:startIconTint="@color/gold_primary"
+                app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_login_email"
@@ -178,13 +179,23 @@
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            
+            <TextView
+                android:id="@+id/tv_error_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginStart="16dp"
+                android:textColor="#D32F2F"
+                android:textSize="12sp"
+                android:visibility="invisible" />
 
             <!-- Password Input Field -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="4dp"
                 android:background="@drawable/pcliq_bg_input_field"
                 android:elevation="1dp"
                 android:paddingStart="12dp"
@@ -194,7 +205,8 @@
                 app:endIconTint="@color/text_sub_brown"
                 app:hintEnabled="false"
                 app:startIconDrawable="@drawable/pcliq_ic_password"
-                app:startIconTint="@color/gold_primary">
+                app:startIconTint="@color/gold_primary"
+                app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_login_password"
@@ -210,6 +222,16 @@
                     android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            
+            <TextView
+                android:id="@+id/tv_error_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="16dp"
+                android:textColor="#D32F2F"
+                android:textSize="12sp"
+                android:visibility="invisible" />
 
             <!-- Remember Me & Forgot Password Row -->
             <RelativeLayout
@@ -284,86 +306,7 @@
                 android:layout_gravity="center"
                 android:visibility="gone" />
 
-            <!-- "Or Continue With" Divider -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="16dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
-                    android:layout_toStartOf="@id/tv_other_login"
-                    android:background="#E5DDD5" />
-
-                <TextView
-                    android:id="@+id/tv_other_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/pcliq_leaguespartan_regular"
-                    android:text="Or continue with"
-                    android:textColor="@color/text_sub_brown"
-                    android:textSize="12sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_toEndOf="@id/tv_other_login"
-                    android:background="#E5DDD5" />
-
-            </RelativeLayout>
-
-            <!-- Social Login: Vector Google Button -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingTop="4dp"
-                android:paddingBottom="6dp">
-
-                <ImageView
-                    android:id="@+id/btn_login_fb"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/pcliq_btn_facebook"
-                    android:visibility="gone" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cv_login_google"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="28dp"
-                    app:cardElevation="3dp"
-                    app:cardPreventCornerOverlap="false"
-                    app:cardUseCompatPadding="true"
-                    app:strokeColor="#25C19543"
-                    app:strokeWidth="1.5dp">
-
-                    <ImageView
-                        android:id="@+id/btn_login_google"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="13dp"
-                        android:scaleType="centerInside"
-                        android:contentDescription="Google Login"
-                        android:src="@drawable/pcliq_ic_google" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
 
             <!-- Sign Up Prompt -->
             <LinearLayout

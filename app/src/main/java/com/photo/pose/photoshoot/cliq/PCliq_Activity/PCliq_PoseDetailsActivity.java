@@ -15,7 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.graphics.drawable.DrawableCompat;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.view.Menu;
+import android.view.Gravity;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -119,7 +128,15 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcliq_activity_pose_details);
 
-        PC_methods = new PCliq_Methods(this);
+        PC_methods = new PCliq_Methods(this, new PCliq_InterAdListener() {
+            @Override
+            public void onClick(int pos, String type) {
+                String downloadUrl = (PC_pass_pose != null && !PC_pass_pose.isEmpty())
+                        ? PC_pass_pose
+                        : PCliq_Constant.arrayList.get(position).getImage();
+                PC_methods.saveImage(downloadUrl, type, PC_coordinatorLayout, "wallpaper");
+            }
+        });
         PC_methods.setStatusColor(getWindow());
         PC_methods.forceRTLIfSupported(getWindow());
 
@@ -177,8 +194,12 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         PC_imgUrl = PCliq_Constant.arrayList.get(position).getImage();
         PC_tv_pose_name.setText(PCliq_Constant.arrayList.get(position).getTitle());
 
-        PC_iv_pose_orignal = PCliq_Constant.arrayList.get(position).getImage();
-        PC_iv_pose_sketch = PCliq_Constant.arrayList.get(position).getImage() + "_sketch.png";
+        String origImg = PCliq_Constant.arrayList.get(position).getImage();
+        if (origImg != null) {
+            origImg = origImg.replace(" ", "%20");
+        }
+        PC_iv_pose_orignal = origImg;
+        PC_iv_pose_sketch = origImg + "_sketch.png";
 
         PC_pass_pose = PC_iv_pose_orignal;
 
@@ -343,8 +364,34 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         PC_iv_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popup = new PopupMenu(PCliq_PoseDetailsActivity.this, PC_iv_more);
+                ContextThemeWrapper ctw = new ContextThemeWrapper(PCliq_PoseDetailsActivity.this, R.style.PCliq_PopupOverlay);
+                PopupMenu popup = new PopupMenu(ctw, PC_iv_more, Gravity.END);
                 popup.getMenuInflater().inflate(R.menu.pcliq_menu_pose_details, popup.getMenu());
+
+                Menu menu = popup.getMenu();
+                int espressoColor = ContextCompat.getColor(PCliq_PoseDetailsActivity.this, R.color.text_espresso);
+                int goldColor = ContextCompat.getColor(PCliq_PoseDetailsActivity.this, R.color.gold_primary);
+
+                for (int i = 0; i < menu.size(); i++) {
+                    MenuItem item = menu.getItem(i);
+                    if (item.getTitle() != null) {
+                        SpannableString s = new SpannableString(item.getTitle());
+                        s.setSpan(new ForegroundColorSpan(espressoColor), 0, s.length(), 0);
+                        s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), 0);
+                        item.setTitle(s);
+                    }
+                    Drawable icon = item.getIcon();
+                    if (icon != null) {
+                        Drawable wrappedIcon = DrawableCompat.wrap(icon.mutate());
+                        DrawableCompat.setTint(wrappedIcon, goldColor);
+                        item.setIcon(wrappedIcon);
+                    }
+                }
+
+                try {
+                    popup.setForceShowIcon(true);
+                } catch (Exception ignored) {
+                }
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
@@ -376,7 +423,35 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
 
         PC_btn_download.setOnClickListener(v -> {
             if (checkPer()) {
-                PC_methods.showInter(position, getString(R.string.download));
+                String rewardId = new PCliq_PreferenceClass(PCliq_PoseDetailsActivity.this).getAdsId("GoogleInterstialRewardAd");
+                if (rewardId != null && !rewardId.trim().isEmpty()) {
+                    new androidx.appcompat.app.AlertDialog.Builder(PCliq_PoseDetailsActivity.this)
+                            .setTitle("🌟 HD Download")
+                            .setMessage("Watch a short video ad to download this pose in high quality.")
+                            .setPositiveButton("Watch & Download", (dialog, which) -> {
+                                com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_RewardVideoManager.showRewardVideoAd(PCliq_PoseDetailsActivity.this, new com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_RewardVideoManager.OnRewardAdLoadInterface() {
+                                    @Override
+                                    public void onAdClose(boolean isWithReward) {
+                                        String downloadUrl = (PC_pass_pose != null && !PC_pass_pose.isEmpty())
+                                                ? PC_pass_pose
+                                                : PCliq_Constant.arrayList.get(position).getImage();
+                                        PC_methods.saveImage(downloadUrl, getString(R.string.download), PC_coordinatorLayout, "wallpaper");
+                                    }
+
+                                    @Override
+                                    public void onAdFail() {
+                                        String downloadUrl = (PC_pass_pose != null && !PC_pass_pose.isEmpty())
+                                                ? PC_pass_pose
+                                                : PCliq_Constant.arrayList.get(position).getImage();
+                                        PC_methods.saveImage(downloadUrl, getString(R.string.download), PC_coordinatorLayout, "wallpaper");
+                                    }
+                                });
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                } else {
+                    PC_methods.showInter(position, getString(R.string.download));
+                }
             }
         });
         PC_iv_camera.setOnClickListener(new View.OnClickListener() {
@@ -499,8 +574,13 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
 
             final CircularProgressBar progressBar = imageLayout.findViewById(R.id.pb_wall_details);
 
+            String vpImgUrl = PCliq_Constant.arrayList.get(position).getImage();
+            if (vpImgUrl != null) {
+                vpImgUrl = vpImgUrl.replace(" ", "%20");
+            }
+
             Glide.with(PCliq_PoseDetailsActivity.this)
-                    .load(PCliq_Constant.arrayList.get(position).getImage())
+                    .load(vpImgUrl)
                     .placeholder(R.drawable.pcliq_placeholder_pose)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .listener(new RequestListener<Drawable>() {
@@ -800,27 +880,28 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
     }
 
     private Boolean checkPer() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if ((ContextCompat.checkSelfPermission(PCliq_PoseDetailsActivity.this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED)) {
-                // Request MANAGE_EXTERNAL_STORAGE permission for Android 11 and later
-                requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, MY_PERMISSIONS_REQUEST_MANAGE_EXTERNAL_STORAGE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return true;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(PCliq_PoseDetailsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 return false;
-            } else {
-                return true;
-            }
-        } else if (android.os.Build.VERSION.SDK_INT >= 23) {
-            // For Android 6 and later, request WRITE_EXTERNAL_STORAGE permission
-            if ((ContextCompat.checkSelfPermission(PCliq_PoseDetailsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-                    return false;
-                }
             }
             return true;
         } else {
-            // You don't need special permissions for Android versions before 6
             return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                PC_methods.showInter(position, getString(R.string.download));
+            } else {
+                Toast.makeText(this, "Permission denied. Storage permission is required.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

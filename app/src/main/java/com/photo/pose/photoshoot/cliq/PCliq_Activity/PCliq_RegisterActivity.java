@@ -30,6 +30,7 @@ public class PCliq_RegisterActivity extends AppCompatActivity {
     Button PC_button_register;
     com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog PC_progressDialog;
     PCliq_SharedPref PC_sharedPref;
+    android.widget.TextView tv_error_name, tv_error_email, tv_error_pass, tv_error_cpass, tv_error_phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class PCliq_RegisterActivity extends AppCompatActivity {
         PC_methods.forceRTLIfSupported(getWindow());
 
         PC_progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(this);
+        PC_progressDialog = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(PCliq_RegisterActivity.this);
         PC_progressDialog.setMessage(getResources().getString(R.string.registering));
         PC_progressDialog.setCancelable(false);
 
@@ -54,12 +56,22 @@ public class PCliq_RegisterActivity extends AppCompatActivity {
             });
         }
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         PC_button_register = findViewById(R.id.button_register);
         PC_editText_name = findViewById(R.id.et_regis_name);
         PC_editText_email = findViewById(R.id.et_regis_email);
         PC_editText_pass = findViewById(R.id.et_regis_password);
         PC_editText_cpass = findViewById(R.id.et_regis_cpassword);
         PC_editText_phone = findViewById(R.id.et_regis_phone);
+
+        tv_error_name = findViewById(R.id.tv_error_name);
+        tv_error_email = findViewById(R.id.tv_error_email);
+        tv_error_pass = findViewById(R.id.tv_error_pass);
+        tv_error_cpass = findViewById(R.id.tv_error_cpass);
+        tv_error_phone = findViewById(R.id.tv_error_phone);
 
         PC_button_register.setOnClickListener(view -> {
             if (validate()) {
@@ -70,36 +82,71 @@ public class PCliq_RegisterActivity extends AppCompatActivity {
     }
 
     private Boolean validate() {
-        if (PC_editText_name.getText().toString().trim().isEmpty()) {
-            PC_editText_name.setError(getResources().getString(R.string.enter_name));
+        tv_error_name.setVisibility(View.INVISIBLE);
+        tv_error_email.setVisibility(View.INVISIBLE);
+        tv_error_pass.setVisibility(View.INVISIBLE);
+        tv_error_cpass.setVisibility(View.INVISIBLE);
+        tv_error_phone.setVisibility(View.INVISIBLE);
+
+        String name = PC_editText_name.getText().toString().trim();
+        String email = PC_editText_email.getText().toString().trim();
+        String pass = PC_editText_pass.getText().toString();
+        String cpass = PC_editText_cpass.getText().toString();
+        String phone = PC_editText_phone.getText().toString().trim();
+
+        if (name.isEmpty()) {
+            tv_error_name.setText(getResources().getString(R.string.enter_name));
+            tv_error_name.setVisibility(View.VISIBLE);
             PC_editText_name.requestFocus();
             return false;
-        } else if (PC_editText_email.getText().toString().trim().isEmpty()) {
-            PC_editText_email.setError(getResources().getString(R.string.enter_email));
+        } else if (email.isEmpty()) {
+            tv_error_email.setText(getResources().getString(R.string.enter_email));
+            tv_error_email.setVisibility(View.VISIBLE);
             PC_editText_email.requestFocus();
             return false;
-        } else if (!isEmailValid(PC_editText_email.getText().toString())) {
-            PC_editText_email.setError(getString(R.string.error_invalid_email));
+        } else if (!isEmailValid(email)) {
+            tv_error_email.setText(getString(R.string.error_invalid_email));
+            tv_error_email.setVisibility(View.VISIBLE);
             PC_editText_email.requestFocus();
             return false;
-        } else if (PC_editText_pass.getText().toString().isEmpty()) {
-            PC_editText_pass.setError(getResources().getString(R.string.enter_password));
+        } else if (pass.isEmpty()) {
+            tv_error_pass.setText(getResources().getString(R.string.enter_password));
+            tv_error_pass.setVisibility(View.VISIBLE);
             PC_editText_pass.requestFocus();
             return false;
-        } else if (PC_editText_pass.getText().toString().endsWith(" ")) {
-            PC_editText_pass.setError(getResources().getString(R.string.pass_end_space));
+        } else if (pass.length() < 6) {
+            tv_error_pass.setText("Password must be at least 6 characters long");
+            tv_error_pass.setVisibility(View.VISIBLE);
             PC_editText_pass.requestFocus();
             return false;
-        } else if (PC_editText_cpass.getText().toString().isEmpty()) {
-            PC_editText_cpass.setError(getResources().getString(R.string.enter_cpassword));
+        } else if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+            tv_error_pass.setText("Password must contain at least one symbol");
+            tv_error_pass.setVisibility(View.VISIBLE);
+            PC_editText_pass.requestFocus();
+            return false;
+        } else if (pass.endsWith(" ")) {
+            tv_error_pass.setText(getResources().getString(R.string.pass_end_space));
+            tv_error_pass.setVisibility(View.VISIBLE);
+            PC_editText_pass.requestFocus();
+            return false;
+        } else if (cpass.isEmpty()) {
+            tv_error_cpass.setText(getResources().getString(R.string.enter_cpassword));
+            tv_error_cpass.setVisibility(View.VISIBLE);
             PC_editText_cpass.requestFocus();
             return false;
-        } else if (!PC_editText_pass.getText().toString().equals(PC_editText_cpass.getText().toString())) {
-            PC_editText_cpass.setError(getResources().getString(R.string.pass_nomatch));
+        } else if (!pass.equals(cpass)) {
+            tv_error_cpass.setText(getResources().getString(R.string.pass_nomatch));
+            tv_error_cpass.setVisibility(View.VISIBLE);
             PC_editText_cpass.requestFocus();
             return false;
-        } else if (PC_editText_phone.getText().toString().trim().isEmpty()) {
-            PC_editText_phone.setError(getResources().getString(R.string.enter_phone));
+        } else if (phone.isEmpty()) {
+            tv_error_phone.setText(getResources().getString(R.string.enter_phone));
+            tv_error_phone.setVisibility(View.VISIBLE);
+            PC_editText_phone.requestFocus();
+            return false;
+        } else if (phone.length() < 10) {
+            tv_error_phone.setText("Please enter a valid 10-digit mobile number");
+            tv_error_phone.setVisibility(View.VISIBLE);
             PC_editText_phone.requestFocus();
             return false;
         } else {

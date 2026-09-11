@@ -96,18 +96,16 @@
         <!-- Elevated Frosted White & Gold Logo Card -->
         <FrameLayout
             android:id="@+id/fl_splash_logo"
-            android:layout_width="114dp"
-            android:layout_height="114dp"
-            android:background="@drawable/pcliq_bg_splash_logo_card"
-            android:elevation="10dp"
-            android:padding="16dp">
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:elevation="10dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="Cliq Logo"
                 android:scaleType="fitCenter"
-                android:src="@drawable/pcliq_app_logo" />
+                android:src="@drawable/pose" />
 
         </FrameLayout>
 
@@ -197,7 +195,7 @@
             android:textSize="11sp" />
 
         <!-- Bespoke Animated Focus Loader -->
-        <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+        <ProgressBar android:indeterminateTint="@color/gold_primary"
             android:id="@+id/pb_latest"
             android:layout_width="52dp"
             android:layout_height="52dp" />

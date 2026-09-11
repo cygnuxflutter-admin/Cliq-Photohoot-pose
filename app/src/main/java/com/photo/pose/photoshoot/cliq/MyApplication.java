@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.onesignal.OneSignal;
 import com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_AppOpenManager;
 import com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_InterstitialAdManager;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant;
@@ -71,13 +72,13 @@ public class MyApplication extends android.app.Application {
         mInstance = this;
 
         // Enable verbose OneSignal logging to debug issues if needed.
-//        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
-//
-//        // OneSignal Initialization
-//        OneSignal.initWithContext(this);
-//        OneSignal.setAppId("83d4adaf-4ae7-4f59-b91a-d0050698af6a");
-//        OneSignal.promptForPushNotifications();
-//        OneSignal.sendTag("Apps", "Text Art");
+        // OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+
+        // OneSignal Initialization
+        OneSignal.initWithContext(this);
+        OneSignal.setAppId("5e89cd25-7026-45fb-802d-e17f5256e157");
+        OneSignal.promptForPushNotifications();
+        // OneSignal.sendTag("Apps", "Cliq Poses");
 
         AudienceNetworkAds.initialize(this);
 

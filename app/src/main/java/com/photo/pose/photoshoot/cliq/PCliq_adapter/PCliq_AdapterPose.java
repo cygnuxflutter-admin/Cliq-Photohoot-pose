@@ -111,6 +111,12 @@ public class PCliq_AdapterPose extends RecyclerView.Adapter {
         if (arrayList.get(position) != null) {
             MyViewHolder myHolder = (MyViewHolder) holder;
 
+            myHolder.itemView.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams itemParams = myHolder.itemView.getLayoutParams();
+            itemParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            itemParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            myHolder.itemView.setLayoutParams(itemParams);
+
             // Only set ad container dimensions once (use a tag to avoid re-doing this)
             if (myHolder.native_banner_ad_container.getTag() == null) {
                 myHolder.native_banner_ad_container.getLayoutParams().width = PCliq_Constant.columnWidth;
@@ -142,15 +148,42 @@ public class PCliq_AdapterPose extends RecyclerView.Adapter {
             int targetWidth = methods.getImageThumbWidth(poseType);
             int targetHeight = methods.getImageThumbHeight(poseType);
 
-            Glide.with(context)
-                    .load(arrayList.get(position).getImage())
-                    .override(targetWidth, targetHeight)
-                    .placeholder(placeholder)
-                    .error(placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.2f)
-                    .centerCrop()
-                    .into(myHolder.iv_wallpaper);
+            try {
+                String imgUrl = arrayList.get(position).getImage();
+                if (imgUrl != null) {
+                    imgUrl = imgUrl.replace(" ", "%20");
+                }
+                Glide.with(context)
+                        .load(imgUrl)
+                        .override(targetWidth, targetHeight)
+                        .placeholder(placeholder)
+                        .error(placeholder)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .thumbnail(0.2f)
+                        .centerCrop()
+                        .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@androidx.annotation.Nullable com.bumptech.glide.load.engine.GlideException e, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, boolean isFirstResource) {
+                                myHolder.itemView.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        myHolder.itemView.setVisibility(View.GONE);
+                                        ViewGroup.LayoutParams params = myHolder.itemView.getLayoutParams();
+                                        params.width = 0;
+                                        params.height = 0;
+                                        myHolder.itemView.setLayoutParams(params);
+                                    }
+                                });
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
+                                return false;
+                            }
+                        })
+                        .into(myHolder.iv_wallpaper);
+            } catch (Exception ignored) {}
 
             if (sharedPref.isLogged()) {
                 myHolder.likeButton.setOnLikeListener(new OnLikeListener() {

@@ -74,28 +74,39 @@
 
         </LinearLayout>
 
-        <!-- Right Action: Luxury Settings Button -->
+        <!-- Right Action: Notifications Button -->
         <ImageView
-            android:id="@+id/btn_action_settings"
+            android:id="@+id/btn_action_notification"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/pcliq_bg_header_action"
             android:clickable="true"
-            android:contentDescription="Settings"
+            android:contentDescription="Notifications"
             android:elevation="2dp"
             android:focusable="true"
             android:padding="10dp"
-            android:src="@drawable/pcliq_ic_settings"
+            android:src="@drawable/pcliq_ic_notification_bell"
             app:tint="@color/gold_primary" />
 
     </LinearLayout>
+
+    <!-- Banner Ad Container (Right below header) -->
+    <RelativeLayout
+        android:id="@+id/rl_ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_below="@+id/ll_top_nav_bar"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:visibility="gone" />
 
     <!-- Main Content Container -->
     <FrameLayout
         android:id="@+id/fragment_dash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ll_top_nav_bar" />
+        android:layout_below="@+id/rl_ad" />
 
     <!-- Ultra Minimalist Floating Capsule Dock (Icon-Only, 4 Centered Tabs) -->
     <LinearLayout
@@ -169,7 +180,7 @@
 
         </LinearLayout>
 
-        <!-- Tab 3: Favorites -->
+        <!-- Tab 3: Trending/Popular -->
         <LinearLayout
             android:id="@+id/dock_item_favorites"
             android:layout_width="0dp"
@@ -184,8 +195,8 @@
                 android:id="@+id/iv_dock_favorites"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:contentDescription="Favorites"
-                android:src="@drawable/pcliq_ic_nav_favorites"
+                android:contentDescription="Trending"
+                android:src="@drawable/pcliq_ic_nav_trending"
                 app:tint="#8A7B70" />
 
             <View

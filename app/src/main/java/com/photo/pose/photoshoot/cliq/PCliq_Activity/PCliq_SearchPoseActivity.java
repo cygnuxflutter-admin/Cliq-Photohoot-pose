@@ -216,7 +216,10 @@ public class PCliq_SearchPoseActivity extends AppCompatActivity {
                         } else {
                             totalRecord = totalRecord + response.body().getArrayListWallpaper().size();
                             for (int i = 0; i < response.body().getArrayListWallpaper().size(); i++) {
-                                arrayList.add(response.body().getArrayListWallpaper().get(i));
+                                com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPose item = response.body().getArrayListWallpaper().get(i);
+                                String img = item.getImage();
+                                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
+                                arrayList.add(item);
 
                                 int abc = arrayList.lastIndexOf(null);
                                 if (((arrayList.size() - (abc + 1)) % new PCliq_PreferenceClass(PCliq_SearchPoseActivity.this).getInt("rv_count", 4) == 0)) {
@@ -386,6 +389,16 @@ public class PCliq_SearchPoseActivity extends AppCompatActivity {
             if (adapterColors != null) {
                 adapterColors.clearSelected();
             }
+
+            page = 1;
+            totalRecord = 0;
+            isOver = false;
+            arrayList.clear();
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            getWallpaperData();
+            dialog_filter.dismiss();
         });
 
         button_filter.setOnClickListener(v -> {
@@ -414,3 +427,4 @@ public class PCliq_SearchPoseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 }
+

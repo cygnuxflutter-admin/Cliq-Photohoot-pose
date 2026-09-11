@@ -74,12 +74,8 @@ public class PCliq_ProfileEditActivity extends AppCompatActivity {
         }
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
-        if (PCliq_NetworkUtils.isNetworkAvailable(this)) {
-            if (new PCliq_PreferenceClass(PCliq_ProfileEditActivity.this).getInt("BannerAdStatus") == 1) {
-                PCliq_LoadAds.loadAdmobBannerAd(this, rl_ad);
-            } else {
-                rl_ad.setVisibility(View.GONE);
-            }
+        if (rl_ad != null) {
+            rl_ad.setVisibility(View.GONE);
         }
 
         AppCompatButton button_update = findViewById(R.id.button_prof_update);
@@ -131,25 +127,48 @@ public class PCliq_ProfileEditActivity extends AppCompatActivity {
         PC_editText_name.setError(null);
         PC_editText_email.setError(null);
         PC_editText_cpass.setError(null);
-        if (PC_editText_name.getText().toString().trim().isEmpty()) {
-            PC_editText_name.setError(getString(R.string.cannot_empty));
+
+        String name = PC_editText_name.getText().toString().trim();
+        String email = PC_editText_email.getText().toString().trim();
+        String pass = PC_editText_pass.getText().toString();
+        String cpass = PC_editText_cpass.getText().toString().trim();
+        String phone = PC_editText_phone.getText().toString().trim();
+
+        if (name.isEmpty()) {
+            Toast.makeText(this, getString(R.string.cannot_empty), Toast.LENGTH_SHORT).show();
             PC_editText_name.requestFocus();
             return false;
-        } else if (PC_editText_email.getText().toString().trim().isEmpty()) {
-            PC_editText_email.setError(getString(R.string.email_empty));
+        } else if (email.isEmpty()) {
+            Toast.makeText(this, getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
             PC_editText_email.requestFocus();
             return false;
-        } else if (PC_editText_pass.getText().toString().endsWith(" ")) {
-            PC_editText_pass.setError(getString(R.string.pass_end_space));
-            PC_editText_pass.requestFocus();
-            return false;
-        } else if (!PC_editText_pass.getText().toString().trim().equals(PC_editText_cpass.getText().toString().trim())) {
-            PC_editText_cpass.setError(getString(R.string.pass_nomatch));
-            PC_editText_cpass.requestFocus();
-            return false;
-        } else {
-            return true;
+        } else if (!pass.isEmpty()) {
+            if (pass.length() < 6) {
+                Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
+                PC_editText_pass.requestFocus();
+                return false;
+            } else if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+                Toast.makeText(this, "Password must contain at least one symbol", Toast.LENGTH_SHORT).show();
+                PC_editText_pass.requestFocus();
+                return false;
+            } else if (pass.endsWith(" ")) {
+                Toast.makeText(this, getString(R.string.pass_end_space), Toast.LENGTH_SHORT).show();
+                PC_editText_pass.requestFocus();
+                return false;
+            } else if (!pass.equals(cpass)) {
+                Toast.makeText(this, getString(R.string.pass_nomatch), Toast.LENGTH_SHORT).show();
+                PC_editText_cpass.requestFocus();
+                return false;
+            }
         }
+        
+        if (!phone.isEmpty() && phone.length() < 10) {
+            Toast.makeText(this, "Please enter a valid 10-digit mobile number", Toast.LENGTH_SHORT).show();
+            PC_editText_phone.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     private void updateArray(String image) {
@@ -219,10 +238,14 @@ public class PCliq_ProfileEditActivity extends AppCompatActivity {
         PC_editText_phone.setText(PC_sharedPref.getUserMobile());
         PC_editText_email.setText(PC_sharedPref.getEmail());
 
-        if(!PC_sharedPref.getUserImage().equals("")) {
+        String userImg = PC_sharedPref.getUserImage();
+        if(!userImg.equals("") && !userImg.contains("pcliq_user") && !userImg.contains("default") && !userImg.contains("placeholder")) {
             Picasso.get()
-                    .load(PC_sharedPref.getUserImage())
+                    .load(userImg)
+                    .placeholder(R.drawable.pcliq_ic_profile_placeholder)
                     .into(PC_iv_profile);
+        } else {
+            PC_iv_profile.setImageResource(R.drawable.pcliq_ic_profile_placeholder);
         }
     }
 

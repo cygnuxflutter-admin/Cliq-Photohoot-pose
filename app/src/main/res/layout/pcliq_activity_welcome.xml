@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_warm"
+    android:fitsSystemWindows="true"
     tools:context=".PCliq_Activity.PCliq_WelcomeActivity">
 
     <!-- Top Cinematic Photoshoot Hero Section -->

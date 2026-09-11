@@ -17,13 +17,4 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/pcliq_app_bar_main" />
 
-    <RelativeLayout
-        android:id="@+id/rl_ad"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        android:background="@color/black"
-        android:gravity="center"
-        android:visibility="visible" />
-
 </LinearLayout>

@@ -458,16 +458,9 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp">
 
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="Cliq"
-                    android:src="@drawable/pcliq_app_logo" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:fontFamily="serif"
                     android:text="CLIQ STUDIO"
                     android:textColor="@color/text_espresso"
@@ -475,11 +468,12 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_app_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/pcliq_leaguespartan_regular"
-                    android:text="Curated Photoshoot Inspiration • v1.0"
+                    android:text="Curated Photoshoot Inspiration"
                     android:textColor="@color/text_sub_brown"
                     android:textSize="12sp" />
 

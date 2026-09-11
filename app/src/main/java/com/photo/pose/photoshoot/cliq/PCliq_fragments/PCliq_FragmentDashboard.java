@@ -27,6 +27,8 @@ public class PCliq_FragmentDashboard extends Fragment {
     private FragmentManager fm;
     private ImageView ivHome, ivPoses, ivFavorites, ivProfile;
     private View dotHome, dotPoses, dotFavorites, dotProfile;
+    private ImageView btnNotification;
+    private android.widget.RelativeLayout rlAd;
     private int currentDockIndex = 0;
 
     @Override
@@ -34,6 +36,13 @@ public class PCliq_FragmentDashboard extends Fragment {
         View rootView = inflater.inflate(R.layout.pcliq_fragment_dashboard, container, false);
 
         fm = getParentFragmentManager();
+
+        rlAd = rootView.findViewById(R.id.rl_ad);
+        if (com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_NetworkUtils.isNetworkAvailable(getActivity())) {
+            if (new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass(getActivity()).getInt("BannerAdStatus") == 1) {
+                com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_LoadAds.loadAdmobBannerAd(getActivity(), rlAd);
+            }
+        }
 
         View topNavBar = rootView.findViewById(R.id.ll_top_nav_bar);
         if (topNavBar != null) {
@@ -75,11 +84,10 @@ public class PCliq_FragmentDashboard extends Fragment {
         if (itemFavorites != null) itemFavorites.setOnClickListener(v -> selectDockTab(2));
         if (itemProfile != null) itemProfile.setOnClickListener(v -> selectDockTab(3));
 
-        ImageView btnSettings = rootView.findViewById(R.id.btn_action_settings);
-        if (btnSettings != null) {
-            btnSettings.setOnClickListener(v -> {
-                Intent intent = new Intent(getActivity(), PCliq_SettingActivity.class);
-                startActivity(intent);
+        btnNotification = rootView.findViewById(R.id.btn_action_notification);
+        if (btnNotification != null) {
+            btnNotification.setOnClickListener(v -> {
+                android.widget.Toast.makeText(getActivity(), "No new notifications", android.widget.Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -90,6 +98,18 @@ public class PCliq_FragmentDashboard extends Fragment {
 
     public void selectDockTab(int index) {
         currentDockIndex = index;
+
+        if (rlAd != null) {
+            if (index == 0) {
+                rlAd.setVisibility(View.GONE); // Hide on Home page
+            } else {
+                if (new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass(getActivity()).getInt("BannerAdStatus") == 1) {
+                    rlAd.setVisibility(View.VISIBLE); // Show on other pages
+                } else {
+                    rlAd.setVisibility(View.GONE);
+                }
+            }
+        }
 
         int gold = Color.parseColor("#C19543");
         int inactive = Color.parseColor("#8A7B70");
@@ -106,6 +126,10 @@ public class PCliq_FragmentDashboard extends Fragment {
         if (ivProfile != null) ivProfile.setImageTintList(ColorStateList.valueOf(index == 3 ? gold : inactive));
         if (dotProfile != null) dotProfile.setVisibility(index == 3 ? View.VISIBLE : View.INVISIBLE);
 
+        if (btnNotification != null) {
+            btnNotification.setVisibility(index == 0 ? View.VISIBLE : View.INVISIBLE);
+        }
+
         switch (index) {
             case 0:
                 loadFrag(new PCliq_FragmentHome(), getString(R.string.home));
@@ -117,15 +141,7 @@ public class PCliq_FragmentDashboard extends Fragment {
                 loadFrag(new PCliq_FragmentPosePopular(), getString(R.string.popular));
                 break;
             case 3:
-                if (getActivity() != null) {
-                    if (new PCliq_SharedPref(getActivity()).isLogged()) {
-                        loadFrag(new PCliq_FragmentProfile(), getString(R.string.profile));
-                    } else {
-                        Intent intent = new Intent(getActivity(), PCliq_LoginActivity.class);
-                        intent.putExtra("from", "app");
-                        startActivity(intent);
-                    }
-                }
+                loadFrag(new PCliq_FragmentProfile(), getString(R.string.profile));
                 break;
         }
     }

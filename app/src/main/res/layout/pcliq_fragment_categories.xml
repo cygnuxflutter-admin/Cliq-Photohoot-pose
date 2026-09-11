@@ -146,7 +146,7 @@
         android:textColor="@color/text_sub_brown"
         android:visibility="gone" />
 
-    <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+    <ProgressBar android:indeterminateTint="@color/gold_primary"
         android:id="@+id/pb_cat"
         android:layout_width="60dp"
         android:layout_height="60dp"

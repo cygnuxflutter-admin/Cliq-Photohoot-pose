@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_MyViewPagerAdapter;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_SharedPref;
+import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Methods;
 import com.photo.pose.photoshoot.cliq.R;
 
 
@@ -30,7 +31,9 @@ public class PCliq_IntroductionActivity extends AppCompatActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcliq_activity_introduction);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        PCliq_Methods methods = new PCliq_Methods(this);
+        methods.setStatusColor(getWindow());
+        methods.forceRTLIfSupported(getWindow());
 
         if (PCliq_SharedPref.getCheckPermission(this)) {
             PCliq_MyViewPagerAdapter.launchMainScreen(this);
@@ -39,9 +42,6 @@ public class PCliq_IntroductionActivity extends AppCompatActivity implements Vie
         this.PC_tvNext = (TextView) findViewById(R.id.tv_next);
         this.PC_iv_back = (ImageView) findViewById(R.id.iv_back);
         this.PC_tv_skip = (TextView) findViewById(R.id.tv_skip);
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(1280);
-        }
         int[] iArr = {R.layout.pcliq_intro_slide_1, R.layout.pcliq_intro_slide_2, R.layout.pcliq_intro_slide_3, R.layout.pcliq_intro_slide_4, R.layout.pcliq_intro_slide_5};
         this.mLayoutList = iArr;
         this.vpgIntroActivityIntro.setAdapter(new PCliq_MyViewPagerAdapter(this, iArr));

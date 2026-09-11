@@ -14,6 +14,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,7 +54,7 @@ import com.photo.pose.photoshoot.cliq.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -105,7 +106,7 @@ public class PCliq_FragmentHome extends Fragment {
     private RecyclerView recyclerView;
     private PCliq_AdapterPose adapter;
     private ArrayList<PCliq_ItemPose> arrayList;
-    private CircularProgressBar progressBar;
+    private ProgressBar progressBar;
     private PCliq_Methods methods;
     private Boolean isOver = false, isScroll = false, isLoading = false;
     private TextView textView_empty;
@@ -129,7 +130,7 @@ public class PCliq_FragmentHome extends Fragment {
     private RecyclerView DrecyclerView;
     private PCliq_AdapterPose Dadapter;
     private ArrayList<PCliq_ItemPose> DarrayList;
-    private CircularProgressBar DprogressBar;
+    private ProgressBar DprogressBar;
     private PCliq_Methods Dmethods;
     private TextView DtextView_empty;
     private StaggeredGridLayoutManager Dgrid;
@@ -143,7 +144,7 @@ public class PCliq_FragmentHome extends Fragment {
     private RecyclerView PrecyclerView;
     private PCliq_AdapterPose Padapter;
     private ArrayList<PCliq_ItemPose> ParrayList;
-    private CircularProgressBar PprogressBar;
+    private ProgressBar PprogressBar;
     private PCliq_Methods Pmethods;
     private TextView PtextView_empty;
     private String PwallType = "", PwallTempType = "", Pcolor_ids = "";
@@ -1065,7 +1066,7 @@ public class PCliq_FragmentHome extends Fragment {
                                 try {
                                     int abc = DarrayList.lastIndexOf(null);
                                     if (((DarrayList.size() - (abc + 1)) % new PCliq_PreferenceClass(getContext()).getInt("rv_count", 4) == 0)) {
-                                        DarrayList.add(null);
+                                        // DarrayList.add(null); // REMOVED TO FIX SPACE BUG
                                     }
                                 } catch (Exception e) {
 
@@ -1074,7 +1075,7 @@ public class PCliq_FragmentHome extends Fragment {
 //                                if (PCliq_Constant.isNativeAd) {
 //                                    int abc = DarrayList.lastIndexOf(null);
 //                                    if (((DarrayList.size() - (abc + 1)) % PCliq_Constant.nativeAdShow == 0) && (response.body().getArrayListWallpaper().size() - 1 != i || response.body().getArrayListWallpaper().size() != response.body().getTotalRecords())) {
-//                                        DarrayList.add(null);
+//                                        // DarrayList.add(null); // REMOVED TO FIX SPACE BUG
 //                                    }
 //                                }
                                 DsetAdapter();

@@ -73,8 +73,8 @@ public class PCliq_LoginActivity extends AppCompatActivity {
     PCliq_CustomProgressDialog progressDialog;
     LinearLayout ll_checkbox;
     SmoothCheckBox cb_rememberme;
-    private ImageView btn_login_google, btn_login_fb;
     private FirebaseAuth mAuth;
+    android.widget.TextView tv_error_email, tv_error_pass;
 
     /*Facebook Login*/
     LoginButton loginButtonFB;
@@ -116,8 +116,6 @@ public class PCliq_LoginActivity extends AppCompatActivity {
             });
         }
 
-        btn_login_google = findViewById(R.id.btn_login_google);
-        btn_login_fb = findViewById(R.id.btn_login_fb);
         loginButtonFB = findViewById(R.id.login_button);
         loginButtonFB.setReadPermissions(Arrays.asList("email"));
         callbackManager = CallbackManager.Factory.create();
@@ -130,6 +128,9 @@ public class PCliq_LoginActivity extends AppCompatActivity {
         button_skip = findViewById(R.id.button_skip);
         textView_forgotpass = findViewById(R.id.tv_forgotpass);
         tv_sign_up = findViewById(R.id.tv_sign_up);
+        
+        tv_error_email = findViewById(R.id.tv_error_email);
+        tv_error_pass = findViewById(R.id.tv_error_pass);
 
         if (sharedPref.getIsRemember()) {
             editText_email.setText(sharedPref.getEmail());
@@ -164,40 +165,6 @@ public class PCliq_LoginActivity extends AppCompatActivity {
             }
         });
 
-        btn_login_fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loginButtonFB.performClick();
-            }
-        });
-
-        View.OnClickListener googleClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (methods.isNetworkAvailable()) {
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken(getString(R.string.default_web_client_id))
-                            .requestEmail()
-                            .build();
-
-                    GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(PCliq_LoginActivity.this, gso);
-
-                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                    startActivityForResult(signInIntent, 112);
-                } else {
-                    Toast.makeText(PCliq_LoginActivity.this, getString(R.string.internet_not_connected), Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-
-        if (btn_login_google != null) {
-            btn_login_google.setOnClickListener(googleClickListener);
-        }
-        View cv_login_google = findViewById(R.id.cv_login_google);
-        if (cv_login_google != null) {
-            cv_login_google.setOnClickListener(googleClickListener);
-        }
-
         tv_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,8 +176,8 @@ public class PCliq_LoginActivity extends AppCompatActivity {
     }
 
     private void attemptLogin() {
-        editText_email.setError(null);
-        editText_password.setError(null);
+        tv_error_email.setVisibility(View.INVISIBLE);
+        tv_error_pass.setVisibility(View.INVISIBLE);
 
         // Store values at the time of the login attempt.
         String email = editText_email.getText().toString();
@@ -220,24 +187,32 @@ public class PCliq_LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            editText_password.setError(getString(R.string.error_password_sort));
+        if (TextUtils.isEmpty(password)) {
+            tv_error_pass.setText(getString(R.string.enter_password));
+            tv_error_pass.setVisibility(View.VISIBLE);
             focusView = editText_password;
             cancel = true;
-        }
-        if (editText_password.getText().toString().endsWith(" ")) {
-            editText_password.setError(getString(R.string.pass_end_space));
+        } else if (!isPasswordValid(password)) {
+            tv_error_pass.setText(getString(R.string.error_password_sort));
+            tv_error_pass.setVisibility(View.VISIBLE);
+            focusView = editText_password;
+            cancel = true;
+        } else if (password.endsWith(" ")) {
+            tv_error_pass.setText(getString(R.string.pass_end_space));
+            tv_error_pass.setVisibility(View.VISIBLE);
             focusView = editText_password;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            editText_email.setError(getString(R.string.cannot_empty));
+            tv_error_email.setText(getString(R.string.cannot_empty));
+            tv_error_email.setVisibility(View.VISIBLE);
             focusView = editText_email;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            editText_email.setError(getString(R.string.error_invalid_email));
+            tv_error_email.setText(getString(R.string.error_invalid_email));
+            tv_error_email.setVisibility(View.VISIBLE);
             focusView = editText_email;
             cancel = true;
         }
@@ -263,15 +238,14 @@ public class PCliq_LoginActivity extends AppCompatActivity {
                             sharedPref.setLoginDetails(response.body().getArrayListUser().get(0).getId(), response.body().getArrayListUser().get(0).getName(), response.body().getArrayListUser().get(0).getMobile(), editText_email.getText().toString(), response.body().getArrayListUser().get(0).getImage(), "", cb_rememberme.isChecked(), editText_password.getText().toString(), PCliq_Constant.LOGIN_TYPE_NORMAL);
                             sharedPref.setIsLogged(true);
                             sharedPref.setIsAutoLogin(true);
-
-//                            if (from.equals("app")) {
-//                                finish();
-//                            } else {
                             openMainActivity();
-//                            }
+                            Toast.makeText(PCliq_LoginActivity.this, response.body().getArrayListUser().get(0).getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            String errorMsg = response.body().getArrayListUser().get(0).getMessage();
+                            tv_error_pass.setText(errorMsg);
+                            tv_error_pass.setVisibility(View.VISIBLE);
+                            editText_password.requestFocus();
                         }
-
-                        Toast.makeText(PCliq_LoginActivity.this, response.body().getArrayListUser().get(0).getMessage(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(PCliq_LoginActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
                     }

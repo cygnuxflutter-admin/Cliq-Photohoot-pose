@@ -52,6 +52,7 @@
                 android:id="@+id/rv_wall_by_cat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipChildren="false"
                 android:clipToPadding="false"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
@@ -70,7 +71,7 @@
                 android:textColor="@color/text_sub_brown"
                 android:visibility="gone" />
 
-            <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+            <ProgressBar android:indeterminateTint="@color/gold_primary"
                 android:id="@+id/pb_wallcat"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

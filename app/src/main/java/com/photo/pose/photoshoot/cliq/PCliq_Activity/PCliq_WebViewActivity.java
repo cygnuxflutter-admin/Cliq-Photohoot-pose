@@ -49,6 +49,21 @@ public class PCliq_WebViewActivity extends AppCompatActivity {
         String encoding = "utf-8";
 
         String content = itemPage != null ? itemPage.getContent() : "";
+        if (itemPage != null && itemPage.getTitle() != null && itemPage.getTitle().toLowerCase().contains("delete")) {
+            content = "<div style=\"padding: 16px; font-family: sans-serif; color: #333333; line-height: 1.6;\">" +
+                    "<h3 style=\"color: #000000; margin-top: 0;\">How to Delete Your Account</h3>" +
+                    "<p>If you no longer wish to use our services, you can permanently delete your account and all associated data directly from the app.</p>" +
+                    "<ol style=\"padding-left: 20px;\">" +
+                    "<li style=\"margin-bottom: 8px;\">Go to the <b>Profile</b> tab.</li>" +
+                    "<li style=\"margin-bottom: 8px;\">Tap on the <b>Settings</b> or scroll down to the bottom.</li>" +
+                    "<li style=\"margin-bottom: 8px;\">Select the <b>Delete Account</b> option.</li>" +
+                    "<li style=\"margin-bottom: 8px;\">Confirm your decision when prompted.</li>" +
+                    "</ol>" +
+                    "<p style=\"color: #D32F2F; font-weight: bold;\">Important Note:</p>" +
+                    "<p>Account deletion is irreversible. Once your account is deleted, all your saved poses, history, and profile data will be permanently removed from our servers and cannot be recovered.</p>" +
+                    "<p style=\"margin-top: 24px; font-size: 14px; color: #666666;\">If you face any issues, please contact our support team before deleting your account.</p>" +
+                    "</div>";
+        }
 
         String text = "<html><head>"
                 + "<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>"

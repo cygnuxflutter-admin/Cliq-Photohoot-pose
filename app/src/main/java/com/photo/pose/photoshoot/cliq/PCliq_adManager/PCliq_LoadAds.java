@@ -51,13 +51,12 @@ public class PCliq_LoadAds {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     super.onAdFailedToLoad(loadAdError);
-                    loadADXBannerAd(activity, mainLayout);
+                    // Keep the shimmer loader visible if ad fails to load
                 }
 
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
-
                     mainLayout.removeAllViews();
                     mainLayout.addView(adView, bannerParameters);
                 }
@@ -65,65 +64,7 @@ public class PCliq_LoadAds {
 
         }
     }
-    private static void loadADXBannerAd(Activity activity, RelativeLayout mainLayout) {
-        mainLayout.removeAllViews();
-        String AdxBannerAdunitID = new PCliq_PreferenceClass(activity).getAdsId("AdxBannerAdunitID");
-        Log.e("TAG%%Banner", "adXInterstitialAdId: " + AdxBannerAdunitID);
 
-        if (AdxBannerAdunitID != null) {
-            AdView adView = new AdView(activity);
-            AdSize adSize = getAdSize(activity);
-            adView.setAdSize(adSize);
-            adView.setAdUnitId(AdxBannerAdunitID);
-
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                    super.onAdFailedToLoad(loadAdError);
-                    loadFBBannerAd(activity, mainLayout);
-                }
-            });
-
-            RelativeLayout.LayoutParams bannerParameters =
-                    new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT);
-            bannerParameters.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            mainLayout.addView(adView, bannerParameters);
-        }
-    }
-    private static void loadFBBannerAd(Activity activity, RelativeLayout mainLayout) {
-        String fbBannerAdunitID = new PCliq_PreferenceClass(activity).getAdsId("FbBannerAd");
-        Log.e("TAG%%Banner", "FbBannerAd: " + fbBannerAdunitID);
-        com.facebook.ads.AdView fbBannerView = new com.facebook.ads.AdView(activity, fbBannerAdunitID, com.facebook.ads.AdSize.BANNER_HEIGHT_50);
-        mainLayout.setGravity(Gravity.BOTTOM);
-
-        com.facebook.ads.AdListener adListener = new com.facebook.ads.AdListener() {
-            @Override
-            public void onError(Ad ad, AdError adError) {
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                mainLayout.removeAllViews();
-                mainLayout.addView(fbBannerView);
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-            }
-        };
-
-        fbBannerView.loadAd(fbBannerView.buildLoadAdConfig().withAdListener(adListener).build());
-
-    }
     private static View getBannerView(Activity activity) {
         View adView =  LayoutInflater.from(activity).inflate(R.layout.pcliq_banner_ad_layout_loading, null);
         ShimmerFrameLayout shimmerLayout = adView.findViewById(R.id.shimmerLayout);

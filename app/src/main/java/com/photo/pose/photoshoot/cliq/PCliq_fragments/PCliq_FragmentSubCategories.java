@@ -48,7 +48,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -64,7 +64,7 @@ public class PCliq_FragmentSubCategories extends Fragment {
     private PCliq_AdapterPose adapterWallpaper;
     private ArrayList<PCliq_ItemSubCat> arrayListSubCat;
     private ArrayList<PCliq_ItemPose> arrayListWallpapers;
-    private CircularProgressBar progressBar;
+    private ProgressBar progressBar;
     private TextView textView_empty;
     private SearchView searchView;
     String catID = "";
@@ -146,6 +146,16 @@ public class PCliq_FragmentSubCategories extends Fragment {
 
         dbHelper = new PCliq_DBHelper(getActivity());
         methods = new PCliq_Methods(getActivity(), interAdListener);
+
+        android.widget.RelativeLayout rl_ad = rootView.findViewById(R.id.rl_ad);
+        if (com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_NetworkUtils.isNetworkAvailable(getActivity())) {
+            if (new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass(getActivity()).getInt("BannerAdStatus") == 1) {
+                rl_ad.setVisibility(View.VISIBLE);
+                com.photo.pose.photoshoot.cliq.PCliq_adManager.PCliq_LoadAds.loadAdmobBannerAd(getActivity(), rl_ad);
+            } else {
+                rl_ad.setVisibility(View.GONE);
+            }
+        }
 
         arrayListSubCat = new ArrayList<>();
         arrayListWallpapers = new ArrayList<>();
@@ -504,6 +514,17 @@ public class PCliq_FragmentSubCategories extends Fragment {
             if (adapterColors != null) {
                 adapterColors.clearSelected();
             }
+
+            page = 1;
+            totalRecord = 0;
+            isOver = false;
+            isScroll = false;
+            arrayListWallpapers.clear();
+            if (adapterWallpaper != null) {
+                adapterWallpaper.notifyDataSetChanged();
+            }
+            getWallpaperData();
+            dialog_filter.dismiss();
         });
 
         button_filter.setOnClickListener(v -> {
@@ -515,6 +536,7 @@ public class PCliq_FragmentSubCategories extends Fragment {
             page = 1;
             totalRecord = 0;
             isOver = false;
+            isScroll = false;
             arrayListWallpapers.clear();
             if (adapterWallpaper != null) {
                 adapterWallpaper.notifyDataSetChanged();

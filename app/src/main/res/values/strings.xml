@@ -10,7 +10,7 @@
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
 
 
-    <string name="privacy_policy_url"></string>
+    <string name="privacy_policy_url">https://cygnux.in/application-privacy-policy/cliq-photo-policy.html</string>
 
     <string name="play_more_apps"></string>
 
@@ -146,5 +146,8 @@
 
     <string name="something_went_wrong">Something went wrong!!</string>
     <string name="internet_error">Make sure you are connected to internet!!</string>
+
+    <string name="default_web_client_id" translatable="false">184961944025-dummywebclientid.apps.googleusercontent.com</string>
+    <string name="permission_denied">Permission denied. Storage permission is required.</string>
 
 </resources>

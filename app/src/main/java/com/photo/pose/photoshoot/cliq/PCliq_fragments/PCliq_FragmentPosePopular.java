@@ -44,7 +44,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
 import retrofit2.Call;
@@ -57,7 +57,7 @@ public class PCliq_FragmentPosePopular extends Fragment {
     private RecyclerView PrecyclerView;
     private PCliq_AdapterPose Padapter;
     private ArrayList<PCliq_ItemPose> ParrayList;
-    private CircularProgressBar PprogressBar;
+    private ProgressBar PprogressBar;
     private PCliq_Methods Pmethods;
     private TextView PtextView_empty;
     private StaggeredGridLayoutManager grid;
@@ -188,8 +188,11 @@ public class PCliq_FragmentPosePopular extends Fragment {
                     if(getActivity() != null) {
                         if (response.body() != null && response.body().getArrayListWallpaper() != null) {
                             for (int i = 0; i < response.body().getArrayListWallpaper().size(); i++) {
-                                PdbHelper.addWallpaper(response.body().getArrayListWallpaper().get(i), "latest", "");
-                                ParrayList.add(response.body().getArrayListWallpaper().get(i));
+                                com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPose item = response.body().getArrayListWallpaper().get(i);
+                                String img = item.getImage();
+                                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
+                                PdbHelper.addWallpaper(item, "latest", "");
+                                ParrayList.add(item);
 
                                 int abc = ParrayList.lastIndexOf(null);
                                 if (((ParrayList.size() - (abc + 1)) % new PCliq_PreferenceClass(getContext()).getInt("rv_count", 4) == 0) ) {
@@ -348,6 +351,13 @@ public class PCliq_FragmentPosePopular extends Fragment {
             if (PadapterColors != null) {
                 PadapterColors.clearSelected();
             }
+
+            ParrayList.clear();
+            if (Padapter != null) {
+                Padapter.notifyDataSetChanged();
+            }
+            PgetWallpaperData();
+            dialog_filter.dismiss();
         });
 
         button_filter.setOnClickListener(v -> {

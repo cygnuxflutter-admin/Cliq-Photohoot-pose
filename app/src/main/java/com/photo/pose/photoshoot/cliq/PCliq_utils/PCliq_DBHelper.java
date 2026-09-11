@@ -195,7 +195,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
                 Log.e("TAGGGG", "getWallpapers: 1" + posetips);
 
                 String img = encryptData.decrypt(cursor.getString(cursor.getColumnIndex(TAG_IMAGE_BIG)));
-
+                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
                 String views = String.valueOf(cursor.getInt(cursor.getColumnIndex(TAG_VIEWS)));
                 String averagerate = cursor.getString(cursor.getColumnIndex(TAG_AVG_RATE));
                 String download = cursor.getString(cursor.getColumnIndex(TAG_TOTAL_DOWNLOAD));
@@ -273,7 +273,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
                 String posetips = cursor.getString(cursor.getColumnIndex(TAG_POSE_TIPS));
                 Log.e("TAGGGG", "getWallpapers: 2" + camerasetting);
                 String img = encryptData.decrypt(cursor.getString(cursor.getColumnIndex(TAG_IMAGE_BIG)));
-
+                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
                 String views = String.valueOf(cursor.getInt(cursor.getColumnIndex(TAG_VIEWS)));
                 String averagerate = cursor.getString(cursor.getColumnIndex(TAG_AVG_RATE));
                 String download = cursor.getString(cursor.getColumnIndex(TAG_TOTAL_DOWNLOAD));
@@ -316,7 +316,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
                 String posetips = cursor.getString(cursor.getColumnIndex(TAG_POSE_TIPS));
                 Log.e("TAGGGG", "getWallpapers: 3" + camerasetting);
                 String img = encryptData.decrypt(cursor.getString(cursor.getColumnIndex(TAG_IMAGE_BIG)));
-
+                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
                 String views = String.valueOf(cursor.getInt(cursor.getColumnIndex(TAG_VIEWS)));
                 String averagerate = cursor.getString(cursor.getColumnIndex(TAG_AVG_RATE));
                 String download = cursor.getString(cursor.getColumnIndex(TAG_TOTAL_DOWNLOAD));
@@ -359,7 +359,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
                 String posetips = cursor.getString(cursor.getColumnIndex(TAG_POSE_TIPS));
                 Log.e("TAGGGG", "getWallpapers: 4" + camerasetting);
                 String img = encryptData.decrypt(cursor.getString(cursor.getColumnIndex(TAG_IMAGE_BIG)));
-
+                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
                 String views = String.valueOf(cursor.getInt(cursor.getColumnIndex(TAG_VIEWS)));
                 String averagerate = cursor.getString(cursor.getColumnIndex(TAG_AVG_RATE));
                 String download = cursor.getString(cursor.getColumnIndex(TAG_TOTAL_DOWNLOAD));
@@ -396,7 +396,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
                 String posetips = cursor.getString(cursor.getColumnIndex(TAG_POSE_TIPS));
                 Log.e("TAGGGG", "getWallpapers: 5" + camerasetting);
                 String img = encryptData.decrypt(cursor.getString(cursor.getColumnIndex(TAG_IMAGE_BIG)));
-
+                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
                 String views = String.valueOf(cursor.getInt(cursor.getColumnIndex(TAG_VIEWS)));
                 String averagerate = cursor.getString(cursor.getColumnIndex(TAG_AVG_RATE));
                 String download = cursor.getString(cursor.getColumnIndex(TAG_TOTAL_DOWNLOAD));
@@ -439,7 +439,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
                 String posetips = cursor.getString(cursor.getColumnIndex(TAG_POSE_TIPS));
                 Log.e("TAGGGG", "getWallpapers: 6" + camerasetting);
                 String img = encryptData.decrypt(cursor.getString(cursor.getColumnIndex(TAG_IMAGE_BIG)));
-
+                if (img == null || img.trim().isEmpty() || img.endsWith("/")) continue;
                 String views = String.valueOf(cursor.getInt(cursor.getColumnIndex(TAG_VIEWS)));
                 String averagerate = cursor.getString(cursor.getColumnIndex(TAG_AVG_RATE));
                 String download = cursor.getString(cursor.getColumnIndex(TAG_TOTAL_DOWNLOAD));
