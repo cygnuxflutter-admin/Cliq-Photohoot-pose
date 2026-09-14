@@ -290,7 +290,7 @@ public class MyApplication extends android.app.Application {
                             try { noInternetDialog.dismiss(); } catch (Exception e) {}
                         }
                         dialogActivity = currentActivity;
-                        noInternetDialog = new Dialog(currentActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                        noInternetDialog = new Dialog(currentActivity, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
                         noInternetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         noInternetDialog.setContentView(R.layout.pcliq_layout_no_internet);
                         noInternetDialog.setCancelable(false);
