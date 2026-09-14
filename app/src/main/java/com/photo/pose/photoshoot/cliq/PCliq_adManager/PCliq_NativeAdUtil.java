@@ -41,6 +41,17 @@ public class PCliq_NativeAdUtil {
     private final int height;
     private NativeAdView adView;
     private NativeAd nativeAd;
+    public java.util.HashMap<Integer, NativeAd> cachedAds = new java.util.HashMap<>();
+    public java.util.HashMap<Integer, Boolean> loadingAds = new java.util.HashMap<>();
+    
+    public void destroyAll() {
+        for (NativeAd ad : cachedAds.values()) {
+            if (ad != null) ad.destroy();
+        }
+        cachedAds.clear();
+        if (this.nativeAd != null) this.nativeAd.destroy();
+    }
+
 
     public PCliq_NativeAdUtil(Context context, int width, int height) {
         this.context = context;
@@ -78,15 +89,40 @@ public class PCliq_NativeAdUtil {
         if (nativeAdContainer == null) return;
         nativeAdContainer.removeAllViews();
         View loadingView = LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout_loading, nativeAdContainer, false);
+        com.facebook.shimmer.ShimmerFrameLayout shimmerLayout = loadingView.findViewById(R.id.shimmerLayout);
+        if (shimmerLayout != null) {
+            shimmerLayout.startShimmer();
+        }
         nativeAdContainer.addView(loadingView);
     }
 
     public void fillAdmobNativeAd(final RelativeLayout nativeAdContainer) {
+        fillAdmobNativeAd(nativeAdContainer, -1);
+    }
+
+    public void fillAdmobNativeAd(final RelativeLayout nativeAdContainer, final int position) {
         if (nativeAdContainer == null) return;
+        
+        if (position != -1 && cachedAds.containsKey(position)) {
+            nativeAdContainer.removeAllViews();
+            NativeAd ad = cachedAds.get(position);
+            NativeAdView adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout, nativeAdContainer, false);
+            populateUnifiedNativeAdView(ad, adView);
+            nativeAdContainer.addView(adView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+            nativeAdContainer.setBackgroundColor(Color.TRANSPARENT);
+            return;
+        }
+        if (position != -1 && loadingAds.containsKey(position)) {
+            showAdLoading(nativeAdContainer);
+            return;
+        }
+        if (position != -1) loadingAds.put(position, true);
+        
         showAdLoading(nativeAdContainer);
 
         String nativeAdId = taskPreferenceClass.getAdsId("GoogleNativeAd");
         if (nativeAdId == null || nativeAdId.trim().isEmpty()) {
+            if (position != -1) loadingAds.remove(position);
             return;
         }
 
@@ -94,10 +130,13 @@ public class PCliq_NativeAdUtil {
         Log.e("TAG%%Native", "GoogleNativeAd: " + nativeAdId);
 
         builder.forNativeAd(nativeAd -> {
-            if (this.nativeAd != null) {
-                this.nativeAd.destroy();
+            if (position != -1) {
+                cachedAds.put(position, nativeAd);
+                loadingAds.remove(position);
+            } else {
+                if (this.nativeAd != null) this.nativeAd.destroy();
+                this.nativeAd = nativeAd;
             }
-            this.nativeAd = nativeAd;
             adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout, nativeAdContainer, false);
             populateUnifiedNativeAdView(nativeAd, adView);
             nativeAdContainer.removeAllViews();
@@ -116,7 +155,8 @@ public class PCliq_NativeAdUtil {
         AdLoader adLoader = builder.withAdListener(new AdListener() {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                fillAdXNativeAd(nativeAdContainer);
+                if (position != -1) loadingAds.remove(position);
+                // fillAdXNativeAd(nativeAdContainer);
             }
         }).build();
 
@@ -125,11 +165,32 @@ public class PCliq_NativeAdUtil {
     }
 
     public void fillAdmobNativeAdHorizontal(final RelativeLayout nativeAdContainer) {
+        fillAdmobNativeAdHorizontal(nativeAdContainer, -1);
+    }
+
+    public void fillAdmobNativeAdHorizontal(final RelativeLayout nativeAdContainer, final int position) {
         if (nativeAdContainer == null) return;
+        
+        if (position != -1 && cachedAds.containsKey(position)) {
+            nativeAdContainer.removeAllViews();
+            NativeAd ad = cachedAds.get(position);
+            NativeAdView adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout_horizontal, nativeAdContainer, false);
+            populateUnifiedNativeAdView(ad, adView);
+            nativeAdContainer.addView(adView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+            nativeAdContainer.setBackgroundColor(Color.TRANSPARENT);
+            return;
+        }
+        if (position != -1 && loadingAds.containsKey(position)) {
+            showAdLoading(nativeAdContainer);
+            return;
+        }
+        if (position != -1) loadingAds.put(position, true);
+        
         showAdLoading(nativeAdContainer);
 
         String nativeAdId = taskPreferenceClass.getAdsId("GoogleNativeAd");
         if (nativeAdId == null || nativeAdId.trim().isEmpty()) {
+            if (position != -1) loadingAds.remove(position);
             return;
         }
 
@@ -137,10 +198,13 @@ public class PCliq_NativeAdUtil {
         Log.e("TAG%%Native", "GoogleNativeAd: " + nativeAdId);
 
         builder.forNativeAd(nativeAd -> {
-            if (this.nativeAd != null) {
-                this.nativeAd.destroy();
+            if (position != -1) {
+                cachedAds.put(position, nativeAd);
+                loadingAds.remove(position);
+            } else {
+                if (this.nativeAd != null) this.nativeAd.destroy();
+                this.nativeAd = nativeAd;
             }
-            this.nativeAd = nativeAd;
             adView = (NativeAdView) LayoutInflater.from(context).inflate(R.layout.pcliq_native_ad_layout_horizontal, nativeAdContainer, false);
             populateUnifiedNativeAdView(nativeAd, adView);
             nativeAdContainer.removeAllViews();
@@ -159,7 +223,8 @@ public class PCliq_NativeAdUtil {
         AdLoader adLoader = builder.withAdListener(new AdListener() {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                fillAdXNativeAd(nativeAdContainer);
+                if (position != -1) loadingAds.remove(position);
+                // fillAdXNativeAd(nativeAdContainer);
             }
         }).build();
 
