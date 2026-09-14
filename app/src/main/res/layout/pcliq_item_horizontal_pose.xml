@@ -142,7 +142,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ProgressBar
+                    <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
+                        android:id="@+id/pb_cat"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center"

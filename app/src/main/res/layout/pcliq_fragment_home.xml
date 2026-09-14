@@ -307,7 +307,7 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp" />
 
-                <ProgressBar android:indeterminateTint="@color/gold_primary"
+                <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
                     android:id="@+id/pb_wallcat_download"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -495,7 +495,7 @@
                     android:paddingEnd="10dp"
                     android:paddingBottom="100dp" />
 
-                <ProgressBar android:indeterminateTint="@color/gold_primary"
+                <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
                     android:id="@+id/pb_wallcat"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -529,7 +529,7 @@
                 android:layout_height="0dp"
                 android:visibility="gone" />
 
-            <ProgressBar android:indeterminateTint="@color/gold_primary"
+            <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
                 android:id="@+id/pb_wallcat_pupular"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

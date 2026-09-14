@@ -195,7 +195,7 @@
             android:textSize="11sp" />
 
         <!-- Bespoke Animated Focus Loader -->
-        <ProgressBar android:indeterminateTint="@color/gold_primary"
+        <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
             android:id="@+id/pb_latest"
             android:layout_width="52dp"
             android:layout_height="52dp" />

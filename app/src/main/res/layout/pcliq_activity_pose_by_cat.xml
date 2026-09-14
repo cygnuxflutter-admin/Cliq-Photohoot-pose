@@ -152,7 +152,7 @@
         app:layout_constraintBottom_toTopOf="@+id/rl_ad"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar android:indeterminateTint="@color/gold_primary"
+    <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
         android:id="@+id/pb_cat"
         android:layout_width="60dp"
         android:layout_height="60dp"
