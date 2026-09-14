@@ -146,6 +146,7 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
         if (PCliq_NetworkUtils.isNetworkAvailable(this)) {
             if (new PCliq_PreferenceClass(PCliq_PoseDetailsActivity.this).getInt("BannerAdStatus") == 1) {
+                rl_ad.setVisibility(View.VISIBLE);
                 PCliq_LoadAds.loadAdmobBannerAd(this, rl_ad);
             } else {
                 rl_ad.setVisibility(View.GONE);

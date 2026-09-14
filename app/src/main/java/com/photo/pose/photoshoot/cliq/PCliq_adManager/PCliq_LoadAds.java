@@ -27,6 +27,7 @@ import com.photo.pose.photoshoot.cliq.R;
 public class PCliq_LoadAds {
 
     public static void loadAdmobBannerAd(Activity activity, RelativeLayout mainLayout) {
+        mainLayout.setVisibility(View.VISIBLE);
         mainLayout.removeAllViews();
         RelativeLayout.LayoutParams bannerParameters =
                 new RelativeLayout.LayoutParams(
