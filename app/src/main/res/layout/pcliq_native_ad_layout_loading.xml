@@ -4,35 +4,63 @@
     android:layout_width="match_parent"
     android:layout_height="280dp"
     app:cardBackgroundColor="@color/bg_card_warm"
-    app:cardCornerRadius="14dp"
-    app:cardElevation="3dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="6dp"
+    app:cardMaxElevation="10dp"
     app:strokeWidth="0dp">
 
-    <FrameLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_gravity="center"
-            android:indeterminateTint="@color/gold_primary" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E5E5E5">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|start"
-            android:layout_margin="8dp"
-            android:background="@drawable/pcliq_bg_pro_badge"
-            android:fontFamily="@font/pcliq_leaguespartan_bold"
-            android:paddingStart="6dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="6dp"
-            android:paddingBottom="2dp"
-            android:text="Ad"
-            android:textColor="#FFFFFF"
-            android:textSize="9sp" />
+            <!-- Fake Image Placeholder -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="#D4D4D4" />
 
-    </FrameLayout>
+            <!-- Fake Title Placeholder -->
+            <View
+                android:layout_width="120dp"
+                android:layout_height="16dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="36dp"
+                android:background="#D4D4D4" />
+
+            <!-- Fake Subtitle Placeholder -->
+            <View
+                android:layout_width="80dp"
+                android:layout_height="12dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#D4D4D4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/pcliq_bg_pro_badge"
+                android:fontFamily="@font/pcliq_leaguespartan_bold"
+                android:paddingStart="6dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="2dp"
+                android:text="Ad"
+                android:textColor="#FFFFFF"
+                android:textSize="9sp" />
+
+        </RelativeLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </com.google.android.material.card.MaterialCardView>
