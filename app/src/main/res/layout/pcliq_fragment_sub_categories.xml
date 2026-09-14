@@ -139,7 +139,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PhotoshootLoaderView
-        android:id="@+id/pb_sub_cat"
+        android:id="@+id/pb_cat"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:visibility="gone"
