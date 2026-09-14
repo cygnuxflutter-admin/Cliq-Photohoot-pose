@@ -279,6 +279,11 @@ public class MyApplication extends android.app.Application {
 
     private void updateNetworkDialogVisibility() {
         if (currentActivity != null) {
+            // Don't show popup on Splash or Introduction screens - only show after user reaches main app
+            if (currentActivity instanceof com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_SplashActivity
+                    || currentActivity instanceof com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_IntroductionActivity) {
+                return;
+            }
             currentActivity.runOnUiThread(() -> {
                 android.view.ViewGroup root = currentActivity.findViewById(android.R.id.content);
                 if (root == null) return;
@@ -296,7 +301,6 @@ public class MyApplication extends android.app.Application {
                         noInternetView = currentActivity.getLayoutInflater().inflate(R.layout.pcliq_layout_no_internet, root, false);
                         noInternetView.setClickable(true);
                         noInternetView.setFocusable(true);
-                        // Ensure it fills the screen completely and draws over navigation
                         noInternetView.setLayoutParams(new android.widget.FrameLayout.LayoutParams(
                                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                                 android.view.ViewGroup.LayoutParams.MATCH_PARENT
