@@ -1,4 +1,15 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Force the same warm background even in night mode to prevent black screen flash -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/bg_warm</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:statusBarColor">@color/bg_warm</item>
+        <item name="android:navigationBarColor">@color/nav_bottom_bg</item>
+    </style>
 
     <style name="ThemeDialog" parent="@style/Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>

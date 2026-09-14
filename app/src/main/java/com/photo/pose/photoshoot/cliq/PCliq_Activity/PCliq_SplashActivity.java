@@ -558,6 +558,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                 intent = new Intent(PCliq_SplashActivity.this, PCliq_MainActivity.class);
             }
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
 
         });
@@ -565,8 +566,10 @@ public class PCliq_SplashActivity extends AppCompatActivity {
 
     private void callMainActivity() {
         MyApplication.isAdsSplash = false;
-        ((MyApplication) getApplicationContext()).sendRequest();
-        ((MyApplication) getApplicationContext()).loadInterstitialAd();
+        if (methods.isNetworkAvailable()) {
+            ((MyApplication) getApplicationContext()).sendRequest();
+            ((MyApplication) getApplicationContext()).loadInterstitialAd();
+        }
 
         Intent intent;
         if (sharedPref.getIsFirst()) {
@@ -577,6 +580,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
             intent = new Intent(PCliq_SplashActivity.this, PCliq_MainActivity.class);
         }
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
 //        Intent intent;
 //        if (!cid.equals("")) {
