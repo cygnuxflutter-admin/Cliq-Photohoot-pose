@@ -99,6 +99,8 @@ public class PCliq_FragmentProfile extends Fragment {
 
         com.google.android.material.card.MaterialCardView card_logout = rootView.findViewById(R.id.card_logout);
         RelativeLayout rl_logout = rootView.findViewById(R.id.rl_logout);
+        com.google.android.material.card.MaterialCardView card_delete_account = rootView.findViewById(R.id.card_delete_account);
+        RelativeLayout rl_delete_account = rootView.findViewById(R.id.rl_delete_account);
         RelativeLayout rl_recent = rootView.findViewById(R.id.rl_recent);
         RelativeLayout rl_featured = rootView.findViewById(R.id.rl_featured);
         RelativeLayout rl_rated = rootView.findViewById(R.id.rl_rated);
@@ -141,6 +143,11 @@ public class PCliq_FragmentProfile extends Fragment {
             }
         });
 
+        rl_delete_account.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://cygnux.in/PossingApp/account-deletion.html"));
+            startActivity(intent);
+        });
+
         rl_logout.setOnClickListener(v -> {
             methods.clickLogin();
         });
@@ -149,6 +156,7 @@ public class PCliq_FragmentProfile extends Fragment {
             loadUserProfile();
 
             card_logout.setVisibility(View.VISIBLE);
+            card_delete_account.setVisibility(View.VISIBLE);
 
             if (iv_profile_edit != null) {
                 iv_profile_edit.setImageResource(R.drawable.pcliq_ic_edit_pencil);
@@ -166,6 +174,8 @@ public class PCliq_FragmentProfile extends Fragment {
             if (nestedScrollView != null) nestedScrollView.setVisibility(View.VISIBLE);
             
             card_logout.setVisibility(View.GONE);
+            com.google.android.material.card.MaterialCardView card_delete_account = rootView.findViewById(R.id.card_delete_account);
+            if(card_delete_account != null) card_delete_account.setVisibility(View.GONE);
             
             if (tv_name != null) tv_name.setText("Guest User");
             if (tv_email != null) tv_email.setText("Login to see your favourite poses");
@@ -425,4 +435,5 @@ public class PCliq_FragmentProfile extends Fragment {
     }
 
 }
+
 

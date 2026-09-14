@@ -780,6 +780,39 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Card: Delete Account -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_delete_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#FFCDCD"
+                app:strokeWidth="1dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_delete_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/pcliq_leaguespartan_bold"
+                        android:text="DELETE ACCOUNT"
+                        android:textColor="#D32F2F"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Card 4: Logout -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_logout"
