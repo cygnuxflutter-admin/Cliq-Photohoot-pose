@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.view.View;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -349,22 +352,71 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                 }
             });
         } else {
-            openLoginActivity();
+            errorDialog(getString(R.string.internet_not_connected), getString(R.string.error_connect_net_tryagain));
         }
     }
 
+    private View splashNoInternetView;
+    private ConnectivityManager.NetworkCallback splashNetworkCallback;
+
     private void errorDialog(String title, String message) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(PCliq_SplashActivity.this, R.style.ThemeDialog);
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setCancelable(false);
+        if (title.equals(getString(R.string.internet_not_connected))) {
+            // Show our nice No Internet overlay instead of ugly AlertDialog
+            android.view.ViewGroup root = findViewById(android.R.id.content);
+            if (splashNoInternetView == null) {
+                splashNoInternetView = getLayoutInflater().inflate(R.layout.pcliq_layout_no_internet, root, false);
+                splashNoInternetView.setClickable(true);
+                splashNoInternetView.setElevation(100f);
+                root.addView(splashNoInternetView);
+            }
 
-        if (title.equals(getString(R.string.internet_not_connected)) || title.equals(getString(R.string.server_error))) {
+            // Register a listener to auto-retry when network comes back
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null && splashNetworkCallback == null) {
+                splashNetworkCallback = new ConnectivityManager.NetworkCallback() {
+                    @Override
+                    public void onAvailable(@NonNull android.net.Network network) {
+                        runOnUiThread(() -> {
+                            // Network is back! Remove overlay and retry
+                            if (splashNoInternetView != null && splashNoInternetView.getParent() != null) {
+                                ((android.view.ViewGroup) splashNoInternetView.getParent()).removeView(splashNoInternetView);
+                                splashNoInternetView = null;
+                            }
+                            if (cm != null && splashNetworkCallback != null) {
+                                try { cm.unregisterNetworkCallback(splashNetworkCallback); } catch (Exception e) {}
+                                splashNetworkCallback = null;
+                            }
+                            getAppDetails();
+                        });
+                    }
+                };
+                android.net.NetworkRequest request = new android.net.NetworkRequest.Builder()
+                        .addCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                        .build();
+                cm.registerNetworkCallback(request, splashNetworkCallback);
+            }
+        } else {
+            // Server error - show AlertDialog as before
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(PCliq_SplashActivity.this, R.style.ThemeDialog);
+            alertDialog.setTitle(title);
+            alertDialog.setMessage(message);
+            alertDialog.setCancelable(false);
             alertDialog.setNegativeButton(getString(R.string.try_again), (dialog, which) -> getAppDetails());
+            alertDialog.setPositiveButton(getString(R.string.exit), (dialog, which) -> finish());
+            alertDialog.show();
         }
+    }
 
-        alertDialog.setPositiveButton(getString(R.string.exit), (dialog, which) -> finish());
-        alertDialog.show();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (splashNetworkCallback != null) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                try { cm.unregisterNetworkCallback(splashNetworkCallback); } catch (Exception e) {}
+            }
+            splashNetworkCallback = null;
+        }
     }
 
     private void openLoginActivity() {
