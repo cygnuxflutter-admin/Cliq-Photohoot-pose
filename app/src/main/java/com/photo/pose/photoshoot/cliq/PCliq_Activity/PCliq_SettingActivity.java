@@ -296,8 +296,26 @@ public class PCliq_SettingActivity extends AppCompatActivity {
         changeThemeColor();
 
         if(PCliq_Constant.arrayListPages.size() > 0) {
+            java.util.ArrayList<com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage> filteredPages = new java.util.ArrayList<>();
+            java.util.HashSet<String> seenTitles = new java.util.HashSet<>();
+            
+            for (com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage page : PCliq_Constant.arrayListPages) {
+                String title = page.getTitle();
+                
+                // Hide Delete Account for guest users
+                if (title.toLowerCase().contains("delete account") && !sharedPref.isLogged()) {
+                    continue;
+                }
+                
+                // Remove duplicates (like the second Privacy Policy)
+                if (!seenTitles.contains(title.toLowerCase())) {
+                    seenTitles.add(title.toLowerCase());
+                    filteredPages.add(page);
+                }
+            }
+            
             rv_pages.setLayoutManager(new LinearLayoutManager(PCliq_SettingActivity.this));
-            adapterPages = new PCliq_AdapterPages(PCliq_SettingActivity.this, PCliq_Constant.arrayListPages);
+            adapterPages = new PCliq_AdapterPages(PCliq_SettingActivity.this, filteredPages);
             rv_pages.setAdapter(adapterPages);
         }
     }
