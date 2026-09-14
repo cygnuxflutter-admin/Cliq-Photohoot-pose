@@ -349,7 +349,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                 }
             });
         } else {
-            errorDialog(getString(R.string.internet_not_connected), getString(R.string.error_connect_net_tryagain));
+            openLoginActivity();
         }
     }
 

@@ -1,6 +1,18 @@
 package com.photo.pose.photoshoot.cliq;
 
+
 import android.app.Activity;
+import android.app.Dialog;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
+import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
@@ -69,6 +81,7 @@ public class MyApplication extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        setupGlobalNetworkListener();
         mInstance = this;
 
         // Enable verbose OneSignal logging to debug issues if needed.
@@ -202,7 +215,101 @@ public class MyApplication extends android.app.Application {
         MultiDex.install(this);
     }
 
+
+    private Dialog noInternetDialog;
+    private Activity currentActivity;
+    private Activity dialogActivity;
+    private boolean isNetworkConnected = true;
+
+    private void setupGlobalNetworkListener() {
+        ConnectivityManager initialCm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (initialCm != null) {
+            android.net.NetworkInfo activeNetwork = initialCm.getActiveNetworkInfo();
+            isNetworkConnected = activeNetwork != null && activeNetwork.isConnected();
+        }
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {}
+            @Override
+            public void onActivityStarted(@NonNull Activity activity) {
+                currentActivity = activity;
+                updateNetworkDialogVisibility();
+            }
+            @Override
+            public void onActivityResumed(@NonNull Activity activity) {
+                currentActivity = activity;
+                updateNetworkDialogVisibility();
+            }
+            @Override
+            public void onActivityPaused(@NonNull Activity activity) {}
+            @Override
+            public void onActivityStopped(@NonNull Activity activity) {}
+            @Override
+            public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {}
+            @Override
+            public void onActivityDestroyed(@NonNull Activity activity) {
+                if (currentActivity == activity) {
+                    currentActivity = null;
+                }
+            }
+        });
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkRequest networkRequest = new NetworkRequest.Builder()
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .build();
+            connectivityManager.registerNetworkCallback(networkRequest, new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onAvailable(@NonNull Network network) {
+                    isNetworkConnected = true;
+                    updateNetworkDialogVisibility();
+                }
+
+                @Override
+                public void onLost(@NonNull Network network) {
+                    android.net.NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+                    isNetworkConnected = activeNetwork != null && activeNetwork.isConnected();
+                    updateNetworkDialogVisibility();
+                }
+            });
+        }
+    }
+
+    private void updateNetworkDialogVisibility() {
+        if (currentActivity != null) {
+            currentActivity.runOnUiThread(() -> {
+                if (isNetworkConnected) {
+                    if (noInternetDialog != null && noInternetDialog.isShowing()) {
+                        try { noInternetDialog.dismiss(); } catch (Exception e) {}
+                    }
+                } else {
+                    if (noInternetDialog == null || dialogActivity != currentActivity) {
+                        if (noInternetDialog != null && noInternetDialog.isShowing()) {
+                            try { noInternetDialog.dismiss(); } catch (Exception e) {}
+                        }
+                        dialogActivity = currentActivity;
+                        noInternetDialog = new Dialog(currentActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                        noInternetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        noInternetDialog.setContentView(R.layout.pcliq_layout_no_internet);
+                        noInternetDialog.setCancelable(false);
+                        Window window = noInternetDialog.getWindow();
+                        if (window != null) {
+                            window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+                            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                        }
+                    }
+                    if (!noInternetDialog.isShowing() && !currentActivity.isFinishing()) {
+                        try { noInternetDialog.show(); } catch (Exception e) {}
+                    }
+                }
+            });
+        }
+    }
+
     public static RequestQueue getLocalRequestQueue() {
+
         return localRequestQueue;
     }
 }
