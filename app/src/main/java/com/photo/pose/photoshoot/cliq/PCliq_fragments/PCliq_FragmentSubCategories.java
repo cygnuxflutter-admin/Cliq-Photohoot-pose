@@ -48,6 +48,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -64,7 +65,7 @@ public class PCliq_FragmentSubCategories extends Fragment {
     private PCliq_AdapterPose adapterWallpaper;
     private ArrayList<PCliq_ItemSubCat> arrayListSubCat;
     private ArrayList<PCliq_ItemPose> arrayListWallpapers;
-    private ProgressBar progressBar;
+    private CircularProgressBar progressBar;
     private TextView textView_empty;
     private SearchView searchView;
     String catID = "";

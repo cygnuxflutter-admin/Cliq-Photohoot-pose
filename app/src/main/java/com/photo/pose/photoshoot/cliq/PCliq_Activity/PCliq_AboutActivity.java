@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;

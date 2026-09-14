@@ -2,6 +2,7 @@ package com.photo.pose.photoshoot.cliq.PCliq_Activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.view.MenuItem;
 import android.webkit.WebView;
 

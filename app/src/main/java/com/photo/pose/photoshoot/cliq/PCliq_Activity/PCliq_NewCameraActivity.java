@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;

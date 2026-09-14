@@ -49,6 +49,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -62,7 +63,7 @@ public class PCliq_FragmentPoseLatest extends Fragment {
     private RecyclerView recyclerView;
     private PCliq_AdapterPose adapter;
     private ArrayList<PCliq_ItemPose> arrayList;
-    private ProgressBar progressBar;
+    private CircularProgressBar progressBar;
     private PCliq_Methods methods;
     private Boolean isOver = false, isScroll = false, isLoading = false;
     private TextView textView_empty;

@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;

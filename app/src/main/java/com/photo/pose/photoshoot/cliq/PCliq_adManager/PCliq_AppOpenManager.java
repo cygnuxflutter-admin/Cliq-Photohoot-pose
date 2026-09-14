@@ -6,6 +6,7 @@ import static com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.util.Log;
 
 import androidx.annotation.NonNull;

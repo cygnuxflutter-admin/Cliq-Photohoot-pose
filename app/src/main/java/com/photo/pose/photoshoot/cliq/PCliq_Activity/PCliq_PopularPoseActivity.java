@@ -1,6 +1,7 @@
 package com.photo.pose.photoshoot.cliq.PCliq_Activity;
 
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;

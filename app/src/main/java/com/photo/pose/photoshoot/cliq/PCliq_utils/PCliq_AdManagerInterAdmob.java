@@ -2,6 +2,7 @@ package com.photo.pose.photoshoot.cliq.PCliq_utils;
 
 import android.content.Context;
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 
 import com.google.ads.consent.ConsentInformation;
 import com.google.ads.consent.ConsentStatus;

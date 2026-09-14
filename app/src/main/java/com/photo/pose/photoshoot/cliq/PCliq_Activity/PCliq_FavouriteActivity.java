@@ -28,6 +28,7 @@ import com.photo.pose.photoshoot.cliq.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -42,7 +43,7 @@ public class PCliq_FavouriteActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     PCliq_AdapterPose adapter;
     ArrayList<PCliq_ItemPose> arrayList;
-    ProgressBar progressBar;
+    CircularProgressBar progressBar;
     TextView tv_empty;
     StaggeredGridLayoutManager grid;
 

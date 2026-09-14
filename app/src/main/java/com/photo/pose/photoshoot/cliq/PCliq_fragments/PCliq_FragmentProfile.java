@@ -53,6 +53,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -67,7 +68,7 @@ public class PCliq_FragmentProfile extends Fragment {
     NestedScrollView nestedScrollView;
     ImageView iv_profile, iv_profile_edit;
     TextView tv_name, tv_email;
-    ProgressBar progressBar;
+    CircularProgressBar progressBar;
     TextView tv_empty;
     String errorString = "";
 

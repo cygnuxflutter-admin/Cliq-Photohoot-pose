@@ -3,6 +3,7 @@ package com.photo.pose.photoshoot.cliq.PCliq_Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

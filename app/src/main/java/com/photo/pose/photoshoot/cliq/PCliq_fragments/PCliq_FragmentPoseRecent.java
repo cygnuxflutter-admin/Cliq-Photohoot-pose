@@ -37,6 +37,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -50,7 +51,7 @@ public class PCliq_FragmentPoseRecent extends Fragment {
     private RecyclerView recyclerView;
     private PCliq_AdapterPose adapter;
     private ArrayList<PCliq_ItemPose> arrayList;
-    private ProgressBar progressBar;
+    private CircularProgressBar progressBar;
     private PCliq_Methods methods;
     private TextView textView_empty;
     private StaggeredGridLayoutManager grid;

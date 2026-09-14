@@ -14,6 +14,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -54,6 +55,7 @@ import com.photo.pose.photoshoot.cliq.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -106,7 +108,7 @@ public class PCliq_FragmentHome extends Fragment {
     private RecyclerView recyclerView;
     private PCliq_AdapterPose adapter;
     private ArrayList<PCliq_ItemPose> arrayList;
-    private ProgressBar progressBar;
+    private CircularProgressBar progressBar;
     private PCliq_Methods methods;
     private Boolean isOver = false, isScroll = false, isLoading = false;
     private TextView textView_empty;
@@ -130,7 +132,7 @@ public class PCliq_FragmentHome extends Fragment {
     private RecyclerView DrecyclerView;
     private PCliq_AdapterPose Dadapter;
     private ArrayList<PCliq_ItemPose> DarrayList;
-    private ProgressBar DprogressBar;
+    private CircularProgressBar DprogressBar;
     private PCliq_Methods Dmethods;
     private TextView DtextView_empty;
     private StaggeredGridLayoutManager Dgrid;
@@ -144,7 +146,7 @@ public class PCliq_FragmentHome extends Fragment {
     private RecyclerView PrecyclerView;
     private PCliq_AdapterPose Padapter;
     private ArrayList<PCliq_ItemPose> ParrayList;
-    private ProgressBar PprogressBar;
+    private CircularProgressBar PprogressBar;
     private PCliq_Methods Pmethods;
     private TextView PtextView_empty;
     private String PwallType = "", PwallTempType = "", Pcolor_ids = "";

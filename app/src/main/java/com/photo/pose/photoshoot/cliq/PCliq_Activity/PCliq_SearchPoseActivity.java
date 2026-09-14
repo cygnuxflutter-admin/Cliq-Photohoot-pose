@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ public class PCliq_SearchPoseActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     PCliq_AdapterPose adapter;
     ArrayList<PCliq_ItemPose> arrayList;
-    ProgressBar progressBar;
+    CircularProgressBar progressBar;
     PCliq_Methods methods;
     PCliq_InterAdListener interAdListener;
     TextView textView_empty;

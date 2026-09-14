@@ -41,6 +41,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -57,7 +58,7 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
     private PCliq_AdapterPose adapterWallpaper;
     private ArrayList<PCliq_ItemSubCat> arrayListSubCat;
     private ArrayList<PCliq_ItemPose> arrayListWallpapers;
-    private ProgressBar progressBar;
+    private CircularProgressBar progressBar;
     private TextView textView_empty;
     private SearchView searchView; 
     private int page = 1, totalRecord = 0;
@@ -115,7 +116,8 @@ public class PCliq_PoseByCatActivity extends AppCompatActivity {
         View ivBack = findViewById(R.id.iv_cat_back);
         View ivSearch = findViewById(R.id.iv_cat_search);
         View fabCamera = findViewById(R.id.fab_cat_camera);
-        if (catName != null && !catName.isEmpty()) {
+
+        if (catName != null && !catName.isEmpty()) {
             tvHeading.setText(catName.toLowerCase().contains("pose") ? catName : catName + " Poses");
         } else {
             tvHeading.setText("Couple Poses");

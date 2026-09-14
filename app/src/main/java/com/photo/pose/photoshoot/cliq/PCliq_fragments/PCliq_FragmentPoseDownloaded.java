@@ -44,6 +44,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import android.widget.ProgressBar;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.AnimationAdapter;
@@ -57,7 +58,7 @@ public class PCliq_FragmentPoseDownloaded extends Fragment {
     private RecyclerView DrecyclerView;
     private PCliq_AdapterPose Dadapter;
     private ArrayList<PCliq_ItemPose> DarrayList;
-    private ProgressBar DprogressBar;
+    private CircularProgressBar DprogressBar;
     private PCliq_Methods Dmethods;
     private TextView DtextView_empty;
     private StaggeredGridLayoutManager Dgrid;
