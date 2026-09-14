@@ -10,6 +10,7 @@ import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -216,9 +217,8 @@ public class MyApplication extends android.app.Application {
     }
 
 
-    private Dialog noInternetDialog;
+    private View noInternetView;
     private Activity currentActivity;
-    private Activity dialogActivity;
     private boolean isNetworkConnected = true;
 
     private void setupGlobalNetworkListener() {
@@ -280,28 +280,34 @@ public class MyApplication extends android.app.Application {
     private void updateNetworkDialogVisibility() {
         if (currentActivity != null) {
             currentActivity.runOnUiThread(() -> {
+                android.view.ViewGroup root = currentActivity.findViewById(android.R.id.content);
+                if (root == null) return;
+                
                 if (isNetworkConnected) {
-                    if (noInternetDialog != null && noInternetDialog.isShowing()) {
-                        try { noInternetDialog.dismiss(); } catch (Exception e) {}
+                    if (noInternetView != null && noInternetView.getParent() != null) {
+                        ((android.view.ViewGroup) noInternetView.getParent()).removeView(noInternetView);
                     }
+                    noInternetView = null;
                 } else {
-                    if (noInternetDialog == null || dialogActivity != currentActivity) {
-                        if (noInternetDialog != null && noInternetDialog.isShowing()) {
-                            try { noInternetDialog.dismiss(); } catch (Exception e) {}
+                    if (noInternetView == null || noInternetView.getContext() != currentActivity) {
+                        if (noInternetView != null && noInternetView.getParent() != null) {
+                            ((android.view.ViewGroup) noInternetView.getParent()).removeView(noInternetView);
                         }
-                        dialogActivity = currentActivity;
-                        noInternetDialog = new Dialog(currentActivity, R.style.TransparentDialogTheme);
-                        noInternetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        noInternetDialog.setContentView(R.layout.pcliq_layout_no_internet);
-                        noInternetDialog.setCancelable(false);
-                        Window window = noInternetDialog.getWindow();
-                        if (window != null) {
-                            window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
-                            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-                        }
+                        noInternetView = currentActivity.getLayoutInflater().inflate(R.layout.pcliq_layout_no_internet, root, false);
+                        noInternetView.setClickable(true);
+                        noInternetView.setFocusable(true);
+                        // Ensure it fills the screen completely and draws over navigation
+                        noInternetView.setLayoutParams(new android.widget.FrameLayout.LayoutParams(
+                                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                                android.view.ViewGroup.LayoutParams.MATCH_PARENT
+                        ));
+                        noInternetView.setElevation(100f);
                     }
-                    if (!noInternetDialog.isShowing() && !currentActivity.isFinishing()) {
-                        try { noInternetDialog.show(); } catch (Exception e) {}
+                    if (noInternetView.getParent() == null) {
+                        root.addView(noInternetView);
+                    } else if (noInternetView.getParent() != root) {
+                        ((android.view.ViewGroup) noInternetView.getParent()).removeView(noInternetView);
+                        root.addView(noInternetView);
                     }
                 }
             });
