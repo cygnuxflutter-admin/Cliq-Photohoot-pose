@@ -51,7 +51,10 @@ public class PCliq_AdapterPages extends RecyclerView.Adapter<PCliq_AdapterPages.
 
         holder.tv_title.setText(arrayList.get(position).getTitle());
         holder.tv_title.setOnClickListener(v -> {
-            if(arrayList.get(holder.getAbsoluteAdapterPosition()).getId().equals("1")) {
+            if(arrayList.get(holder.getAbsoluteAdapterPosition()).getTitle().toLowerCase().contains("delete account")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://cygnux.in/PossingApp/account-deletion.html"));
+                context.startActivity(intent);
+            } else if(arrayList.get(holder.getAbsoluteAdapterPosition()).getId().equals("1")) {
                 Intent intent = new Intent(context, PCliq_AboutActivity.class);
                 context.startActivity(intent);
             } else {
