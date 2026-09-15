@@ -308,8 +308,8 @@ public class PCliq_SettingActivity extends AppCompatActivity {
                 }
                 
                 // Remove duplicates (like the second Privacy Policy)
-                if (!seenTitles.contains(title.toLowerCase())) {
-                    seenTitles.add(title.toLowerCase());
+                if (!seenTitles.contains(title.toLowerCase().trim())) {
+                    seenTitles.add(title.toLowerCase().trim());
                     filteredPages.add(page);
                 }
             }
@@ -466,3 +466,4 @@ public class PCliq_SettingActivity extends AppCompatActivity {
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 }
+
