@@ -409,17 +409,29 @@ public class PCliq_LoginActivity extends AppCompatActivity {
         dialog_forgot_pass.show();
 
         final EditText et_email = dialog_forgot_pass.findViewById(R.id.et_forgot_email);
+        final EditText et_password = dialog_forgot_pass.findViewById(R.id.et_forgot_password);
+        final EditText et_cpassword = dialog_forgot_pass.findViewById(R.id.et_forgot_cpassword);
         MaterialButton button_submit = dialog_forgot_pass.findViewById(R.id.button_forgot_send);
 
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (methods.isNetworkAvailable()) {
-                    if (!et_email.getText().toString().trim().isEmpty()) {
-                        dialog_forgot_pass.dismiss();
-                        loadForgotPass(et_email.getText().toString());
-                    } else {
+                    String email = et_email.getText().toString().trim();
+                    String password = et_password != null ? et_password.getText().toString().trim() : "";
+                    String cpassword = et_cpassword != null ? et_cpassword.getText().toString().trim() : "";
+
+                    if (email.isEmpty()) {
                         Toast.makeText(PCliq_LoginActivity.this, getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
+                    } else if (password.isEmpty()) {
+                        Toast.makeText(PCliq_LoginActivity.this, "Please enter a new password", Toast.LENGTH_SHORT).show();
+                    } else if (password.length() < 6) {
+                        Toast.makeText(PCliq_LoginActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    } else if (!password.equals(cpassword)) {
+                        Toast.makeText(PCliq_LoginActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    } else {
+                        dialog_forgot_pass.dismiss();
+                        loadForgotPass(email, password);
                     }
                 } else {
                     Toast.makeText(PCliq_LoginActivity.this, getString(R.string.internet_not_connected), Toast.LENGTH_SHORT).show();
@@ -428,15 +440,21 @@ public class PCliq_LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loadForgotPass(String email) {
+    private void loadForgotPass(String email, String password) {
         progressDialog.show();
 
-        Call<PCliq_ItemUserList> call = PCliq_APIClient.getClient().create(PCliq_APIInterface.class).getForgotPassword(methods.getAPIRequest(PCliq_Constant.URL_FORGOT_PASSWORD, 0, "", "", "", "", "", "", "", email, "", "", "", ""));
+        Call<PCliq_ItemUserList> call = PCliq_APIClient.getClient().create(PCliq_APIInterface.class).getForgotPassword(methods.getAPIRequest(PCliq_Constant.URL_FORGOT_PASSWORD, 0, "", "", "", "", "", "", "", email, password, "", "", ""));
         call.enqueue(new Callback<PCliq_ItemUserList>() {
             @Override
             public void onResponse(@NonNull Call<PCliq_ItemUserList> call, @NonNull Response<PCliq_ItemUserList> response) {
                 if (response.body() != null && response.body().getArrayListUser() != null && response.body().getArrayListUser().size() > 0) {
-                    Toast.makeText(PCliq_LoginActivity.this, response.body().getArrayListUser().get(0).getMessage(), Toast.LENGTH_SHORT).show();
+                    PCliq_ItemUserList.ItemUser user = response.body().getArrayListUser().get(0);
+                    Toast.makeText(PCliq_LoginActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
+                    
+                    if (user.getSuccess().equals("1")) {
+                        // Password changed successfully, no need to do anything as they are already on Login screen
+                        // They can just log in now.
+                    }
                 } else {
                     Toast.makeText(PCliq_LoginActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
                 }
