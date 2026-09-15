@@ -174,7 +174,6 @@ public class PCliq_FragmentProfile extends Fragment {
             if (nestedScrollView != null) nestedScrollView.setVisibility(View.VISIBLE);
             
             card_logout.setVisibility(View.GONE);
-            com.google.android.material.card.MaterialCardView card_delete_account = rootView.findViewById(R.id.card_delete_account);
             if(card_delete_account != null) card_delete_account.setVisibility(View.GONE);
             
             if (tv_name != null) tv_name.setText("Guest User");
@@ -435,5 +434,7 @@ public class PCliq_FragmentProfile extends Fragment {
     }
 
 }
+
+
 
 
