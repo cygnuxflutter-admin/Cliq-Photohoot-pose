@@ -297,19 +297,24 @@ public class PCliq_SettingActivity extends AppCompatActivity {
 
         if(PCliq_Constant.arrayListPages.size() > 0) {
             java.util.ArrayList<com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage> filteredPages = new java.util.ArrayList<>();
-            java.util.HashSet<String> seenTitles = new java.util.HashSet<>();
+            boolean addedPrivacyPolicy = false;
             
             for (com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage page : PCliq_Constant.arrayListPages) {
-                String title = page.getTitle();
+                String title = page.getTitle().toLowerCase();
                 
                 // Hide Delete Account for guest users
-                if (title.toLowerCase().contains("delete account") && !sharedPref.isLogged()) {
+                if (title.contains("delete account") && !sharedPref.isLogged()) {
                     continue;
                 }
                 
-                // Remove duplicates (like the second Privacy Policy)
-                if (!seenTitles.contains(title.toLowerCase().trim())) {
-                    seenTitles.add(title.toLowerCase().trim());
+                // If it's a privacy policy, only add it once
+                if (title.contains("privacy")) {
+                    if (!addedPrivacyPolicy) {
+                        addedPrivacyPolicy = true;
+                        filteredPages.add(page);
+                    }
+                } else {
+                    // Always add other items
                     filteredPages.add(page);
                 }
             }
