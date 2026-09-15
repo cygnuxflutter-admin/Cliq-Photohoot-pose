@@ -387,8 +387,20 @@ public class PCliq_FragmentProfile extends Fragment {
         }
 
         if (rv_pages != null) {
+            java.util.ArrayList<com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage> filteredPages = new java.util.ArrayList<>();
+            java.util.HashSet<String> seenTitles = new java.util.HashSet<>();
+            for (com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage page : com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant.arrayListPages) {
+                String title = page.getTitle();
+                if (title.toLowerCase().contains("delete account") && !sharedPref.isLogged()) {
+                    continue;
+                }
+                if (!seenTitles.contains(title.toLowerCase().trim())) {
+                    seenTitles.add(title.toLowerCase().trim());
+                    filteredPages.add(page);
+                }
+            }
             rv_pages.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getActivity()));
-            rv_pages.setAdapter(new com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterPages(getActivity(), com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant.arrayListPages));
+            rv_pages.setAdapter(new com.photo.pose.photoshoot.cliq.PCliq_adapter.PCliq_AdapterPages(getActivity(), filteredPages));
         }
     }
 
