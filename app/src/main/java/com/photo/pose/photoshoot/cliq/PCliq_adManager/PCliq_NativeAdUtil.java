@@ -157,6 +157,7 @@ public class PCliq_NativeAdUtil {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 if (position != -1) loadingAds.remove(position);
+                
                 // fillAdXNativeAd(nativeAdContainer);
             }
         }).build();
@@ -225,6 +226,7 @@ public class PCliq_NativeAdUtil {
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                 if (position != -1) loadingAds.remove(position);
+                
                 // fillAdXNativeAd(nativeAdContainer);
             }
         }).build();

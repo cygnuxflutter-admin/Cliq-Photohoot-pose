@@ -435,14 +435,6 @@
 
     </ScrollView>
 
-    <RelativeLayout
-        android:id="@+id/rl_ad"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
-        android:background="@color/bg_warm"
-        android:gravity="center"
-        android:visibility="visible" />
+
 
 </LinearLayout>

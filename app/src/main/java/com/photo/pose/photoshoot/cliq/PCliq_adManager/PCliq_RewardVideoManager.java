@@ -18,8 +18,8 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
-import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd;
-import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_PreferenceClass;
 import com.photo.pose.photoshoot.cliq.R;
 //import com.vehicle.information.trending.rtoexam.rto.R;
@@ -29,7 +29,7 @@ public class PCliq_RewardVideoManager {
     private static PCliq_PreferenceClass taskPreferenceClass;
     private static String AD_google_Rw;
     private static AlertDialog alertDialog;
-    public static RewardedInterstitialAd mRewardedAd;
+    public static RewardedAd mRewardedAd;
 
     static boolean isUserEarnReward = false;
     public static com.facebook.ads.InterstitialAd interstitialFB;
@@ -39,7 +39,8 @@ public class PCliq_RewardVideoManager {
         if (taskPreferenceClass == null) {
             taskPreferenceClass = new PCliq_PreferenceClass(context);
         }
-        AD_google_Rw = taskPreferenceClass.getAdsId("GoogleInterstialRewardAd");
+        AD_google_Rw = taskPreferenceClass.getAdsId("GoogleRewardedAd");
+        Log.d("AdMob_Log", "Loaded Rewarded Ad ID: " + AD_google_Rw);
         if (AD_google_Rw == null || AD_google_Rw.trim().isEmpty()) {
             onAdLoadInterface.onAdClose(true);
             return;
@@ -62,9 +63,9 @@ public class PCliq_RewardVideoManager {
         }
 
         AdRequest adRequest = new AdRequest.Builder().build();
-        RewardedInterstitialAd.load(context, AD_google_Rw, adRequest, new RewardedInterstitialAdLoadCallback() {
+        RewardedAd.load(context, AD_google_Rw, adRequest, new RewardedAdLoadCallback() {
             @Override
-            public void onAdLoaded(RewardedInterstitialAd ad) {
+            public void onAdLoaded(@NonNull RewardedAd ad) {
                 mRewardedAd = ad;
                 if (alertDialog != null && alertDialog.isShowing() && !context.isFinishing()) {
                     try {

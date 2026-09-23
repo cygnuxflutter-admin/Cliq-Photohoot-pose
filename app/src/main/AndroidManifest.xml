@@ -112,6 +112,10 @@
             android:name=".PCliq_Activity.PCliq_WebViewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+            
+        <activity
+            android:name=".PCliq_Activity.PCliq_NotificationActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.version"

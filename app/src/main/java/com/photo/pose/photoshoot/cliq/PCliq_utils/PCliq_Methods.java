@@ -1075,6 +1075,7 @@ public class PCliq_Methods {
 
             case PCliq_Constant.URL_FORGOT_PASSWORD:
                 jsObj.addProperty("email", email);
+                jsObj.addProperty("password", password);
                 break;
 
             case PCliq_Constant.URL_PROFILE:

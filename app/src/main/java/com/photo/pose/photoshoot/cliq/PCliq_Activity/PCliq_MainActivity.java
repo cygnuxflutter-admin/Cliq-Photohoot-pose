@@ -168,37 +168,11 @@ public class PCliq_MainActivity extends AppCompatActivity {
                         PCliq_Constant.isLiveWallpaperEnabled = response.body().getArrayListAbout().get(0).isLiveWallpaperOn();
 
                         if (response.body().getArrayListAbout().get(0).getArrayListAds() != null && response.body().getArrayListAbout().get(0).getArrayListAds().size() > 0) {
-                            switch (response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType()) {
-                                case "Admob":
-                                case "Facebook":
-                                    PCliq_Constant.publisherAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getPublisherId();
-                                    break;
-                                case "StartApp":
-                                    PCliq_Constant.startappAppId = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getPublisherId();
-                                    break;
-                                case "Wortise":
-                                    PCliq_Constant.wortiseAppId = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getPublisherId();
-                                    break;
-                            }
-                            PCliq_Constant.bannerAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getBannerID();
-                            PCliq_Constant.interstitialAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getInterstitialID();
-                            PCliq_Constant.nativeAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getNativeID();
-
-                            PCliq_Constant.isBannerAd = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getIsBannerOn().equals("1");
-                            PCliq_Constant.isInterAd = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getIsInterstitialOn().equals("1");
-                            PCliq_Constant.isNativeAd = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getIsNativeOn().equals("1");
-
-                            PCliq_Constant.interstitialAdShow = Integer.parseInt(response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getInterAdsClick());
-                            PCliq_Constant.nativeAdShow = Integer.parseInt(response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getNativeAdsPos());
-
-                            PCliq_Constant.bannerAdType = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType();
-                            PCliq_Constant.interstitialAdType = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType();
-                            PCliq_Constant.nativeAdType = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType();
-                        } else {
-                            PCliq_Constant.isBannerAd = false;
-                            PCliq_Constant.isInterAd = false;
-                            PCliq_Constant.isNativeAd = false;
+                            // Old API Ads disabled to avoid conflict with Firebase ads
                         }
+                        PCliq_Constant.isBannerAd = false;
+                        PCliq_Constant.isInterAd = false;
+                        PCliq_Constant.isNativeAd = false;
 
                         if (response.body().getArrayListAbout().get(0).getArrayListPages() != null && response.body().getArrayListAbout().get(0).getArrayListPages().size() > 0) {
                             PCliq_Constant.arrayListPages.clear();

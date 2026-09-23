@@ -411,30 +411,80 @@ public class PCliq_LoginActivity extends AppCompatActivity {
         final EditText et_email = dialog_forgot_pass.findViewById(R.id.et_forgot_email);
         final EditText et_password = dialog_forgot_pass.findViewById(R.id.et_forgot_password);
         final EditText et_cpassword = dialog_forgot_pass.findViewById(R.id.et_forgot_cpassword);
+        
+        final TextView tv_error_email = dialog_forgot_pass.findViewById(R.id.tv_forgot_error_email);
+        final TextView tv_error_pass = dialog_forgot_pass.findViewById(R.id.tv_forgot_error_pass);
+        final TextView tv_error_cpass = dialog_forgot_pass.findViewById(R.id.tv_forgot_error_cpass);
+        
         MaterialButton button_submit = dialog_forgot_pass.findViewById(R.id.button_forgot_send);
 
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (methods.isNetworkAvailable()) {
-                    String email = et_email.getText().toString().trim();
-                    String password = et_password != null ? et_password.getText().toString().trim() : "";
-                    String cpassword = et_cpassword != null ? et_cpassword.getText().toString().trim() : "";
+                tv_error_email.setVisibility(View.INVISIBLE);
+                tv_error_pass.setVisibility(View.INVISIBLE);
+                tv_error_cpass.setVisibility(View.INVISIBLE);
+                
+                String email = et_email.getText().toString().trim();
+                String password = et_password != null ? et_password.getText().toString().trim() : "";
+                String cpassword = et_cpassword != null ? et_cpassword.getText().toString().trim() : "";
 
-                    if (email.isEmpty()) {
-                        Toast.makeText(PCliq_LoginActivity.this, getString(R.string.enter_email), Toast.LENGTH_SHORT).show();
-                    } else if (password.isEmpty()) {
-                        Toast.makeText(PCliq_LoginActivity.this, "Please enter a new password", Toast.LENGTH_SHORT).show();
-                    } else if (password.length() < 6) {
-                        Toast.makeText(PCliq_LoginActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-                    } else if (!password.equals(cpassword)) {
-                        Toast.makeText(PCliq_LoginActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                    } else {
+                boolean cancel = false;
+                View focusView = null;
+                
+                // Confirm Password validation
+                if (TextUtils.isEmpty(cpassword)) {
+                    tv_error_cpass.setText(getString(R.string.enter_password));
+                    tv_error_cpass.setVisibility(View.VISIBLE);
+                    focusView = et_cpassword;
+                    cancel = true;
+                } else if (!password.equals(cpassword)) {
+                    tv_error_cpass.setText("Passwords do not match");
+                    tv_error_cpass.setVisibility(View.VISIBLE);
+                    focusView = et_cpassword;
+                    cancel = true;
+                }
+                
+                // Password validation
+                if (TextUtils.isEmpty(password)) {
+                    tv_error_pass.setText(getString(R.string.enter_password));
+                    tv_error_pass.setVisibility(View.VISIBLE);
+                    focusView = et_password;
+                    cancel = true;
+                } else if (!isPasswordValid(password)) {
+                    tv_error_pass.setText(getString(R.string.error_password_sort));
+                    tv_error_pass.setVisibility(View.VISIBLE);
+                    focusView = et_password;
+                    cancel = true;
+                } else if (password.endsWith(" ")) {
+                    tv_error_pass.setText(getString(R.string.pass_end_space));
+                    tv_error_pass.setVisibility(View.VISIBLE);
+                    focusView = et_password;
+                    cancel = true;
+                }
+                
+                // Email validation
+                if (TextUtils.isEmpty(email)) {
+                    tv_error_email.setText(getString(R.string.cannot_empty));
+                    tv_error_email.setVisibility(View.VISIBLE);
+                    focusView = et_email;
+                    cancel = true;
+                } else if (!isEmailValid(email)) {
+                    tv_error_email.setText(getString(R.string.error_invalid_email));
+                    tv_error_email.setVisibility(View.VISIBLE);
+                    focusView = et_email;
+                    cancel = true;
+                }
+                
+                if (cancel) {
+                    focusView.requestFocus();
+                } else {
+                    if (methods.isNetworkAvailable()) {
                         dialog_forgot_pass.dismiss();
                         loadForgotPass(email, password);
+                    } else {
+                        Toast.makeText(PCliq_LoginActivity.this, getString(R.string.internet_not_connected), Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(PCliq_LoginActivity.this, getString(R.string.internet_not_connected), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -443,19 +493,44 @@ public class PCliq_LoginActivity extends AppCompatActivity {
     private void loadForgotPass(String email, String password) {
         progressDialog.show();
 
-        Call<PCliq_ItemUserList> call = PCliq_APIClient.getClient().create(PCliq_APIInterface.class).getForgotPassword(methods.getAPIRequest(PCliq_Constant.URL_FORGOT_PASSWORD, 0, "", "", "", "", "", "", "", email, password, "", "", ""));
+        Log.d("FORGOT_PASS", "========== FORGOT PASSWORD API CALL ==========");
+        Log.d("FORGOT_PASS", "Email: " + email);
+        Log.d("FORGOT_PASS", "Password: " + password);
+        Log.d("FORGOT_PASS", "API URL: " + PCliq_Constant.SERVER_URL + PCliq_Constant.URL_FORGOT_PASSWORD);
+
+        String requestData = methods.getAPIRequest(PCliq_Constant.URL_FORGOT_PASSWORD, 0, "", "", "", "", "", "", "", email, password, "", "", "");
+        Log.d("FORGOT_PASS", "Encoded Request Data: " + requestData);
+
+        Call<PCliq_ItemUserList> call = PCliq_APIClient.getClient().create(PCliq_APIInterface.class).getForgotPassword(requestData);
         call.enqueue(new Callback<PCliq_ItemUserList>() {
             @Override
             public void onResponse(@NonNull Call<PCliq_ItemUserList> call, @NonNull Response<PCliq_ItemUserList> response) {
+                Log.d("FORGOT_PASS", "========== RESPONSE ==========");
+                Log.d("FORGOT_PASS", "Response Code: " + response.code());
+                Log.d("FORGOT_PASS", "Response Body Null: " + (response.body() == null));
+
                 if (response.body() != null && response.body().getArrayListUser() != null && response.body().getArrayListUser().size() > 0) {
                     PCliq_ItemUserList.ItemUser user = response.body().getArrayListUser().get(0);
+                    Log.d("FORGOT_PASS", "Success: " + user.getSuccess());
+                    Log.d("FORGOT_PASS", "Message: " + user.getMessage());
                     Toast.makeText(PCliq_LoginActivity.this, user.getMessage(), Toast.LENGTH_SHORT).show();
                     
                     if (user.getSuccess().equals("1")) {
+                        Log.d("FORGOT_PASS", "Password changed successfully!");
                         // Password changed successfully, no need to do anything as they are already on Login screen
                         // They can just log in now.
+                    } else {
+                        Log.d("FORGOT_PASS", "Password change FAILED!");
                     }
                 } else {
+                    Log.e("FORGOT_PASS", "Response body is null or empty!");
+                    if (response.errorBody() != null) {
+                        try {
+                            Log.e("FORGOT_PASS", "Error Body: " + response.errorBody().string());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                     Toast.makeText(PCliq_LoginActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss();
@@ -463,6 +538,9 @@ public class PCliq_LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<PCliq_ItemUserList> call, @NonNull Throwable t) {
+                Log.e("FORGOT_PASS", "========== API FAILED ==========");
+                Log.e("FORGOT_PASS", "Error: " + t.getMessage());
+                t.printStackTrace();
                 call.cancel();
                 Toast.makeText(PCliq_LoginActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();

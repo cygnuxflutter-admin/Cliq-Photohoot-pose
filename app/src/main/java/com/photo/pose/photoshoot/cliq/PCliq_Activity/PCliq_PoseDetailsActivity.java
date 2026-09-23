@@ -424,7 +424,7 @@ public class PCliq_PoseDetailsActivity extends AppCompatActivity {
 
         PC_btn_download.setOnClickListener(v -> {
             if (checkPer()) {
-                String rewardId = new PCliq_PreferenceClass(PCliq_PoseDetailsActivity.this).getAdsId("GoogleInterstialRewardAd");
+                String rewardId = new PCliq_PreferenceClass(PCliq_PoseDetailsActivity.this).getAdsId("GoogleRewardedAd");
                 if (rewardId != null && !rewardId.trim().isEmpty()) {
                     new androidx.appcompat.app.AlertDialog.Builder(PCliq_PoseDetailsActivity.this)
                             .setTitle("🌟 HD Download")

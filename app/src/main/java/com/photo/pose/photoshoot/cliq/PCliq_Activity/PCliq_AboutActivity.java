@@ -68,12 +68,8 @@ public class PCliq_AboutActivity extends AppCompatActivity {
         }
 
         RelativeLayout rl_ad = this.findViewById(R.id.rl_ad);
-        if (PCliq_NetworkUtils.isNetworkAvailable(this)) {
-            if (new PCliq_PreferenceClass(PCliq_AboutActivity.this).getInt("BannerAdStatus") == 1) {
-                PCliq_LoadAds.loadAdmobBannerAd(this, rl_ad);
-            } else {
-                rl_ad.setVisibility(View.GONE);
-            }
+        if (rl_ad != null) {
+            rl_ad.setVisibility(View.GONE);
         }
 
         PC_pbar = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_CustomProgressDialog(this);
@@ -268,11 +264,14 @@ public class PCliq_AboutActivity extends AppCompatActivity {
             PC_ll_contact.setVisibility(View.GONE);
         }
 
-        if (PC_appversion != null && !PC_appversion.trim().isEmpty()) {
-            PC_textView_version.setText("VERSION " + PC_appversion.toUpperCase());
+        try {
+            android.content.pm.PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            PC_textView_version.setText("VERSION " + pInfo.versionName);
+        } catch (Exception e) {
+            PC_textView_version.setText("VERSION 1.0");
         }
 
-        PC_imageView_logo.setImageResource(R.drawable.pcliq_app_logo);
+        PC_imageView_logo.setImageResource(R.mipmap.ic_launcher);
 
         String mimeType = "text/html";
         String encoding = "utf-8";

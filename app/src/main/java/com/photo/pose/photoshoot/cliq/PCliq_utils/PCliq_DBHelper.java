@@ -28,6 +28,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_ABOUT = "about";
     public static final String TABLE_CAT = "cat";
     public static final String TABLE_SUB_CAT = "sub_cat";
+    public static final String TABLE_NOTIFICATION = "notification";
     public static final String TABLE_WALL_BY_LATEST = "wallpaper";
     private static final String TABLE_COLOR = "colors";
 
@@ -110,6 +111,16 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
             TAG_CAT_TOT_WALL + " TEXT);";
 
     // Creating table query
+    private static final String CREATE_TABLE_NOTIFICATION = "create table " + TABLE_NOTIFICATION + "(" +
+            TAG_ID + " integer PRIMARY KEY AUTOINCREMENT," +
+            TAG_TITLE + " TEXT," +
+            "message TEXT," +
+            "image TEXT," +
+            "url TEXT," +
+            "post_id TEXT," +
+            "is_read INTEGER DEFAULT 0);";
+
+    // Creating table query
     private static final String CREATE_TABLE_COLORS = "create table " + TABLE_COLOR + "(" +
             TAG_ID + " integer PRIMARY KEY AUTOINCREMENT," +
             TAG_COLOR_ID + " TEXT," +
@@ -136,7 +147,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
             TAG_IS_FEATURED + " TEXT);";
 
     public PCliq_DBHelper(Context context) {
-        super(context, DB_NAME, null, 5);
+        super(context, DB_NAME, null, 6);
         this.context = context;
         encryptData = new PCliq_EncryptData(context);
         db = getWritableDatabase();
@@ -149,6 +160,7 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_CAT);
             db.execSQL(CREATE_TABLE_SUB_CAT);
             db.execSQL(CREATE_TABLE_COLORS);
+        db.execSQL(CREATE_TABLE_NOTIFICATION);
             db.execSQL(CREATE_TABLE_WALL_BY_LATEST);
         } catch (Exception e) {
             e.printStackTrace();
@@ -783,5 +795,72 @@ public class PCliq_DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 6) {
+            db.execSQL(CREATE_TABLE_NOTIFICATION);
+        }
+    }
+
+    // ---------------- NOTIFICATION METHODS ---------------- //
+    public void insertNotification(String title, String message, String image, String url, String postId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TAG_TITLE, title);
+        values.put("message", message);
+        values.put("image", image);
+        values.put("url", url);
+        values.put("post_id", postId);
+        values.put("is_read", 0);
+        db.insert(TABLE_NOTIFICATION, null, values);
+        db.close();
+    }
+
+    public ArrayList<com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemNotification> getAllNotifications() {
+        ArrayList<com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemNotification> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTIFICATION + " ORDER BY " + TAG_ID + " DESC", null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(TAG_ID));
+                @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(TAG_TITLE));
+                @SuppressLint("Range") String message = cursor.getString(cursor.getColumnIndex("message"));
+                @SuppressLint("Range") String image = cursor.getString(cursor.getColumnIndex("image"));
+                @SuppressLint("Range") String url = cursor.getString(cursor.getColumnIndex("url"));
+                @SuppressLint("Range") String postId = cursor.getString(cursor.getColumnIndex("post_id"));
+                @SuppressLint("Range") int isRead = cursor.getInt(cursor.getColumnIndex("is_read"));
+                
+                list.add(new com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemNotification(id, title, message, image, url, postId, isRead == 1));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        db.close();
+        return list;
+    }
+
+    public int getUnreadNotificationCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NOTIFICATION + " WHERE is_read = 0", null);
+        int count = 0;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        db.close();
+        return count;
+    }
+
+    public void markAllNotificationsAsRead() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("is_read", 1);
+        db.update(TABLE_NOTIFICATION, values, "is_read = 0", null);
+        db.close();
+    }
+    
+    public void deleteNotification(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NOTIFICATION, TAG_ID + " = ?", new String[]{String.valueOf(id)});
+        db.close();
     }
 }

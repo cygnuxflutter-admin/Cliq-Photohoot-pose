@@ -388,7 +388,6 @@ public class PCliq_FragmentProfile extends Fragment {
 
         if (rv_pages != null) {
             java.util.ArrayList<com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage> filteredPages = new java.util.ArrayList<>();
-            boolean addedPrivacyPolicy = false;
             
             for (com.photo.pose.photoshoot.cliq.PCliq_items.PCliq_ItemPage page : com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_Constant.arrayListPages) {
                 String title = page.getTitle().toLowerCase();
@@ -397,16 +396,12 @@ public class PCliq_FragmentProfile extends Fragment {
                     continue;
                 }
                 
-                // If it's a privacy policy, only add it once
+                // Skip privacy policy items - already hardcoded in XML layout above
                 if (title.contains("privacy")) {
-                    if (!addedPrivacyPolicy) {
-                        addedPrivacyPolicy = true;
-                        filteredPages.add(page);
-                    }
-                } else {
-                    // Always add other items
-                    filteredPages.add(page);
+                    continue;
                 }
+
+                filteredPages.add(page);
             }
             
             rv_pages.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getActivity()));

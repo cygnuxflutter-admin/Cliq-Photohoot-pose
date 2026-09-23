@@ -5,14 +5,14 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     namespace 'com.photo.pose.photoshoot.cliq'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.photo.pose.photoshoot.cliq"
         minSdk 23
-        targetSdk 35
-        versionCode 12
-        versionName "2.1"
+        targetSdk 36
+        versionCode 13
+        versionName "2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -20,7 +20,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile rootProject.file('cliq keystore/cliqkeystore.jks')
+            storeFile rootProject.file('Keystore/cliqkeystore.jks')
             storePassword 'cliqkeystore'
             keyAlias 'release'
             keyPassword 'cliqkeystore'

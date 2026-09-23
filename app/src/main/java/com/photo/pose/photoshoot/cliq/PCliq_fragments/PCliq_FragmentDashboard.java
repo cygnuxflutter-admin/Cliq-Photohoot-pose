@@ -86,9 +86,11 @@ public class PCliq_FragmentDashboard extends Fragment {
         if (itemProfile != null) itemProfile.setOnClickListener(v -> selectDockTab(3));
 
         btnNotification = rootView.findViewById(R.id.btn_action_notification);
+        View badgeNotification = rootView.findViewById(R.id.view_notification_badge);
+        
         if (btnNotification != null) {
             btnNotification.setOnClickListener(v -> {
-                android.widget.Toast.makeText(getActivity(), "No new notifications", android.widget.Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), com.photo.pose.photoshoot.cliq.PCliq_Activity.PCliq_NotificationActivity.class));
             });
         }
 
@@ -161,6 +163,19 @@ public class PCliq_FragmentDashboard extends Fragment {
 
         if (getActivity() instanceof PCliq_MainActivity && ((PCliq_MainActivity) getActivity()).getSupportActionBar() != null) {
             ((PCliq_MainActivity) getActivity()).getSupportActionBar().setTitle(name);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getView() != null) {
+            View badgeNotification = getView().findViewById(R.id.view_notification_badge);
+            if (badgeNotification != null) {
+                com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_DBHelper dbHelper = new com.photo.pose.photoshoot.cliq.PCliq_utils.PCliq_DBHelper(getActivity());
+                int unreadCount = dbHelper.getUnreadNotificationCount();
+                badgeNotification.setVisibility(unreadCount > 0 ? View.VISIBLE : View.GONE);
+            }
         }
     }
 }

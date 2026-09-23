@@ -225,13 +225,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                 }
             });
         } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    openMainActivity();
-                }
-            }, 1000);
-            Toast.makeText(PCliq_SplashActivity.this, getString(R.string.internet_not_connected), Toast.LENGTH_SHORT).show();
+            errorDialog(getString(R.string.internet_not_connected), getString(R.string.error_connect_net_tryagain));
         }
     }
 
@@ -257,13 +251,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                 }
             });
         } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    openMainActivity();
-                }
-            }, 1000);
-            Toast.makeText(PCliq_SplashActivity.this, getString(R.string.internet_not_connected), Toast.LENGTH_SHORT).show();
+            errorDialog(getString(R.string.internet_not_connected), getString(R.string.error_connect_net_tryagain));
         }
     }
 
@@ -291,39 +279,12 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                         PCliq_Constant.isLiveWallpaperEnabled = response.body().getArrayListAbout().get(0).isLiveWallpaperOn();
 
                         if (response.body().getArrayListAbout().get(0).getArrayListAds() != null && response.body().getArrayListAbout().get(0).getArrayListAds().size() > 0) {
-                            switch (response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType()) {
-                                case "Admob":
-                                case "Facebook":
-                                    PCliq_Constant.publisherAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getPublisherId();
-                                    break;
-                                case "StartApp":
-                                    PCliq_Constant.startappAppId = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getPublisherId();
-                                    break;
-                                case "Wortise":
-                                    PCliq_Constant.wortiseAppId = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getPublisherId();
-                                    break;
-                            }
-                            PCliq_Constant.bannerAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getBannerID();
-                            PCliq_Constant.interstitialAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getInterstitialID();
-                            PCliq_Constant.nativeAdID = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getNativeID();
-
-                            PCliq_Constant.isBannerAd = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getIsBannerOn().equals("1");
-                            PCliq_Constant.isInterAd = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getIsInterstitialOn().equals("1");
-                            PCliq_Constant.isNativeAd = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getIsNativeOn().equals("1");
-
-                            PCliq_Constant.interstitialAdShow = Integer.parseInt(response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getInterAdsClick());
-                            PCliq_Constant.nativeAdShow = Integer.parseInt(response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getItemAdsDetails().getNativeAdsPos());
-
-                            PCliq_Constant.bannerAdType = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType();
-                            PCliq_Constant.interstitialAdType = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType();
-                            PCliq_Constant.nativeAdType = response.body().getArrayListAbout().get(0).getArrayListAds().get(0).getAdType();
-
-
+                            // Old API Ads disabled to avoid conflict with Firebase ads
                         } else {
-                            PCliq_Constant.isBannerAd = false;
-                            PCliq_Constant.isInterAd = false;
-                            PCliq_Constant.isNativeAd = false;
                         }
+                        PCliq_Constant.isBannerAd = false;
+                        PCliq_Constant.isInterAd = false;
+                        PCliq_Constant.isNativeAd = false;
 
                         if (response.body().getArrayListAbout().get(0).getArrayListPages() != null && response.body().getArrayListAbout().get(0).getArrayListPages().size() > 0) {
                             PCliq_Constant.arrayListPages.clear();
@@ -465,6 +426,12 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                         taskPreferenceClass.setInt("splashscreen", Integer.parseInt(snapshot.child("SplashScreenAdsManage").getValue().toString()));
                         taskPreferenceClass.setInt("UpdateAvailable", Integer.parseInt(snapshot.child("UpdateAvailable").getValue().toString()));
                         taskPreferenceClass.setDataType("UpdateVersionName", Objects.requireNonNull(snapshot.child("UpdateVersionName").getValue()).toString());
+                        
+                        try {
+                            taskPreferenceClass.setInt("ForceUpdate", Integer.parseInt(snapshot.child("ForceUpdate").getValue().toString()));
+                        } catch (Exception e) {
+                            taskPreferenceClass.setInt("ForceUpdate", 0); // Default to normal update
+                        }
 //                      ----------------------------------------------- Live ADS -----------------------------------------------
 
                         taskPreferenceClass.setDataType("GoogleBannerAd", Objects.requireNonNull(snapshot.child("GoogleBannerAd").getValue()).toString());
@@ -486,6 +453,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
 
 //                      ----------------------------------------------- Test ADS -----------------------------------------------
 
+/*
                         taskPreferenceClass.setDataType("GoogleNativeAd", "ca-app-pub-3940256099942544/2247696110");
                         taskPreferenceClass.setDataType("GoogleAppopenAd", "ca-app-pub-3940256099942544/3419835294");
                         taskPreferenceClass.setDataType("GoogleBannerAd", "ca-app-pub-3940256099942544/6300978111");
@@ -502,6 +470,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                         taskPreferenceClass.setDataType("AdxRewardVideoUnitID", "ca-app-pub-3940256099942544/5224354917");
                         taskPreferenceClass.setDataType("AdxNativeUnitID", "ca-app-pub-3940256099942544/2247696110");
                         taskPreferenceClass.setDataType("AdxAppOpenID", "ca-app-pub-3940256099942544/3419835294");
+*/
 
 //                    --------------------------------------------------------------------------------------------------------
                         taskPreferenceClass.setInt("BannerAdStatus", Integer.parseInt(snapshot.child("BannerAdStatus").getValue().toString()));
@@ -532,22 +501,47 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                         }
 
                         if (isNewerVersionAvailable) {
+                            final int isForceUpdate = taskPreferenceClass.getInt("ForceUpdate");
                             final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PCliq_SplashActivity.this, R.style.ThemeDialog);
                             alertBuilder.setTitle("Update Available");
-                            alertBuilder.setMessage("A new update is available. Please update the app to continue using the latest features.");
-                            alertBuilder.setCancelable(false);
+                            alertBuilder.setMessage("A new update (Version " + serverVersion + ") is available. Please update the app to continue using the latest features.");
+                            alertBuilder.setCancelable(false); // Side touch nothing
+
                             alertBuilder.setPositiveButton("Update Now", (dialog, which) -> {
                                 try {
                                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
                                 } catch (ActivityNotFoundException unused) {
                                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
                                 }
-                                next();
+                                
+                                if (isForceUpdate != 1) {
+                                    // For normal update, if they go to PlayStore, we can let them into the app or finish
+                                    // The user previously had next() here, we will keep it for normal updates.
+                                    next();
+                                } else {
+                                    // For force update, exit the app so they can't enter without updating
+                                    finish();
+                                }
                             });
-                            alertBuilder.setNegativeButton("Cancel", (dialog, which) -> {
-                                dialog.dismiss();
-                                next();
+
+                            if (isForceUpdate != 1) {
+                                // Normal Update: Show Cancel button
+                                alertBuilder.setNegativeButton("Cancel", (dialog, which) -> {
+                                    dialog.dismiss();
+                                    next();
+                                });
+                            }
+
+                            // Handle mobile back button
+                            alertBuilder.setOnKeyListener((dialog, keyCode, event) -> {
+                                if (keyCode == android.view.KeyEvent.KEYCODE_BACK && event.getAction() == android.view.KeyEvent.ACTION_UP) {
+                                    dialog.dismiss();
+                                    finish(); // Exit the app
+                                    return true;
+                                }
+                                return false;
                             });
+
                             alertBuilder.show();
                         } else {
                             next();
@@ -563,7 +557,7 @@ public class PCliq_SplashActivity extends AppCompatActivity {
                 }
             });
         } else {
-            next();
+            errorDialog(getString(R.string.internet_not_connected), getString(R.string.error_connect_net_tryagain));
         }
     }
 

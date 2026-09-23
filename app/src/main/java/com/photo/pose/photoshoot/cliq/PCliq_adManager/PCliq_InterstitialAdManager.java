@@ -43,7 +43,12 @@ public class PCliq_InterstitialAdManager {
         Log.e("TAG%%", "admobInterstitialAdId: " + taskPreferenceClass.getAdsId("GoogleInterstitialAd"));
         Log.e("TAG%%", "adXInterstitialAdId: " + taskPreferenceClass.getAdsId("AdxInterstitalAdunitID"));
         Log.e("TAG%%", "fbInterstitialAdId: " + taskPreferenceClass.getAdsId("FbInterstitialAd"));
-        fetchAdMobAd();
+        
+        int target = taskPreferenceClass.getAdsStatus("InerstialClickCount");
+        int current = taskPreferenceClass.getInt("getClickCount");
+        if (target <= 1 || current >= target - 1) {
+            fetchAdMobAd();
+        }
 //        fetchFbAd();
     }
 
@@ -165,10 +170,19 @@ public class PCliq_InterstitialAdManager {
 
 
         int interstitalAdStatus = taskPreferenceClass.getAdsStatus("InerstialClickCount");
-
         int getClickCount = taskPreferenceClass.getInt("getClickCount");
+        
         if (getClickCount < interstitalAdStatus) {
-            taskPreferenceClass.setInt("getClickCount", getClickCount + 1);
+            int newCount = getClickCount + 1;
+            taskPreferenceClass.setInt("getClickCount", newCount);
+            
+            // Preload ad when we are exactly 1 click away from showing
+            if (newCount == interstitalAdStatus - 1 && interstitalAdStatus > 1) {
+                if (!isAdmobAdAvailable() && !isFbAdAvailable()) {
+                    fetchAdMobAd();
+                }
+            }
+            
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
@@ -212,7 +226,9 @@ public class PCliq_InterstitialAdManager {
                         public void onAdDismissedFullScreenContent() {
                             super.onAdDismissedFullScreenContent();
                             admobInterstitialAd = null;
-                            fetchAdMobAd();
+                            if (interstitalAdStatus <= 1) {
+                                fetchAdMobAd();
+                            }
                             if (progressDialog != null && progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
